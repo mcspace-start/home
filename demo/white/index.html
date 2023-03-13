@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport"
+    content="width=device-width,maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,initial-scale=1" />
+  <title>别踩白方块</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js"></script>
+  <script>
+    if ("addEventListener" in document) {
+      document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+          FastClick.attach(document.body);
+        },
+        false
+      );
+    }
+  </script>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box !important;
+      touch-action: none;
+    }
+
+    .main {
+      position: relative;
+      display: flex;
+      /* height: 650px; */
+      /* width: 400px; */
+      margin: 0 auto;
+      overflow: hidden;
+      border: 1px solid #222;
+      background-color: rgb(62, 235, 62);
+    }
+
+    /* 顶部 */
+    .main .top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      padding-top: 10px;
+      font-size: 40px;
+      z-index: 1;
+    }
+
+    .main .time {
+      color: red;
+      text-shadow: #444 1px 1px 1px;
+    }
+
+    .main .count {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      font-size: 24px;
+      color: rgb(68, 180, 250);
+      text-shadow: #444 1px 1px 1px;
+    }
+
+    /* 主体-包裹 */
+    .main .wrap {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      transform: translateY(130px);
+    }
+
+    .main .row {
+      display: flex;
+    }
+
+    .main .col {
+      flex: 1;
+      position: relative;
+      /* width: 100px; */
+      /* height: 130px; */
+      box-sizing: border-box;
+      border-right: 1px solid #222;
+      border-top: 1px solid #222;
+      background-color: #fff;
+    }
+
+    .main .col:last-child {
+      border-right: none;
+    }
+
+    /* 点击-黑块 */
+    .main .col.black {
+      background-color: #333;
+    }
+
+    /* 点击-第一个 */
+    .main .col.start {
+      background-color: skyblue;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .main .col.start::after {
+      content: "开始";
+      display: block;
+      color: #fff;
+      width: 40px;
+      font-size: 40px;
+    }
+
+    /* 点击-lose */
+    .main .col.lose {
+      animation: error 1s linear forwards;
+    }
+
+    /* 点击-lose 动画 */
+    @keyframes error {
+      0% {
+        background-color: red;
+      }
+
+      15% {
+        background-color: red;
+      }
+
+      16% {
+        background-color: white;
+      }
+
+      30% {
+        background-color: white;
+      }
+
+      31% {
+        background-color: red;
+      }
+
+      45% {
+        background-color: red;
+      }
+
+      46% {
+        background-color: white;
+      }
+
+      60% {
+        background-color: white;
+      }
+
+      61% {
+        background-color: red;
+      }
+
+      100% {
+        background-color: red;
+      }
+    }
+
+    /* 点击-open */
+    .main .col::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 0;
+      height: 0;
+      background-color: #999;
+      transition: 0.1s;
+    }
+
+    .main .col.open::before {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* 点击-第一行黄块 */
+    .main .col.first {
+      background-color: yellow;
+    }
+
+    /* 遮罩 */
+    .main .shadow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      font-size: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: default;
+      background-color: rgb(62, 235, 62);
+      z-index: 2;
+    }
+
+    .main .shadow *::selection {
+      color: inherit;
+    }
+
+    .main .shadow .currentTime {
+      font-size: 60px;
+    }
+
+    .main .shadow .bestTime {
+      margin-top: 40px;
+    }
+
+    .main .shadow .btn {
+      margin-top: 80px;
+      color: #fff;
+    }
+
+    .main .shadow .btn .redo {
+      cursor: pointer;
+    }
+
+    .main .shadow.lose {
+      background-color: red;
+    }
+
+    /* 遮罩层-动画 */
+    .v-shadow-win-enter-active,
+    .v-shadow-lose-enter-active {
+      transition: all 0.3s;
+    }
+
+    .v-shadow-win-enter {
+      transform: translateY(-100%);
+    }
+
+    .v-shadow-lose-enter {
+      transform: scale(0.4);
+      opacity: 0;
+    }
+
+    /* 动画 */
+    .main .row {
+      transition: all 0.1s linear;
+    }
+
+    .foo-leave-active {
+      position: absolute;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div class="main">
+      <!-- 顶部 -->
+      <div class="top">
+        <span class="count">{{count - passCount}}</span>
+        <span class="time">{{timeF}}"</span>
+      </div>
+      <!-- 主体 -->
+      <transition-group tag="div" name="foo" class="wrap">
+        <!-- 行 -->
+        <div class="row" v-for="(item,index) in listData" :key="item.id" @touchstart.passive="clickWhite(index,$event)">
+          <!-- 列 -->
+          <div :class="['col',{'black':i.black},{'start':i.start},{'lose':i.lose},{'open':i.open},{'first':i.first}]"
+            :index="count" v-for="(i,count) in item.child" :key="count"></div>
+        </div>
+      </transition-group>
+      <!-- 遮罩层-win -->
+      <transition name="v-shadow-win">
+        <div class="shadow" v-show="shadow.win">
+          <div class="currentTime">{{timeF}}"</div>
+          <div class="bestTime">{{bestTime}}</div>
+          <div class="btn">
+            <div class="redo" @click="redo">重来</div>
+          </div>
+        </div>
+      </transition>
+      <!-- 遮罩层-lose -->
+      <transition name="v-shadow-lose">
+        <div class="shadow lose" v-show="shadow.lose">
+          <div class="currentTime">失败了!</div>
+          <div class="bestTime">{{bestTime}}</div>
+          <div class="btn">
+            <div class="redo" @click="redo">重来</div>
+          </div>
+        </div>
+      </transition>
+    </div>
+  </div>
+  <script>
+    "use strict";
+    // 判断移动设备
+    function browserRedirect() {
+      var sUserAgent = navigator.userAgent.toLowerCase();
+      var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+      var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+      var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+      var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+      var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+      var bIsAndroid = sUserAgent.match(/android/i) == "android";
+      var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+      var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+      if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
+        // console.log("phone");
+      } else {
+        alert("请使用移动端打开！");
+      };
+    }
+    browserRedirect()
+    const vm = new Vue({
+      el: "#app",
+      data() {
+        return {
+          // row :key
+          key: 0,
+          // 通关次数
+          count: 50,
+          // 正确计数
+          passCount: 0,
+          // 是否结束
+          gameOver: false,
+          // 用于计时器
+          gameStart: false,
+          // 第几行可点击
+          rowIndex: 3,
+          // 计时
+          time: 0.0,
+          // 计时器
+          timer: 0,
+          // 历史最高时间
+          bestTime: 0.0,
+          // 遮罩层
+          shadow: {
+            win: false,
+            lose: false,
+          },
+          // 总数据
+          listData: [],
+        };
+      },
+      created() {
+        this.test();
+      },
+      mounted() {
+        // 初始化
+        this.listData = this.createRow(6, true);
+      },
+      computed: {
+        // 取小数
+        timeF() {
+          return this.time.toFixed(3);
+        },
+      },
+      methods: {
+        // 创建行
+        createRow(length, init) {
+          const arr = [];
+          for (let i = 0; i < length; i++) {
+            arr.push({
+              id: this.key,
+              child: [],
+            });
+            this.key += 1;
+            for (let j = 0; j < 4; j++) {
+              arr[i].child.push({
+                id: i + "" + j,
+                black: false,
+                start: false,
+                lose: false,
+                open: false,
+                first: false,
+              });
+            }
+            const rand = _.random(0, 3);
+            arr[i].child[rand].black = true;
+            if (init) {
+              if (i === length - this.rowIndex) {
+                console.log("初始化");
+                arr[i].child[rand].start = true;
+              }
+            }
+          }
+          // 初始化第一行
+          if (init) {
+            arr[arr.length - (this.rowIndex - 1)].child.forEach((x) => {
+              x.first = true;
+            });
+          }
+          return arr;
+        },
+        // 点击
+        clickWhite(rowIndex, e) {
+          if (this.gameOver) return;
+          // 只监听第一行事件
+          if (this.listData.length - this.rowIndex === rowIndex) {
+            const colIndex = e.target.getAttribute("index");
+            // 排除外层row
+            if (colIndex !== null) {
+              // 开启计时
+              if (!this.gameStart) {
+                this.gameStart = true;
+                this.counter();
+              }
+              // 检查
+              this.check(colIndex);
+            }
+          }
+        },
+        // 检查点击
+        check(rowIndex) {
+          if (this.gameOver) return;
+          const list =
+            this.listData[this.listData.length - this.rowIndex].child;
+          // 判断是否正确
+          if (list[rowIndex].black) {
+            list[rowIndex].open = true;
+            // next
+            this.pass();
+          } else {
+            // over
+            list[rowIndex].lose = true;
+            this.over(2);
+          }
+        },
+        // 正确通过
+        pass() {
+          //  计数通过数
+          this.passCount += 1;
+          // 停止创建 -3是因为默认显示4行
+          if (this.passCount < this.count - 3) {
+            // 创建新行
+            const arr = this.createRow(1);
+            this.listData.unshift(...arr);
+          }
+          // 判断胜利
+          if (this.passCount === this.count) {
+            this.over(1);
+          }
+          // 删除通过的行
+          this.listData.pop();
+        },
+        // 结束
+        over(t) {
+          //@t 1胜利 2失败
+          if (t === 1) {
+            console.log("胜利");
+            // 遮罩层
+            this.shadow.win = true;
+            const bestTime = window.localStorage.getItem("bestTime");
+            // 是否存在本地记录
+            if (bestTime) {
+              // 是否最快
+              if (this.time < bestTime) {
+                this.bestTime = "新纪录!";
+                window.localStorage.setItem("bestTime", this.time);
+              } else {
+                console.log(bestTime);
+                this.bestTime = "最佳 " + Number(bestTime).toFixed(3) + '"';
+              }
+            } else {
+              // 新建记录
+              this.bestTime = "新纪录!";
+              window.localStorage.setItem("bestTime", this.time);
+            }
+          } else if (t === 2) {
+            console.log("失败");
+            const bestTime = window.localStorage.getItem("bestTime");
+            // 是否存在本地记录
+            if (bestTime) {
+              this.bestTime = "最佳 " + Number(bestTime).toFixed(3) + '"';
+            } else {
+              this.bestTime = "";
+            }
+            // 遮罩层
+            setTimeout(() => {
+              this.shadow.lose = true;
+            }, 1000);
+          }
+          this.gameOver = true;
+          // 暂停
+          clearInterval(this.timer);
+        },
+        // 重开
+        redo() {
+          console.log("重来");
+          this.listData = this.createRow(6, true);
+          this.time = 0;
+          this.passCount = 0;
+          this.gameOver = false;
+          this.gameStart = false;
+          this.shadow.win = false;
+          this.shadow.lose = false;
+        },
+        // 计时器
+        counter() {
+          const oldTime = Date.now();
+          this.timer = setInterval(() => {
+            this.time = (Date.now() - oldTime) / 1000;
+          }, 0);
+        },
+        test() {
+          const width =
+            document.documentElement.clientWidth || document.body.clientWidth;
+          const height =
+            document.documentElement.clientHeight ||
+            document.body.clientHeight;
+          console.log(width % 4);
+          // width:${Math.floor(width/4)}px;
+          const str = `
+          .main { height:${height}px;width:${width - 10}px }
+          .main .col{
+            height:${height / 5}px;
+          }
+          .main .wrap {
+            transform: translateY(${height / 5}px);
+          }
+          `;
+          const styleNode = document.createElement("style");
+          styleNode.type = "text/css";
+          // browser detection (based on prototype.js)
+          if (!!(window.attachEvent && !window.opera)) {
+            styleNode.styleSheet.cssText = str;
+          } else {
+            var styleText = document.createTextNode(str);
+            styleNode.appendChild(styleText);
+          }
+          document.getElementsByTagName("head")[0].appendChild(styleNode);
+        },
+      },
+    });
+  </script>
+</body>
+
+</html>

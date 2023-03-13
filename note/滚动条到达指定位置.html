@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>滚动到指定位置</title>
+    <script src="vue/vue.js"></script>
+    <script>
+        Vue.config.productionTip = false
+    </script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        
+        .banner {
+            position: relative;
+            background-color: rgb(230, 230, 230);
+        }
+        
+        .one {
+            background-color: rebeccapurple;
+        }
+        
+        .two {
+            margin-top: 400px;
+            background-color: sandybrown;
+        }
+        
+        .three {
+            margin-top: 800px;
+            background-color: rgb(78, 55, 55);
+        }
+        
+        .four {
+            margin-top: 1200px;
+            background-color: violet;
+        }
+        
+        .one,
+        .two,
+        .three,
+        .four {
+            width: 100%;
+            font-size: 26px;
+            height: 100px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .fixed {
+            width: 50px;
+            border: 2px solid #000;
+            position: fixed;
+            right: 2%;
+            bottom: 5%;
+            background-color: white;
+        }
+        
+        .fixed li {
+            cursor: pointer;
+            text-align: center;
+            border-bottom: 1px solid #000;
+        }
+        
+        .fixed li:last-of-type {
+            border: none;
+        }
+        
+        .fixed li:hover {
+            background-color: violet;
+        }
+    </style>
+</head>
+
+<body>
+
+    <ul class="banner">
+        <li class="one">one</li>
+        <li class="two">two</li>
+        <li class="three">three</li>
+        <li class="four">four</li>
+    </ul>
+    <div style="height: 800px;">
+    </div>
+    <ul class="fixed">
+        <li onclick="goWhere('.one');">one</li>
+        <li onclick="goWhere('.two');">two</li>
+        <li onclick="goWhere('.three');">three</li>
+        <li onclick="goWhere('.four');">four</li>
+
+    </ul>
+
+    <script>
+        var bool = true;
+        var timer = null;
+        var target = 0;
+        var step = 0;
+        /*用于判断是否打断滚动*/
+        var loTop = 0;
+        /*前进或后退*/
+        var b = 0;
+
+
+        function goWhere(id) {
+            // console.clear()
+            if (!bool) {
+                return;
+            }
+            target = document.querySelector(id).offsetTop;
+            var time = 300;
+            var current = document.documentElement.scrollTop;
+            var length = current - target;
+            step = Math.ceil(Math.abs(length) / 60);
+            /*判断是前进还是后退*/
+            if (length > 0) {
+                b = 2;
+            } else if (length < 0) {
+                b = 1;
+            } else {
+                b = 0;
+            }
+            // console.log(length)
+            // console.log("现在是：" + current + "，目的地：" + target + "，绝对值：" + Math.abs(length));
+            // console.log("状态:" + b)
+            timer = setInterval(function() {
+                // console.log("循环");
+                if (b == 1) {
+                    document.documentElement.scrollTop += step;
+                } else if (b == 2) {
+                    document.documentElement.scrollTop -= step;
+                } else {
+                    clearInterval(timer)
+                }
+                loTop = document.documentElement.scrollTop;
+            }, Math.floor(time / 60));
+            /*解决页面长度不够问题*/
+            setTimeout(function() {
+                if (timer != null) {
+                    bool = true;
+                    clearInterval(timer);
+                    timer = null;
+                    b = 0;
+                }
+            }, 350)
+
+            if (b != 0) {
+                bool = false;
+            }
+        }
+
+
+        window.onscroll = function() {
+            console.clear()
+
+            var current = document.documentElement.scrollTop;
+            /*打断机制*/
+            if (b == 1) {
+                if (current < loTop) {
+                    console.log("打断")
+                    bool = true;
+                    clearInterval(timer);
+                    timer = null;
+                }
+            } else if (b == 2) {
+                if (current > loTop) {
+                    console.log("打断")
+                    bool = true;
+                    clearInterval(timer);
+                    timer = null;
+                }
+            }
+            /*到达目的地*/
+            if (b == 1) {
+                if (current > target) {
+                    bool = true;
+                    clearInterval(timer);
+                    timer = null;
+                    b = 0;
+                    if (!(current == 0)) {
+                        let gaps = current - target;
+                        /*微调*/
+                        if (gaps < 0) {
+                            document.documentElement.scrollTop -= gaps;
+                        } else if (gaps > 0) {
+                            document.documentElement.scrollTop -= gaps;
+                        }
+                    }
+                }
+            } else if (b == 2) {
+                if (current < target || current == 0) {
+                    bool = true;
+                    clearInterval(timer);
+                    timer = null;
+                    b = 0;
+                    if (!(current == 0)) {
+                        let gaps = current - target;
+                        /*微调*/
+                        if (gaps < 0) {
+                            document.documentElement.scrollTop -= gaps;
+                        } else if (gaps > 0) {
+                            document.documentElement.scrollTop -= gaps;
+                        }
+                    }
+                }
+            }
+            /*判断是否到达浏览器底部*/
+            /*解决页面长度不够问题*/
+            var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+            if (document.documentElement.scrollHeight == document.documentElement.clientHeight + scrollTop) {
+                bool = true;
+                clearInterval(timer);
+                timer = null;
+                b = 0;
+            }
+
+            console.log("走动中")
+            console.log("当前：" + current);
+            console.log("step：" + step)
+            console.log("target：" + target)
+            console.log("状态：" + b)
+            console.log(loTop);
+        }
+
+    console.log("启动")
+
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+  <title>FAST急速</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .main {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+    }
+
+    /* 背景区域 */
+    .bg {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background-color: blue;
+    }
+
+    .bg .box1,
+    .bg .box2 {
+      width: 100%;
+      height: 50%;
+      transition: all 0.2s;
+    }
+
+    .bg .box1 {
+      background-color: red;
+    }
+
+    .bg .box2 {
+      background-color: blue;
+    }
+
+    /* 触碰区域 */
+    .clickwrap {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      z-index: 1;
+    }
+
+    .clickwrap .box1,
+    .clickwrap .box2 {
+      height: 50%;
+    }
+
+    /* 中线 */
+    .center {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      transform: translate(0, -50%);
+      border-top: dashed #fff 4px;
+    }
+
+    /* 计数 */
+    .countRed,
+    .countBlue {
+      position: absolute;
+      color: white;
+      font-size: 40px;
+    }
+
+    .countRed {
+      top: 20px;
+      right: 20px;
+      transform: rotate(180deg);
+    }
+
+    .countBlue {
+      bottom: 20px;
+      left: 20px;
+    }
+
+    /* 胜利线 */
+    .winred,
+    .winblue {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      transform: translate(0, -50%);
+      border-top: solid #fff 4px;
+      transition: all 0.5s;
+    }
+
+    .winred {
+      top: 70%;
+    }
+
+    .winblue {
+      top: 30%;
+    }
+
+    /* 菜单画面 */
+    .menu {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      color: #fff;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .menu .menu_main {
+      width: 300px;
+      height: 300px;
+    }
+
+    .menu .menu_main .title {
+      text-align: center;
+      font-size: 40px;
+    }
+
+    .menu .menu_main .start {
+      width: 150px;
+      background-color: #fff;
+      color: #333;
+      margin: 0 auto;
+      margin-top: 100px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      font-size: 40px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .menu *::selection {
+      color: inherit;
+    }
+
+    .menu p {
+      cursor: default;
+    }
+
+    .menu .select1,
+    .menu .select2 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 8px;
+      font-size: 20px;
+      line-height: 20px;
+    }
+
+    .menu select {
+      outline: none;
+      width: 66px;
+      font-size: 18px;
+      line-height: 20px;
+      margin-left: 6px;
+    }
+
+    /* 倒计时 */
+    .menu .countdown {
+      display: none;
+      font-size: 30vh;
+      text-align: center;
+      cursor: default;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <!-- 游戏区域 -->
+    <div class="main">
+      <!-- 背景 -->
+      <div class="bg">
+        <div class="box1"></div>
+        <div class="box2"></div>
+      </div>
+      <!-- 触碰区域 -->
+      <div class="clickwrap">
+        <div class="box1"></div>
+        <div class="box2"></div>
+      </div>
+      <!-- 中线 -->
+      <div class="center"></div>
+      <!-- 计数 -->
+      <span class="countBlue">20</span>
+      <span class="countRed">20</span>
+      <!-- 胜利线 -->
+      <div class="winred"></div>
+      <div class="winblue"></div>
+    </div>
+    <!-- 菜单区域 -->
+    <div class="menu">
+      <div class="menu_main">
+        <p class="title">游戏暂停</p>
+        <div class="start">开始</div>
+        <p class="select1">
+          间距
+          <select class="levelChange">
+            <option value="20" selected>20</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+            <option value="50">50</option>
+          </select>
+        </p>
+        <p class="select2">
+          电脑
+          <select class="aiChange">
+            <option value="0">NOT</option>
+            <option value="5">5/s</option>
+            <option value="10">10/s</option>
+            <option value="20">20/s</option>
+          </select>
+        </p>
+      </div>
+      <!-- 倒计时 -->
+      <div class="countdown">3</div>
+    </div>
+  </div>
+
+  <script>
+    "use strict";
+    // 判断移动设备
+    function browserRedirect() {
+      var sUserAgent = navigator.userAgent.toLowerCase();
+      var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+      var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+      var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+      var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+      var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+      var bIsAndroid = sUserAgent.match(/android/i) == "android";
+      var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+      var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+      if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
+        // console.log("phone");
+      } else {
+        alert("请使用移动端打开！");
+      };
+    }
+    browserRedirect()
+    //
+    const app = {
+      count: 50,
+      step: 20,
+      over: false,
+      blueCount: 0,
+      redCount: 0,
+      aiSpeed: 0,
+      timer: 0,
+      boxes: {
+        winRedLine: document.querySelector(".winred"),
+        winBlueLine: document.querySelector(".winblue"),
+        redBgSpance: document.querySelector(".box1"),
+        blueBgSpance: document.querySelector(".box2"),
+        tuochRedSpance: document.querySelector(".clickwrap .box1"),
+        tuochBlueSpance: document.querySelector(".clickwrap .box2"),
+        countRed: document.querySelector(".countRed"),
+        countBlue: document.querySelector(".countBlue"),
+        startBtn: document.querySelector(".start"),
+        boxShaow: document.querySelector(".menu"),
+        boxShaow_item: document.querySelector(".menu .menu_main"),
+        countdown: document.querySelector(".countdown"),
+        levelChange: document.querySelector(".levelChange"),
+        aiChange: document.querySelector(".aiChange"),
+      },
+      gameInit() {
+        console.log("game-init");
+        // 值初始化
+        this.updateUI();
+        // 绑定事件
+        this.boxes.startBtn.addEventListener("touchstart", this.startGame());
+        this.boxes.levelChange.addEventListener("change", this.selectLevel());
+        this.boxes.aiChange.addEventListener("change", this.selectAi());
+
+        this.boxes.tuochRedSpance.addEventListener(
+          "touchstart",
+          this.boxClick()
+        );
+        this.boxes.tuochBlueSpance.addEventListener(
+          "touchstart",
+          this.boxClick()
+        );
+      },
+      startGame: function () {
+        console.log("game-start");
+        const that = this;
+        return function () {
+          that.boxes.boxShaow_item.style.display = "none";
+          that.boxes.countdown.style.display = "block";
+          let time = 3;
+          that.boxes.countdown.innerText = time;
+          let timer = setInterval(() => {
+            time--;
+            that.boxes.countdown.innerText = time;
+            if (time === 0) {
+              clearInterval(timer);
+              that.boxes.boxShaow_item.style.display = "block";
+              that.boxes.countdown.style.display = "none";
+              that.boxes.boxShaow.style.display = "none";
+              // 如果设置了电脑
+              if (that.aiSpeed) {
+                that.timer = setInterval(() => {
+                  that.setCount(1);
+                }, 1000 / that.aiSpeed);
+              }
+            }
+          }, 1000);
+        };
+      },
+      boxClick: function () {
+        const that = this;
+        return function (e) {
+          // 如果设置了电脑
+          if (that.aiSpeed) {
+            if (e.target.className === "box2") {
+              that.setCount(-1);
+            }
+            return;
+          }
+          //
+          if (e.target.className === "box1") {
+            that.setCount(1);
+          } else {
+            // red
+            that.setCount(-1);
+          }
+        };
+      },
+      setCount: function (i) {
+        if (this.over) return;
+        this.count += i;
+        if (this.count >= 50 + this.step) {
+          // winred
+          this.gameOver("红");
+          console.log("win-red");
+        } else if (this.count <= 50 - this.step) {
+          this.gameOver("蓝");
+          console.log("win-blue");
+        }
+        this.updateUI();
+      },
+      updateUI: function (init) {
+        this.boxes.redBgSpance.style.height = this.count + "%";
+        this.boxes.blueBgSpance.style.height = 100 - this.count + "%";
+
+        this.blueCount = this.step + (50 - this.count);
+        this.redCount = this.step - (50 - this.count);
+        this.boxes.countRed.innerText = this.redCount;
+        this.boxes.countBlue.innerText = this.blueCount;
+        if (init) {
+          if (this.step === 50) {
+            this.boxes.winBlueLine.style.display = "none";
+            this.boxes.winRedLine.style.display = "none";
+            return;
+          }
+          this.boxes.winBlueLine.style.display = "block";
+          this.boxes.winRedLine.style.display = "block";
+          this.boxes.winBlueLine.style.top = this.count - this.step + "%";
+          this.boxes.winRedLine.style.top = this.count + this.step + "%";
+        }
+      },
+      selectLevel: function () {
+        const that = this;
+        return function (e) {
+          for (let i = 0; i < 4; i++) {
+            if (e.target[i].selected) {
+              that.step = Number(e.target[i].value);
+            }
+          }
+          that.updateUI(true);
+        };
+      },
+      selectAi() {
+        const that = this;
+        return function (e) {
+          for (let i = 0; i < 4; i++) {
+            if (e.target[i].selected) {
+              that.aiSpeed = Number(e.target[i].value);
+            }
+          }
+        };
+      },
+      gameOver: function (win) {
+        console.log("game-over");
+        if (this.aiSpeed) {
+          clearInterval(this.timer);
+        }
+        this.over = true;
+        this.boxes.boxShaow.style.display = "flex";
+        this.boxes.boxShaow_item.style.display = "none";
+        this.boxes.countdown.style.display = "block";
+        this.boxes.countdown.innerText = win + "胜";
+        setTimeout(() => {
+          window.location.reload();
+        }, 4000);
+      },
+    };
+    app.gameInit();
+  </script>
+</body>
+
+</html>

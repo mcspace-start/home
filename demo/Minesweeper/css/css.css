@@ -1,0 +1,511 @@
+* {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+html,
+body,
+#app {
+    height: 100%;
+    width: 100%;
+}
+
+/* 为box动态设置宽度，flex不太能兼容移动端 */
+.box {
+    margin: 0 auto;
+    padding: 40px;
+    /* width: 400px; */
+    /* border: 1px solid #000; */
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: left;
+}
+
+/* 标题 */
+.title {
+    /* width: 300px; */
+    font-size: 24px;
+    text-align: center;
+    line-height: 24px;
+    margin: 20px 0;
+}
+
+/* 主要布局 */
+.main {
+    padding: 10px 10px 10px 10px;
+    background-color: #ccc;
+    box-shadow: 0px 2px 6px 2px #000;
+    border-radius: 4px;
+}
+
+.T::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+/* 信息区 */
+.menu {
+    border-left: 4px solid #999;
+    border-top: 4px solid #999;
+    border-right: 4px solid #fff;
+    border-bottom: 4px solid #fff;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-justify-content: space-between;
+    -moz-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 6px;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+/* 成绩记录 */
+.record {
+    font-size: 18px;
+    width: 56px;
+    background-color: whitesmoke;
+    margin-top: 10px;
+    padding-bottom: 14px;
+    border: 1px solid #999;
+    border-radius: 4px;
+    margin: 60px 0 0 20px;
+}
+
+.record_title {
+    font-size: 18px;
+    line-height: 26px;
+    height: 26px;
+    background-color: rgb(230, 228, 228);
+    text-align: center;
+}
+
+.record>ul {
+    width: 56px;
+}
+
+.record li {
+    width: 40px;
+    text-align: right;
+    color: #000;
+    font-size: 22px;
+    font-family: "Lcdd";
+    border-bottom: 1px dashed #000;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+/* 字体 */
+@font-face {
+    font-family: Lcdd;
+    src: url(../DS-Digital.TTF);
+}
+
+@font-face {
+    font-family: Lcdd;
+    src: url(../ds-digital.eot);
+}
+
+/* 格子样式 */
+.menu li {
+    height: 20px;
+    min-height: 20px;
+    min-width: 20px;
+    line-height: 20px;
+    font-size: 24px;
+    font-family: "Lcdd";
+    text-align: right;
+}
+
+/* 计时器和步数样式 */
+.step,
+.time {
+    width: 36px;
+    padding-right: 2px;
+    color: red;
+    background-color: black;
+}
+
+/* 重置样式 */
+.menu .reset {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #666;
+    border-bottom: 2px solid #666;
+    background: url(../img/joy.png) no-repeat center #ccc;
+    -o-background-size: 90%;
+    background-size: 90%;
+    /* box-shadow: 2px 2px 0 0 white inset, -2px -2px 0 0 #666 inset; */
+}
+
+/* 格子区域 */
+.warp {
+    background-color: #ccc;
+    margin: 0 auto;
+    border-left: 4px solid #999;
+    border-top: 4px solid #999;
+    border-right: 4px solid #fff;
+    border-bottom: 4px solid #fff;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-line-pack: justify;
+    -webkit-align-content: space-between;
+    align-content: space-between;
+}
+
+/* 行 */
+.liRow {
+    width: 100%;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    -moz-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+/* 格子及格子背景 */
+.pie {
+    width: 30px;
+    height: 30px;
+    box-sizing: border-box;
+    cursor: default;
+    font-weight: bold;
+    /* max-width: 40px;
+    max-height: 40px; */
+    position: relative;
+    font-size: 20px;
+    border: 1px solid #666;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-justify-content: center;
+    -moz-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -moz-box-sizing: border-box;
+}
+
+/* 兼容 */
+.pie::-moz-selection {
+    background-color: transparent;
+}
+
+/* 取消背景选择色 */
+.pie::-moz-selection {
+    background-color: transparent;
+}
+
+.pie::selection {
+    background-color: transparent;
+}
+
+/* 设置鼠标样式 */
+.menu li::-moz-selection {
+    background-color: transparent;
+}
+
+.menu li::selection {
+    background-color: transparent;
+}
+
+.menu .time:hover,
+.menu .step:hover {
+    cursor: default;
+}
+
+/* 触发的炸弹 */
+.pie.one {
+    background: url(../img/bomb.png) red no-repeat center;
+    -o-background-size: 60%;
+    background-size: 60%;
+}
+
+/* 炸弹图片 */
+.bomb {
+    background: url(../img/bomb.png) no-repeat center;
+    -o-background-size: 60%;
+    background-size: 60%;
+}
+
+/* 鼠标悬浮之上 */
+.pie:hover::before {
+    -webkit-transform: scale(0.94);
+    -moz-transform: scale(0.94);
+    -ms-transform: scale(0.94);
+    -o-transform: scale(0.94);
+    transform: scale(0.94);
+}
+
+/* 格子表层 */
+.pie::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    /* font-weight: bold; */
+    width: 100%;
+    font-size: 24px;
+    height: 100%;
+    background: #ccc;
+    box-shadow: 2px 2px 0 0 white inset, -2px -2px 0 0 #666 inset;
+
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-justify-content: center;
+    -moz-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+/* 右键插旗样式 */
+.pie[value="1"]::before {
+    background: url(../img/tab.png) #ccc no-repeat center;
+    -o-background-size: 60%;
+    background-size: 60%;
+}
+
+/* 右键疑问样式 */
+.pie[value="2"]::before {
+    content: "?";
+    background-color: #ccc;
+}
+
+/* 打开格子后 */
+.pie.hide::before {
+    display: none;
+}
+
+/* 底部 */
+.footer {
+    height: 30px;
+}
+
+/* 底部文字不可选择 */
+.footer p::-moz-selection,
+select::-moz-selection {
+    background-color: transparent;
+}
+
+.footer p::-moz-selection,
+select::selection {
+    background-color: transparent;
+}
+
+.footer p::-moz-selection,
+select::-moz-selection {
+    background-color: transparent;
+}
+
+.footer p::selection,
+select::selection {
+    background-color: transparent;
+}
+
+/* 底部文字选择样式 */
+.footer p {
+    float: left;
+    font-size: 16px;
+    padding-left: 10px;
+    cursor: default;
+    line-height: 36px;
+}
+
+/* 难度选择 */
+.footer .select_p {
+    width: 70px;
+}
+
+.select {
+    font-size: 14px;
+    line-height: 36px;
+    margin-right: 5px;
+    float: left;
+    margin-top: 8px;
+    cursor: pointer;
+    outline: none;
+    border: 1px solid #333;
+    background-color: #ddd;
+}
+
+.footer input {
+    float: left;
+}
+
+.footer .tips_p {
+    width: 35px;
+    padding-left: 0px;
+}
+
+.footer .tips,
+.footer .mark {
+    width: 16px;
+    height: 16px;
+    margin-top: 10px;
+}
+
+.footer .mark_p {
+    width: 35px;
+    padding-left: 4px;
+}
+
+/* 灰度调节 */
+.rangeColor {
+    margin: 10px 0 0 10px;
+}
+
+/* 提示框 */
+
+.t {
+    box-shadow: 0px 2px 0 0 #ff4500 inset;
+}
+
+.l {
+    box-shadow: 2px 0px 0 0 #ff4500 inset;
+}
+
+.r {
+    box-shadow: -2px 0px 0 0 #ff4500 inset;
+}
+
+.b {
+    box-shadow: 0px -2px 0 0 #ff4500 inset;
+}
+
+/* 四角 */
+.l.t {
+    box-shadow: 2px 2px 0 0 #ff4500 inset;
+}
+
+.r.t {
+    box-shadow: -2px 2px 0 0 #ff4500 inset;
+}
+
+.l.b {
+    box-shadow: 2px -2px 0 0 #ff4500 inset;
+}
+
+.r.b {
+    box-shadow: -2px -2px 0 0 #ff4500 inset;
+}
+
+.pie.t::before {
+    box-shadow: 0px 2px 0 0 #ff4500 inset, 2px 2px 0 0 white inset,
+        -2px -2px 0 0 #666 inset;
+}
+
+.pie.r::before {
+    box-shadow: -2px 0px 0 0 #ff4500 inset, 2px 2px 0 0 white inset,
+        -2px -2px 0 0 #666 inset;
+}
+
+.pie.b::before {
+    box-shadow: 0px -2px 0 0 #ff4500 inset, 2px 2px 0 0 white inset,
+        -2px -2px 0 0 #666 inset;
+}
+
+.pie.l::before {
+    box-shadow: 2px 0px 0 0 #ff4500 inset, 2px 2px 0 0 white inset,
+        -2px -2px 0 0 #666 inset;
+}
+
+.pie.t.l::before {
+    box-shadow: 2px 2px 0 0 #ff4500 inset, 2px 2px 0 0 white inset,
+        -2px -2px 0 0 #666 inset;
+}
+
+.pie.t.r::before {
+    box-shadow: -2px 2px 0 0 #ff4500 inset, 2px 2px 0 0 white inset,
+        -2px -2px 0 0 #666 inset;
+}
+
+.pie.l.b::before {
+    box-shadow: 2px -2px 0 0 #ff4500 inset, 2px 2px 0 0 white inset,
+        -2px -2px 0 0 #666 inset;
+}
+
+.pie.r.b::before {
+    box-shadow: -2px -2px 0 0 #ff4500 inset, 2px 2px 0 0 white inset,
+        -2px -2px 0 0 #666 inset;
+}
+
+.pie.mk::before {
+    background-color: deepskyblue;
+}
+
+.pie.mk {
+    background-color: deepskyblue;
+}
+
+.footer .markCount {
+    padding-left: 1px;
+    color: red;
+    font-style: 26px;
+    /* font-family: "Lcdd"; */
+}
+
+/*
+.pie.t::before {
+background-color: deepskyblue;}
+
+.pie.r::before {
+background-color: deepskyblue;}
+
+.pie.b::before {
+background-color: deepskyblue;}
+
+.pie.l::before {
+background-color: deepskyblue;}
+
+.pie.t.l::before {
+background-color: deepskyblue;}
+
+.pie.t.r::before {
+background-color: deepskyblue;
+}
+
+.pie.l.b::before {
+background-color: deepskyblue;}
+
+.pie.r.b::before {
+background-color: deepskyblue;}
+*/

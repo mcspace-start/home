@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>transform</title>
+    <script src="js/vue.js"></script>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+      }
+
+      .title {
+        text-align: center;
+      }
+
+      input {
+        width: 350px;
+      }
+
+      /* #region */
+      .one .box {
+        width: 300px;
+        height: 300px;
+        margin: 50px 0 100px 100px;
+        border: 1px solid #000;
+        background-color: whitesmoke;
+      }
+
+      .one .main {
+        width: 300px;
+        height: 300px;
+        border: 1px solid #000;
+        position: relative;
+        transform-style: preserve-3d;
+      }
+
+      .one .main div {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        line-height: 300px;
+      }
+
+      .one .front {
+        background: url("img/6.jpg") no-repeat center center;
+        background-size: 140%;
+      }
+
+      .one .back {
+        background-color: plum;
+        transform: translateZ(-1px) rotateY(180deg);
+      }
+
+      .two .box {
+        background-color: whitesmoke;
+        width: 300px;
+        height: 300px;
+        margin: 100px 200px;
+        border: 1px solid #000;
+      }
+
+      .two .box .main {
+        width: 300px;
+        height: 300px;
+        position: relative;
+        transform-style: preserve-3d;
+        transform: rotateX(350deg) rotateY(40deg);
+      }
+
+      .two .box .showx,
+      .two .box .showy,
+      .two .box .showz {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        height: 20px;
+        width: 100%;
+        margin-top: -10px;
+        line-height: 20px;
+        text-align: center;
+      }
+
+      .two .box .showx {
+        background-color: darkgray;
+      }
+
+      .two .box .showy {
+        background-color: greenyellow;
+        transform: rotateY(0deg) rotateX(0deg) rotateZ(90deg);
+      }
+
+      .two .box .showz {
+        background-color: darkturquoise;
+        transform: rotateY(-90deg);
+      }
+
+      .two .photo {
+        position: absolute;
+        border: 1px solid #000;
+        width: 240px;
+        height: 180px;
+        background: url(img/6.jpg) no-repeat center center;
+        background-size: 100%;
+        transform: translate(-50%, -50%) translateZ(60px);
+      }
+
+      .three .box {
+        border: 1px solid #000;
+        width: 200px;
+        height: 200px;
+        margin: 100px auto;
+        position: relative;
+      }
+
+      .showOrigin {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 6px;
+        height: 6px;
+        background-color: red;
+        border: 2px solid #000;
+        border-radius: 50%;
+      }
+
+      .three .main {
+        background-color: burlywood;
+        width: 200px;
+        height: 200px;
+        position: relative;
+        text-align: center;
+        line-height: 200px;
+      }
+
+      .four .box {
+        border: 1px dashed #000;
+        width: 300px;
+        height: 300px;
+        margin: 0 auto;
+        /* margin-top: 100px; */
+        position: relative;
+      }
+
+      .four .main {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        /* background-color: pink; */
+        transform-style: preserve-3d;
+      }
+
+      .four .showx,
+      .four .showy,
+      .four .showz {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        top: 50%;
+        border-top: dashed 2px #000;
+        height: 0px;
+      }
+
+      .four .showx {
+        text-align: right;
+      }
+
+      .four .showy {
+        transform: rotateZ(90deg);
+        text-align: left;
+      }
+
+      .four .showz {
+        text-align: left;
+        transform: rotateY(90deg);
+      }
+
+      .four .photo {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        line-height: 150px;
+        background-color: lemonchiffon;
+        text-align: center;
+        font-size: 30px;
+        /* opacity: 0.8; */
+        transform-style: preserve-3d;
+        box-shadow: inset 1px 1px 0px #000, inset -1px -1px 0px #000;
+      }
+
+      .four .tag {
+        position: absolute;
+        background-color: red;
+        border: 2px solid #000;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+      }
+
+      .five {
+        transform: scale3d();
+      }
+
+      .five .box {
+        height: 102px;
+        width: 306px;
+        margin: 100px 0 100px 300px;
+        transform-style: preserve-3d;
+        transition: 0.3s;
+      }
+
+      .five .a,
+      .five .b,
+      .five .c {
+        border: 1px solid #000;
+        width: 100px;
+        height: 100px;
+        float: left;
+      }
+
+      .five .a {
+        background-color: red;
+      }
+
+      .five .b {
+        background-color: green;
+      }
+
+      .five .c {
+        background-color: blue;
+      }
+
+      /* #endregion */
+
+      .six .main {
+        width: 400px;
+        height: 400px;
+        border: 1px solid #000;
+        position: relative;
+        margin: 00px 0 100px 200px;
+      }
+
+      .six .main::before {
+        content: "外层透视区域";
+      }
+
+      .six .box {
+        width: 200px;
+        height: 200px;
+        margin-top: 100px;
+        margin-left: 100px;
+        transform-style: preserve-3d;
+      }
+
+      .six .front,
+      .six .left,
+      .six .right,
+      .six top,
+      .six .bottom,
+      .six .back,
+      .six .top {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        text-align: center;
+        line-height: 200px;
+        font-size: 30px;
+        border: 2px dashed #000;
+        top: 0;
+        left: 0;
+      }
+
+      .six .front {
+        transform: translateZ(100px);
+        background-color: orange;
+      }
+
+      .six .back {
+        transform: translateZ(-100px) rotateY(180deg);
+        background-color: tomato;
+      }
+
+      .six .left {
+        transform: translateX(-100px) rotateY(-90deg);
+        background-color: palegreen;
+      }
+
+      .six .right {
+        transform: translateX(100px) rotateY(90deg);
+        background-color: teal;
+      }
+
+      .six .top {
+        transform: translateY(-100px) rotateX(90deg);
+        background-color: skyblue;
+      }
+
+      .six .bottom {
+        transform: translateY(100px) rotateX(-90deg);
+        background-color: thistle;
+      }
+
+      .six .main.act {
+        perspective: none !important;
+      }
+
+      .six .show {
+        border: 1px solid #000;
+        width: 10px;
+        height: 10px;
+        background-color: red;
+        position: absolute;
+        left: 0;
+        top: 0;
+        border-radius: 50%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <!-- #region -->
+      <div class="one">
+        <p>
+          <input
+            type="range"
+            name=""
+            id=""
+            min="-180"
+            class="inputX"
+            v-model="one.x"
+            max="180"
+          />
+          rotateX: {{one.x}}deg
+        </p>
+        <p>
+          <input
+            type="range"
+            name=""
+            id=""
+            min="-180"
+            class="inputY"
+            v-model="one.y"
+            max="180"
+          />
+          rotateY: {{one.y}}deg
+        </p>
+        <p>
+          <input
+            type="range"
+            name=""
+            id=""
+            min="-180"
+            class="inputZ"
+            v-model="one.z"
+            max="180"
+          />
+          rotateZ: {{one.z}}deg
+        </p>
+        <div class="box">
+          <div
+            class="main"
+            :style="{'transform': 'rotateX('+ one.x +'deg) rotateY('+ one.y +'deg) rotateZ('+ one.z +'deg)'}"
+          >
+            <div class="front"></div>
+            <div class="back">背面</div>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <p class="title">移动</p>
+      <hr />
+      <div class="two">
+        <p>
+          <input
+            type="range"
+            name=""
+            id=""
+            min="-180"
+            max="180"
+            class="reange"
+            v-model="two.x"
+          />rotateX: {{two.x}}deg
+        </p>
+        <p>
+          <input
+            type="range"
+            name=""
+            id=""
+            min="-180"
+            max="180"
+            class="reange"
+            v-model="two.y"
+          />rotateY: {{two.y}}deg
+        </p>
+        <!-- <p>
+                <input type="range" name="" id="" min="-180" max="180" class="reange" v-model="two.z">rotateX:
+                {{two.z}}deg
+            </p> -->
+        <p>
+          <input
+            type="range"
+            name=""
+            id=""
+            min="-200"
+            max="200"
+            class="reange"
+            v-model="two.tlx"
+          />translateX: {{two.tlx}}px
+        </p>
+        <p>
+          <input
+            type="range"
+            name=""
+            id=""
+            min="-200"
+            max="200"
+            class="reange"
+            v-model="two.tly"
+          />translateY: {{two.tly}}px
+        </p>
+        <p>
+          <input
+            type="range"
+            name=""
+            id=""
+            min="-200"
+            max="200"
+            class="reange"
+            v-model="two.tlz"
+          />translateZ: {{two.tlz}}px
+        </p>
+
+        <div class="box">
+          <div
+            class="main"
+            :style="{'transform': 'rotateX('+ two.x +'deg) rotateY('+ two.y +'deg) rotateZ('+ two.z +'deg)'}"
+          >
+            <div class="showx">X-----X-----X-----X-----X-----X----X</div>
+            <div class="showy">Y-----Y-----Y-----Y-----Y-----Y----Y</div>
+            <div class="showz">Z-----Z-----Z-----Z-----Z-----Z----Z</div>
+            <div
+              class="photo"
+              :style="{'transform': 'translateX('+ two.tlx +'px) translateY('+ two.tly +'px) translateZ('+ two.tlz +'px)'}"
+            ></div>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <p class="title">中心点-X-Y</p>
+      <hr />
+      <div class="three">
+        <p>
+          <input
+            type="range"
+            name=""
+            min="-180"
+            max="180"
+            id=""
+            v-model="three.deg"
+          />
+          rotate: {{three.deg}}deg
+        </p>
+        <p>
+          <input
+            type="range"
+            name=""
+            min="-400"
+            max="400"
+            id=""
+            v-model="three.scale"
+          />
+          scale({{three.scale/100}})
+        </p>
+        <p>
+          <input
+            type="range"
+            name=""
+            min="-100"
+            max="300"
+            id=""
+            v-model="three.origin[0]"
+          />
+        </p>
+        <p>
+          <input
+            type="range"
+            name=""
+            min="-100"
+            max="300"
+            id=""
+            v-model="three.origin[1]"
+          />
+        </p>
+        <p>transform-origin: {{three.origin[0]}}px {{three.origin[1]}}px</p>
+
+        <div class="box">
+          <div
+            class="main"
+            :style="{transform: 'rotate(' + three.deg +'deg) scale('+three.scale/100 +')','transform-origin':three.origin[0]+'px'+' '+three.origin[1] + 'px'}"
+          >
+            main
+          </div>
+          <div
+            class="showOrigin"
+            :style="{left:three.origin[0] + 'px',top:three.origin[1] + 'px'}"
+          ></div>
+        </div>
+      </div>
+      <hr />
+      <p class="title">中心点-Z</p>
+      <hr />
+      <div class="four">
+        <!-- bg -->
+        <p>
+          <input
+            type="range"
+            name=""
+            id=""
+            min="-180"
+            max="180"
+            class="reange"
+            v-model="four.bg.rx"
+          />Bg-rotateX: {{four.bg.rx}}deg
+        </p>
+        <p>
+          <input
+            type="range"
+            name=""
+            id=""
+            min="-180"
+            max="180"
+            class="reange"
+            v-model="four.bg.ry"
+          />Bg-rotateX: {{four.bg.ry}}deg
+        </p>
+        <p>
+          <input
+            type="range"
+            name=""
+            id=""
+            min="-180"
+            max="180"
+            class="reange"
+            v-model="four.bg.rz"
+          />Bg-rotateX: {{four.bg.rz}}deg
+        </p>
+        <br />
+        <!-- photo translate -->
+        <p>
+          <input
+            type="range"
+            name=""
+            id=""
+            min="-100"
+            max="200"
+            class="reange"
+            v-model="four.img.tl.x"
+          />img-translateX: {{four.img.tl.x}}px
+        </p>
+        <p>
+          <input
+            type="range"
+            name=""
+            id=""
+            min="-100"
+            max="200"
+            class="reange"
+            v-model="four.img.tl.y"
+          />img-translateY: {{four.img.tl.y}}px
+        </p>
+        <p>
+          <input
+            type="range"
+            name=""
+            id=""
+            min="-100"
+            max="200"
+            class="reange"
+            v-model="four.img.tl.z"
+          />img-translateZ: {{four.img.tl.z}}px
+        </p>
+        <br />
+        <!-- photo origin -->
+        <p>
+          <input
+            type="range"
+            name=""
+            id=""
+            min="-75"
+            max="225"
+            class="reange"
+            v-model="four.origin[0]"
+          />
+        </p>
+        <p>
+          <input
+            type="range"
+            name=""
+            id=""
+            min="-75"
+            max="225"
+            class="reange"
+            v-model="four.origin[1]"
+          />
+        </p>
+        <p>
+          <input
+            type="range"
+            name=""
+            id=""
+            min="-75"
+            max="225"
+            class="reange"
+            v-model="four.origin[2]"
+          />
+        </p>
+        transform-origin:
+        ({{four.origin[0]}}deg,{{four.origin[1]}}deg,{{four.origin[2]}}deg)
+        <!-- photo rotate -->
+        <p>
+          <input
+            type="range"
+            name=""
+            id=""
+            min="-180"
+            max="180"
+            class="reange"
+            v-model="four.img.rotate[0]"
+          />
+        </p>
+        <p>
+          <input
+            type="range"
+            name=""
+            id=""
+            min="-180"
+            max="180"
+            class="reange"
+            v-model="four.img.rotate[1]"
+          />
+        </p>
+        <p>
+          <input
+            type="range"
+            name=""
+            id=""
+            min="-180"
+            max="180"
+            class="reange"
+            v-model="four.img.rotate[2]"
+          />
+        </p>
+        rotate:
+        ({{four.img.rotate[0]}}deg,{{four.img.rotate[1]}}deg,{{four.img.rotate[2]}}deg)
+        <div class="box">
+          <div
+            class="main"
+            :style="{'transform': 'rotateX('+ four.bg.rx +'deg)'+ 'rotateY('+ four.bg.ry +'deg)'+ 'rotateZ('+ four.bg.rz +'deg)'}"
+          >
+            <div class="showx">→X</div>
+            <div class="showy">Y</div>
+            <div class="showz">←Z</div>
+
+            <div
+              class="photo"
+              :style="{'transform': 'translateX('+ four.img.tl.x +'px) translateY('+ four.img.tl.y +'px) translateZ('+ four.img.tl.z +'px)'+'rotateX('+four.img.rotate[0]+'deg)'+'rotatey('+four.img.rotate[1]+'deg)'+'rotatez('+four.img.rotate[2]+'deg)','transform-origin':four.origin[0] +'px '+ four.origin[1] + 'px '+ four.origin[2] + 'px'}"
+            >
+              正面
+              <div
+                class="tag"
+                :style="{left:four.origin[0] + 'px',top:four.origin[1] + 'px',transform:'translateZ(' +four.origin[2] +'px) translate(-50%,-50%)'}"
+              ></div>
+            </div>
+          </div>
+        </div>
+        <p style="color: red">opacity会影响transform3D</p>
+
+        <br />
+        <br /><br /><br /><br /><br /><br /><br /><br />
+      </div>
+      <hr />
+      <p class="title">透视1</p>
+      <hr />
+      <div class="five">
+        <p>
+          <input
+            type="range"
+            name=""
+            min="-200"
+            max="200"
+            id=""
+            v-model="five.tl"
+          />transtale: {{five.tl}}px
+        </p>
+        <p>
+          <input
+            type="range"
+            name=""
+            min="0"
+            max="400"
+            id=""
+            v-model="five.per"
+          />perspective: {{five.per}}px
+        </p>
+        <p>
+          <select name="" id="" v-model="five.perorigin.x">
+            <option value="left">left</option>
+            <option value="center">center</option>
+            <option value="right">right</option>
+          </select>
+          <select name="" id="" v-model="five.perorigin.y">
+            <option value="top">top</option>
+            <option value="center">center</option>
+            <option value="bottom">bottom</option>
+          </select>
+          perspective-origin: ({{five.perorigin.x}} {{five.perorigin.y}})
+        </p>
+
+        <div
+          class="box"
+          :style="{'perspective-origin':five.perorigin.x +' '  +five.perorigin.y ,perspective:five.per + 'px'}"
+        >
+          <div
+            class="a"
+            :style="{transform:'translateZ('+ (five.tl-(five.tl*2)) +'px)'}"
+          >
+            A
+          </div>
+          <div class="b">B</div>
+          <div class="c" :style="{transform:'translateZ(' + five.tl +'px)'}">
+            C
+          </div>
+        </div>
+      </div>
+      <hr />
+      <p class="title">透视2</p>
+      <hr />
+      <!-- #endregion -->
+
+      <div class="six">
+        <!-- rotate -->
+        <p>
+          <input
+            type="range"
+            name=""
+            min="-180"
+            max="180"
+            id=""
+            v-model="six.bg.rx"
+          />Bg-transform: rotateX({{six.bg.rx}}deg)
+        </p>
+        <p>
+          <input
+            type="range"
+            name=""
+            min="-180"
+            max="180"
+            id=""
+            v-model="six.bg.ry"
+          />Bg-transform: rotateY({{six.bg.ry}}deg)
+        </p>
+        <p>
+          <input
+            type="range"
+            name=""
+            min="-180"
+            max="180"
+            id=""
+            v-model="six.bg.rz"
+          />Bg-transform: rotateZ({{six.bg.rz}}deg)
+        </p>
+        <!-- perspective -->
+        <p><input type="checkbox" name="" id="" v-model="six.act" />开启透视</p>
+        <!-- perspective change -->
+        <p>
+          <input
+            type="range"
+            name=""
+            min="0"
+            max="3000"
+            id=""
+            v-model="six.per"
+          />perspective: {{six.per}}PX
+        </p>
+        <!-- perspective-origin change -->
+        <p>
+          <input
+            type="range"
+            name=""
+            id=""
+            min="-100"
+            max="500"
+            v-model="six.perorigin[0]"
+          />
+        </p>
+        <p>
+          <input
+            type="range"
+            name=""
+            id=""
+            min="-100"
+            max="500"
+            v-model="six.perorigin[1]"
+          />
+        </p>
+        perspective-origin:{{six.perorigin[0]}}px {{six.perorigin[1]}}px
+        <br />
+        <br />
+        w:200px h:200px
+        <div
+          class="main"
+          :style="{'perspective-origin': six.perorigin[0] + 'px ' + six.perorigin[1] + 'px',perspective:six.per + 'px'}"
+          :class="{'act':!six.act}"
+        >
+          <div
+            class="box"
+            :style="{
+                    transform:'rotateY('+ six.bg.rx +'deg) rotateX(' + six.bg.ry +'deg) rotateZ(' + six.bg.rz +'deg)',
+                    
+                    }"
+          >
+            <div class="left"></div>
+            <div class="right"></div>
+            <div class="top"></div>
+            <div class="bottom"></div>
+            <div class="front">正面</div>
+            <div class="back"></div>
+          </div>
+          <div
+            class="show"
+            v-if="six.act"
+            :style="{left:six.perorigin[0] + 'px',top:six.perorigin[1] + 'px'}"
+          ></div>
+        </div>
+      </div>
+    </div>
+    <script>
+      var vm = new Vue({
+        el: "#app",
+        data: {
+          one: {
+            x: 0,
+            y: 0,
+            z: 0,
+          },
+          two: {
+            x: 0,
+            y: 0,
+            z: 0,
+            tlx: 30,
+            tly: 60,
+            tlz: 24,
+          },
+          three: {
+            deg: 0,
+            origin: [100, 100],
+            scale: 100,
+          },
+          four: {
+            bg: {
+              rx: -12,
+              ry: 30,
+              rz: 0,
+            },
+            origin: [75, 75, 50],
+            img: {
+              tl: {
+                x: 76,
+                y: 76,
+                z: 60,
+              },
+              rotate: [0, 0, 0],
+            },
+          },
+          five: {
+            tl: 100,
+            per: 200,
+            perorigin: {
+              x: "center",
+              y: "center",
+            },
+          },
+          six: {
+            bg: {
+              rx: 40,
+              ry: -10,
+              rz: 352,
+            },
+            per: 3000,
+            perorigin: [200, 200],
+            act: true,
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

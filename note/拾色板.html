@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>拾色板</title>
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .banner {
+            width: 360px;
+            height: 360px;
+            border: 2px solid #ccc;
+            transition: background-color .3s;
+        }
+
+        input[type="range"] {
+            width: 330px;
+        }
+
+        span {
+            display: inline-block;
+            width: 18px;
+            cursor: default;
+        }
+
+        .colormsg {
+            border: 2px solid #000;
+            padding: 20px;
+            border-radius: 4px;
+            width: 320px;
+        }
+
+        .colormsg .left {
+            width: 280px;
+            float: left;
+        }
+
+        .colormsg .right {
+            width: 18px;
+            height: 77px;
+            border-radius: 4px;
+            float: right;
+            transition: background-color .3s;
+        }
+
+        .colormsg::after {
+            content: "";
+            display: block;
+            height: 0;
+            width: 0;
+            left: 0;
+            top: 0;
+            clear: both;
+        }
+
+        .colormsg p {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .colormsg input {
+            border: none;
+            outline: none;
+            font-size: 18px;
+            margin-bottom: 4px;
+            width: 200px;
+            background-color: #ccc;
+        }
+
+        ._main {
+            float: left;
+            width: 480px;
+        }
+
+        .code {
+            width: 800px;
+            float: left;
+
+        }
+
+        .code textarea {
+            width: 90%;
+            height: 600px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="_main">
+        <div class="banner">
+        </div>
+        <ul>
+            <span>R</span><input type="checkbox" name="" id="r" onchange="disabledNode(this)">
+            <input type="range" min="0" max="255" class="r" oninput="changeColr(this)" value="0"
+                onchange="changeColr(this)">
+        </ul>
+        <ul>
+            <span>G</span><input type="checkbox" id="g" onchange="disabledNode(this)">
+            <input type="range" min="0" max="255" class="g" oninput="changeColr(this)" value="0"
+                onchange="changeColr(this)">
+        </ul>
+        <ul>
+            <span>B</span><input type="checkbox" id="b" onchange="disabledNode(this)">
+            <input type="range" min="0" max="255" class="b" oninput="changeColr(this)" value="0"
+                onchange="changeColr(this)">
+        </ul>
+        <ul>
+            <span>A</span><input type="checkbox" id="a" onchange="disabledNode(this)">
+            <input type="range" min="0" max="100" class="a" oninput="changeColr(this)" onchange="changeColr(this)"
+                value="0">
+        </ul>
+        <div class="colormsg">
+            <div class="left">
+                <p>颜色信息:</p>
+                <input type="text" class="rgbNumber"><br>
+                <input type="text" class="hdNumber"><br>
+            </div>
+            <div class="right"></div>
+        </div>
+    </div>
+    <div class="code">
+        <textarea name="" id="" cols="30" rows="100">
+    <div class="banner">
+    </div>
+    <ul>
+        <span>R</span><input type="checkbox" name="" id="r" onchange="disabledNode(this)">
+        <input type="range" min="0" max="255" class="r" oninput="changeColr(this)" value="0"
+            onchange="changeColr(this)">
+    </ul>
+    <ul>
+        <span>G</span><input type="checkbox" id="g" onchange="disabledNode(this)">
+        <input type="range" min="0" max="255" class="g" oninput="changeColr(this)" value="0"
+            onchange="changeColr(this)">
+    </ul>
+    <ul>
+        <span>B</span><input type="checkbox" id="b" onchange="disabledNode(this)">
+        <input type="range" min="0" max="255" class="b" oninput="changeColr(this)" value="0"
+            onchange="changeColr(this)">
+    </ul>
+    <ul>
+        <span>A</span><input type="checkbox" id="a" onchange="disabledNode(this)">
+        <input type="range" min="0" max="100" class="a" oninput="changeColr(this)" onchange="changeColr(this)"
+            value="0">
+    </ul>
+    <div class="colormsg">
+        <div class="left">
+            <p>颜色信息:</p>
+            <input type="text" class="rgbNumber"><br>
+            <input type="text" class="hdNumber"><br>
+        </div>
+        <div class="right"></div>
+    </div>
+
+    ------------------js部分---------------------
+    
+    var box = document.querySelector(".banner");
+    var r = document.querySelector(".r")
+    var colorR = 0;
+    var colorG = 0;
+    var colorB = 0;
+    var colorA = 0;
+    var colorMsgBox = document.querySelector(".colormsg");
+    var rgbBox = document.querySelector(".rgbNumber");
+    var hdBox = document.querySelector(".hdNumber");
+    var hdColorBox = colorMsgBox.querySelector(".right");
+    rgbBox.onfocus = function () {
+        this.select()
+    }
+    hdBox.onfocus = function () {
+        this.select()
+    }
+
+    function alterBg() {
+        box.style.background = "rgba(" + colorR + "," + colorG + "," + colorB + "," + colorA + ")";
+        alterMsg()
+    }
+
+    function alterMsg() {
+        rgbBox.value = "rgba(" + colorR + "," + colorG + "," + colorB + "," + colorA + ")";
+        hdBox.value = "#" + systemFun(colorR, 16) + "" + systemFun(colorG, 16) + "" + systemFun(colorB, 16)
+        hdColorBox.style.backgroundColor = hdBox.value;
+    }
+
+    function changeColr(el) {
+        if (el.className == "r") {
+            colorR = el.value;
+        } else if (el.className == "g") {
+            colorG = el.value;
+        } else if (el.className == "b") {
+            colorB = el.value;
+        } else {
+            colorA = el.value / 100;
+        }
+        var v = Math.floor(el.value / 255 * 100);
+        alterBg();
+        alterMsg();
+    }
+
+    function showColor() {
+        console.log("rgba(" + colorR + "," + colorG + "," + colorB + "," + colorA + ")");
+    }
+
+    function disabledNode(el) {
+        var bd = el.parentNode.querySelector("input + input");
+        var bdName = bd.getAttribute("class");
+        if (el.checked) {
+            bd.setAttribute("disabled", "");
+            switch (bdName) {
+                case "r":
+                    colorR = 0;
+                    break;
+                case "g":
+                    colorG = 0;
+                    break;
+                case "b":
+                    colorB = 0;
+                    break;
+                case "a":
+                    colorA = 1;
+                    break;
+                default:
+                    break;
+            }
+            alterBg();
+        } else {
+            bd.removeAttribute("disabled");
+            switch (bdName) {
+                case "r":
+                    colorR = bd.value;
+                    break;
+                case "g":
+                    colorG = bd.value;
+                    break;
+                case "b":
+                    colorB = bd.value;
+                    break;
+                case "a":
+                    colorA = bd.value / 100;
+                    break;
+                default:
+                    break;
+            }
+            alterBg();
+        }
+    }
+
+    function systemFun(num, sys) { //进制转换 ，num 将被转换的10进制数，sys 进行转换的进制变量 (值: 2 --- 16 )
+        let s = [],
+            num1;
+
+        function ShiftFun(num) { //变量 s 声明提前了 ，在同一个函数里用的是同一个变量 ---- s
+            switch (num) { //
+                case 0:
+                    s.push("a");
+                    break;
+                case 1:
+                    s.push("b");
+                    break;
+                case 2:
+                    s.push("c");
+                    break;
+                case 3:
+                    s.push("d");
+                    break;
+                case 4:
+                    s.push("e");
+                    break;
+                case 5:
+                    s.push("f");
+                    break;
+            }
+        }
+        if (sys < 2 || sys > 16) {
+            // console.error("只能进行2-16进制的转换");
+            return;
+        }
+        if (sys > 10) { //
+            for (; num >= sys;) {
+                num1 = num % sys
+                // console.log("num1", num1)
+                if (num1 >= 10) {
+                    ShiftFun(num1 - 10);
+                } else {
+                    s.push(num1);
+                }
+                num = parseInt(num / sys);
+            }
+
+            if (num >= 10) {
+                ShiftFun(num - 10);
+            } else {
+                s.push(num);
+            }
+
+        } else { //
+            for (; num >= sys;) {
+                s.push(num % sys);
+                num = parseInt(num / sys);
+            }
+            s.push(num);
+        }
+        s.reverse(); //前后颠倒
+        s = s.join(""); //数组合并
+        // console.log(s);
+        if (s < 10) {
+            s = "0" + s
+        }
+        return s;
+    }
+    alterMsg()
+    
+</textarea>
+    </div>
+
+    <script>
+        var box = document.querySelector(".banner");
+        var r = document.querySelector(".r")
+        var colorR = 0;
+        var colorG = 0;
+        var colorB = 0;
+        var colorA = 0;
+        var colorMsgBox = document.querySelector(".colormsg");
+        var rgbBox = document.querySelector(".rgbNumber");
+        var hdBox = document.querySelector(".hdNumber");
+        var hdColorBox = colorMsgBox.querySelector(".right");
+        rgbBox.onfocus = function () {
+            this.select()
+        }
+        hdBox.onfocus = function () {
+            this.select()
+        }
+
+        function alterBg() {
+            box.style.background = "rgba(" + colorR + "," + colorG + "," + colorB + "," + colorA + ")";
+            alterMsg()
+        }
+
+        function alterMsg() {
+            rgbBox.value = "rgba(" + colorR + "," + colorG + "," + colorB + "," + colorA + ")";
+            hdBox.value = "#" + systemFun(colorR, 16) + "" + systemFun(colorG, 16) + "" + systemFun(colorB, 16)
+            hdColorBox.style.backgroundColor = hdBox.value;
+        }
+
+        function changeColr(el) {
+            if (el.className == "r") {
+                colorR = el.value;
+            } else if (el.className == "g") {
+                colorG = el.value;
+            } else if (el.className == "b") {
+                colorB = el.value;
+            } else {
+                colorA = el.value / 100;
+            }
+            var v = Math.floor(el.value / 255 * 100);
+            alterBg();
+            alterMsg();
+        }
+
+        function showColor() {
+            console.log("rgba(" + colorR + "," + colorG + "," + colorB + "," + colorA + ")");
+        }
+
+        function disabledNode(el) {
+            var bd = el.parentNode.querySelector("input + input");
+            var bdName = bd.getAttribute("class");
+            if (el.checked) {
+                bd.setAttribute("disabled", "");
+                switch (bdName) {
+                    case "r":
+                        colorR = 0;
+                        break;
+                    case "g":
+                        colorG = 0;
+                        break;
+                    case "b":
+                        colorB = 0;
+                        break;
+                    case "a":
+                        colorA = 1;
+                        break;
+                    default:
+                        break;
+                }
+                alterBg();
+            } else {
+                bd.removeAttribute("disabled");
+                switch (bdName) {
+                    case "r":
+                        colorR = bd.value;
+                        break;
+                    case "g":
+                        colorG = bd.value;
+                        break;
+                    case "b":
+                        colorB = bd.value;
+                        break;
+                    case "a":
+                        colorA = bd.value / 100;
+                        break;
+                    default:
+                        break;
+                }
+                alterBg();
+            }
+        }
+
+        function systemFun(num, sys) { //进制转换 ，num 将被转换的10进制数，sys 进行转换的进制变量 (值: 2 --- 16 )
+            let s = [],
+                num1;
+
+            function ShiftFun(num) { //变量 s 声明提前了 ，在同一个函数里用的是同一个变量 ---- s
+                switch (num) { //
+                    case 0:
+                        s.push("a");
+                        break;
+                    case 1:
+                        s.push("b");
+                        break;
+                    case 2:
+                        s.push("c");
+                        break;
+                    case 3:
+                        s.push("d");
+                        break;
+                    case 4:
+                        s.push("e");
+                        break;
+                    case 5:
+                        s.push("f");
+                        break;
+                }
+            }
+            if (sys < 2 || sys > 16) {
+                // console.error("只能进行2-16进制的转换");
+                return;
+            }
+            if (sys > 10) { //
+                for (; num >= sys;) {
+                    num1 = num % sys
+                    // console.log("num1", num1)
+                    if (num1 >= 10) {
+                        ShiftFun(num1 - 10);
+                    } else {
+                        s.push(num1);
+                    }
+                    num = parseInt(num / sys);
+                }
+
+                if (num >= 10) {
+                    ShiftFun(num - 10);
+                } else {
+                    s.push(num);
+                }
+
+            } else { //
+                for (; num >= sys;) {
+                    s.push(num % sys);
+                    num = parseInt(num / sys);
+                }
+                s.push(num);
+            }
+            s.reverse(); //前后颠倒
+            s = s.join(""); //数组合并
+            // console.log(s);
+            if (s < 10) {
+                s = "0" + s
+            }
+            return s;
+        }
+        alterMsg()
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>css格式化</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    body {
+      padding: 30px 0 50px 0;
+      background-color: rgb(209, 225, 226);
+    }
+
+    .box {
+      text-align: center;
+    }
+
+    .title {
+      text-align: left;
+      width: 796px;
+      padding: 10px;
+      border: 2px solid #999;
+      color: #888;
+      border-bottom: none;
+      margin: 0 auto;
+      background-color: rgb(241, 240, 240);
+    }
+
+    textarea {
+      font-family: "Consolas";
+      height: 440px;
+      width: 800px;
+      border: 2px solid #999;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 16px;
+      resize: none;
+      margin-bottom: 4px;
+    }
+
+    button {
+      outline: none;
+      border: none;
+      box-shadow: 3px 3px #555, 1px 1px rgb(235, 234, 234) inset;
+      height: 40px;
+      width: 80px;
+      border-radius: 4px;
+      margin-bottom: 4px;
+      margin-right: 20px;
+      color: white;
+      background-color: #aeb2b9;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      transform: translate(1px, 1px);
+      box-shadow: 2px 2px #555, 1px 1px rgb(235, 234, 234) inset;
+    }
+
+    .down {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px #555, 1px 1px rgb(235, 234, 234) inset;
+    }
+
+    #textarea2 {
+      margin-top: 8px;
+      height: 600px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <div>
+      <div class="title">
+        格式化规则为：
+        单独一行注释换行、语句内注释不换行、首行缩进两空格、冒号右边留空格、冒号左边不留空格、选择器与花括号刘一个空格、去除冗余分号或逗号、选择器属性判断符两边不留空格、花括号紧随选择器后
+      </div>
+      <textarea name="" id="textarea1" cols="110" rows="40">
+        /*{} div{ }; , - */a {
+          /*{} div{ }; , - */color: crimson;
+        /*{} div{ }; , - */}
+    /*{} div{ }; , - */ /*{} div{ }; , - */
+        span {    /*{} div{ }; , - */
+          color: cadetblue;
+     /*{} div{ }; , - */
+        }  /*{} div{ }; , - */    div {
+          /*{} div{ }; , - */
+   color: cornsilk;/*{} div{ }; , - */
+          /*{} div{ }; , - */
+        }.box{
+               width:500px;; height:auto;  /**/
+               background-clor   : red
+             } .banner{overflow:hidden:z-index : 9999; font-size     :  20rem; box-show:20px 10px inset #ccc , 10px 10px 5px 5px
+               white }   .boxList {      outline:none ;padding :0 ;margin: 20px ;  border : 20px; color :#999
+      } /*1*/ /*2*/ /*3*/  .rsu   ,/*注释*/ /*1*/  ,  *  , ul[  /* 注释;,.div a span /{*/  attribute /**/  /**/    $=value],.\\.p,, a [id  ~="value" ] , /* 注释;,.div a span /{*/ /* 注释;,.div a span /{*/
+        ._ge ,a:hover /* 注释;,.div a span /{*/   ,span::after,a  /* 注释;,.div a span /{*/[ /* 注释;,.div a span /{*/  attribute  ~=  value   ],  .p12   p, div  div  ,.\\.i,
+        ,    #id /* 注释;,.div a span /{*/,hr[    /* 注释;,.div a span /{*/ attribute  /* 注释;,.div a span /{*/ *=    value  /* 注释;,.div a span /{*/]  ,/**/ ul > li > a img  , /* 注释;,.div a span /{*/tr+td li,,ul ,,a[  target   ]
+        ,li, div + p,div  ~ ul,aa > img[    attribute  =   value  ],,,, , ,  li::first-letter ,p:nth-last-child(   n  )
+   p   >     /* 注释;,.div a span /{*/span , /* 注释;,.div a span /{*/div.box      , /* 注释;,.div a span /{*/#hao /* 注释;,.div a span /{*/ span
+   { 
+       float    /*注释;/\\;,.color:red\`\`\`*//* /*注释;/\\;,.color:red*/  : left  ;
+font-size    :    16px;  background
+/* 注释::; */: rgba(  0    ,0       ,  0.8  ) ;  ;background-clip       :content-box  ; /*注释*/
+background: url(   'C:/Users/Lenovo/Desktop/funobj.gif'   ); 
+; border : 1px solid     #c3c3c3   ; background-image    :   
+ url(   ../images/list_bg00.jpg   );   
+ -webkit-animation-play-state  :   paused ;;  ;  background-image
+ /*注释*/ :/*注释*/
+ url('bgimage.gif');;  border-left    :   thick    double    #ff0000 ;  ;  /* 注释::; */  ;
+  color  :  rgb  (  0  ,  0
+  ,  255 ) ;  content     :  " ("      attr(  href )   ")"  ;  -ms-flex : 1   ;   font  :
+  italic     arial /* 注释::; */ ,   sans-serif   ;font  /* 注释::; *//* 注释::; */ :   italic   bold     12px/20px     arial /* 注释::; */ ,  /* 注释::; */sans-serif;;;/* 注释::; */  font-feature-settings:
+   "c2sc"
+   ,     "smcp"   ;; font-size-adjust   : 0.60   ; /*1*//*2*//*3*/  transform :  matrix ( 1 ,  0 , 0,  1
+   , 30, 30 ) /* 注释::; */;     /* 注释::; */ ;       outline-color    :   #00ff00  ;   padding  /* 注释::; */ : 2cm   4cm   /* 注释::; */ 3cm    4cm
+   ;   z-index :             -1;;background : rgba  ( red ,  green,  blue, alpha)   ;background-color: 
+   hsl (       120, 100%    ,  50%);/* 注释::; */  /**/ /**/  background-color  : hsl(     120, 100%, 50%)   ;;
+   -ms-flex:        1;  ;     transform:      matrix( 
+       0.53,0.85,-0.85,0.53,0,0      
+       );      transform:   matrix(       cos(  a   ) , sin( a ) /* 注释::; */, -sin (  a) , cos   ( a  ),  0 ,  0  ); /* 注释::; */ transform:  matrix(    1,tan  ( ay),tan(   ax),1,0
+       ,0);  transform: rotate( 
+           15deg) translate(230) ;;  /* 注释::; *//* 注释::; */ transform:   scale(1.5,2.6) 
+           skew(220deg,-150deg) translate(230px    );  ;transform: matrix(1.06    ,1.84,0.54,   2.8,   466px,   482px   )
+           /**/    /**//**/;}
+       
+      </textarea>
+    </div>
+    <div>
+      <button id="change1" class="btn">格式化</button>
+      <button id="change3" class="btn">清空</button>
+      <button id="change2" class="btn">去除注释</button>
+    </div>
+    <div>
+      <textarea name="" id="textarea2" cols="110" rows="40">
+ ......
+      </textarea>
+    </div>
+  </div>
+
+  <script>
+    "use strict";
+    /*
+  css : 需要格式化的代码
+  type : 是否需要去除注释
+*/
+    function updateCSS(css, type) {
+      if (!css.trim()) throw "updateCss()-参数为空";
+      var strBox = css;
+      // 注释库
+      var zlist = [];
+      // css 片段
+      var cssList = [];
+      // 用于存储格式化后的css代码
+      var aftCss = "";
+      // 控制切割css块循环
+      var bool = true;
+      // 去除所有换行
+      strBox = strBox.replace(/\n/g, "");
+      // 将注释部分替换成````1`之后再进行格式化
+      if (!type) {
+        !(function x(bodyStr) {
+          let s = bodyStr;
+          if (/\/\*.*?\*\//.exec(s)) {
+            zlist.push(s.match(/\/\*.*?\*\//)[0]);
+            s = s.replace(/\/\*.*?\*\//, "\`\`\`\`1\`");
+            x(s);
+          } else {
+            strBox = s;
+          }
+        })(strBox);
+      } else {
+        !(function x(bodyStr) {
+          let s = bodyStr;
+          if (/\/\*.*?\*\//.exec(s)) {
+            s = s.replace(/\/\*.*?\*\//, "");
+            x(s);
+          } else {
+            strBox = s;
+          }
+        })(strBox);
+      }
+
+      // 去首尾空格
+      strBox = strBox.trim();
+      // css块分割
+      for (; bool;) {
+        if (strBox.length !== 0) {
+          if (/.*?\}/.exec(strBox)) {
+            let sli = strBox.match(/.*?\}/);
+            cssList.push(sli[0]);
+            strBox = strBox.slice(sli[0].length);
+          } else {
+            throw "CSS匹配错误！";
+          }
+        } else {
+          bool = false;
+          // console.log('css块分割结束');
+        }
+      }
+      // css块单独格式化
+      function alt(css) {
+        if (!css) return;
+        var string = css;
+        // 去除首部空格
+        string = string.replace(/^\s*/, "");
+        var headStr = string.match(/.*?(?=\{)/);
+        if (!headStr) throw "alt()-CSS头部匹配错误！";
+        headStr = headStr[0];
+        var bodyStr = string.match(/.*?(?=\})/);
+        bodyStr = bodyStr[0];
+        // bodyStr - headStr = body(bodyStr)
+        bodyStr = bodyStr.slice(headStr.length + 1);
+
+        // 报错提示
+        if (!headStr || headStr[0] === "") throw "alt()-CSS头部匹配错误！";
+        // if (bodyStr.trim() === "") throw "alt()-CSS代码区为空！";
+        // 格式化选择器部分
+        function altHead(hstr) {
+          // t暂时存储正在修改中的hstr
+          var t = hstr;
+          // console.log(hstr);
+          // 粗略将两个以上空格替换为一个
+          t = t.replace(/\s+/g, " ");
+          // 去除首部和尾部空格
+          t = t.replace(/(?:^\s)|(?:\s$)/, "");
+          // []或()里面多余空格去除 后
+          // t = t.replace(/(?<=[\[\(\[\]])\s/g, ""); //
+          // 兼容写法
+          !(function b() {
+            let l = t.match(/([\[\(\[\]])\s/);
+            if (l) {
+              t = t.replace(l[0], l[1]);
+              b();
+            }
+          })();
+          // []或()里面多余空格去除 前
+          // t = t.replace(/\s(?=[\]\)\[\]])/g, "");
+          // 去除[]或()里面特殊符号多余空格  *= = ~= ^= $=  前
+          // t = t.replace(/\s(?=[\*\=|\=|\~\=|\^\=|\=|\$\=|\+|\>|\,])/g, "");
+          t = t.replace(
+            /(\s(?=[\]|\)|\[|\]])|(\s(?=[\*|\=|\=|\~\=|\^\=|\=|\$|\=|\+|\>|\,])))/g,
+            ""
+          );
+          // 去除[]或()里面特殊符号多余空格  *= = ~= ^= $=  后
+          // t = t.replace(/(?<=[\*\=|\=|\~\=|\^\=|\=|\$\=|\+|\>|\,])\s/g, "");
+          // 兼容写法
+          !(function s() {
+            let l = t.match(/([\*\=|\=|\~\=|\^\=|\=|\$\=|\+|\>|\,])\s/);
+            if (l) {
+              t = t.replace(l[0], l[1]);
+              s();
+            }
+          })();
+          //  逗号换行
+          t = t.replace(/\,/g, "\,\n");
+          // 独立注释重复中间空格去除
+          t = t.replace(/\`\`\`\`1\`\s(?=(\`\`\`\`1\`))/g, "\`\`\`\`1\`");
+          // 去除多余逗号
+          t = t.replace(/^\,/gm, "");
+          // 去除换行
+          t = t.replace(/\n/g, "");
+          // 加入换行
+          t = t.replace(/\,/g, ",\n");
+          // 把开头为注释的（即独立注释行换行为单独一行）
+          !(function j() {
+            let z = t.match(/^\`\`\`\`1\`(?!\,)/m);
+            if (z) {
+              t = t.replace(/^\`\`\`\`1\`(?!\,)/m, "\`\`\`\`1\`,");
+              t = t.replace(/^\`\`\`\`1\`,(?!\n)/gm, "\`\`\`\`1\`,\n");
+              j();
+            }
+          })();
+          // 独立注释不需要逗号
+          t = t.replace(/^\`\`\`\`1\`\,/gm, "\`\`\`\`1\`");
+          // 去除所有首行空格
+          t = t.replace(/^\s/gm, "");
+          return (hstr = t + " \{\n");
+        }
+        // 格式化代码区
+        function altBody(bstr) {
+          // t暂时存储正在修改中的hstr
+          var t = bstr;
+          // console.log(bstr);
+          // 尾部加个分号确保分号结尾，如果尾部有分号则会去除
+          t = t + "\;";
+          // 粗略将两个以上空格替换为一个
+          t = t.replace(/\s+/g, " ");
+          // 去除首部和尾部空格
+          t = t.replace(/(?:^\s)|(?:\s$)/, "");
+          // 分号后面空格去除
+          // t = t.replace(/(?<=\;)\s*/g, '')
+          t = t.replace(/\;\s/g, ";");
+          // 冒号右边留一个空格
+          t = t.replace(/\:/g, ": ");
+          // 去除特殊左边空格
+          t = t.replace(/\s(?=[\(|\)|\;|\,|\"|\'|\:])/g, "");
+          // 将多余空格和回车换成单个空格
+          t = t.replace(/\s+/g, " ");
+          // 去除特殊右边空格
+          // t = t.replace(/(?<=[\(\;\,\"\'])\s*/g, '')
+          // 兼容写法
+          !(function s() {
+            let l = t.match(/([\(|\;|\,|\"|\'])\s+/);
+            if (l) {
+              t = t.replace(l[0], l[1]);
+              s();
+            }
+          })();
+          // 分号换行
+          t = t.replace(/\;/g, ";\n");
+          // 独立注释重复中间空格去除
+          t = t.replace(/\`\`\`\`1\`\s(?=(\`\`\`\`1\`))/g, "\`\`\`\`1\`");
+          // 去除多余分号
+          t = t.replace(/^\;/gm, "");
+          // 去除换行
+          t = t.replace(/\n/g, "");
+
+          // 加入换行
+          t = t.replace(/\;(?!\n)/g, ";\n");
+          // 把开头为注释的（即独立注释行换行为单独一行）
+          !(function j() {
+            let z = t.match(/^\`\`\`\`1\`(?!\;)/m);
+            if (z) {
+              t = t.replace(/^\`\`\`\`1\`(?!\;)/m, "\`\`\`\`1\`;");
+              t = t.replace(/^\`\`\`\`1\`;(?!\n)/gm, "\`\`\`\`1\`;\n");
+              j();
+            }
+          })();
+          // 独立注释不需要逗号
+          t = t.replace(/^\`\`\`\`1\`\;/gm, "\`\`\`\`1\`");
+          // 去除所有首行空格
+          t = t.replace(/^\s/gm, "");
+          // 去除尾部换行（由上面分号换行造成的）
+          t = t.replace(/\n*$/, "");
+          // 首行缩进
+          t = t.replace(/^/gm, "  ");
+          // 加上花括号结尾
+          return (bstr = t + "\n\}\n");
+        }
+
+        var hstr = altHead(headStr);
+        var bstr = altBody(bodyStr);
+        return hstr + bstr;
+      }
+      // 循环格式化css代码块
+      for (let i = 0; i < cssList.length; i++) {
+        aftCss += alt(cssList[i]);
+      }
+      // 还原注释
+      if (!type) {
+        !(function y(str) {
+          let n = str;
+          if (/\`\`\`\`1\`/.exec(str)) {
+            n = n.replace(/\`\`\`\`1\`/, zlist.shift());
+            y(n);
+          } else {
+            aftCss = n;
+          }
+        })(aftCss);
+      }
+      return aftCss;
+    }
+
+    var oTxt1 = document.getElementById("textarea1");
+    var oTxt2 = document.getElementById("textarea2");
+    var oBtn1 = document.getElementById("change1");
+    var oBtn2 = document.getElementById("change2");
+    var oBtn3 = document.getElementById("change3");
+    var str = "";
+    var aftcss = "";
+
+    oBtn1.onmousedown = () => {
+      str = oTxt1.value;
+      try {
+        aftcss = updateCSS(str, false);
+        oTxt2.value = aftcss;
+      } catch (err) {
+        var str = err;
+        oTxt2.value = err;
+      }
+      oBtn1.className = "down";
+    };
+    oTxt1.onfocus = (e) => e.target.select();
+    oTxt2.onfocus = (e) => e.target.select();
+    oBtn2.onmousedown = () => {
+      str = oTxt1.value;
+      try {
+        aftcss = updateCSS(str, true);
+        oTxt2.value = aftcss;
+      } catch (err) {
+        oTxt2.value = err;
+      }
+      oBtn2.className = "down";
+    };
+    oBtn3.onmousedown = (e) => {
+      oTxt1.value = "";
+      oTxt2.value = "";
+      oBtn3.className = "down";
+    };
+
+    oBtn1.onmouseup = () => (oBtn1.className = "btn");
+    oBtn2.onmouseup = () => (oBtn2.className = "btn");
+    oBtn3.onmouseup = () => (oBtn3.className = "btn");
+    oBtn1.onmouseout = () => (oBtn1.className = "btn");
+    oBtn2.onmouseout = () => (oBtn2.className = "btn");
+    oBtn3.onmouseout = () => (oBtn3.className = "btn");
+  </script>
+</body>
+
+</html>

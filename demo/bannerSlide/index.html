@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>轮播图</title>
+    <script src="vue/vue.js">
+    </script>
+    <link rel="stylesheet" href="css/one.css">
+    <link rel="stylesheet" href="css/two.css">
+
+</head>
+
+<body>
+    <div class="banner" id="banner">
+        <div class="bannerBox" @mouseover="stopRoll" @mouseout="startRoll">
+            <transition-group tag="ul" name="image" class="image" v-on:before-enter="enter" v-on:before-leave="beforeleave">
+                <li v-for="(item,index) in img" :key="item" v-show="index==current"><img :src="item" alt=""></li>
+            </transition-group>
+            <ul class="piece">
+                <li v-for="(item,index) in img.length" @click="next(index+1)" :class="{'act':index==current}"></li>
+            </ul>
+        </div>
+    </div>
+    <!-- 28% -->
+    <div id="banner3d">
+        <div class="wrap">
+            <ul class="box">
+                <li v-for="(item,index) in ImgUrl" :key="item" :class="{'left':index==back(),'center':index==currentIndex,'right':index==next()}" @mouseenter="stopAutoPlay" @mouseout="autoplay"><img :src="item" alt=""></li>
+            </ul>
+            <ul class="pieBox">
+                <li class="pie" v-for="(item,index) in ImgUrl" :key="item" @mouseenter="cut($event,index)" @mouseout="autoplay" :class="{'act':index==currentIndex}"></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: "#banner",
+            data: {
+                current: 0,
+                img: ["img/1.jpg", "img/2.jpg", "img/3.jpg", "img/4.jpg"],
+                wait: true,
+                timer: null,
+                isLeft: true
+            },
+            created() {
+                this.autoplay();
+            },
+            methods: {
+                next: function(val) {
+                    var that = this;
+                    if (val) {
+                        if (this.wait) {
+                            let nextIndex = val - 1;
+                            this.wait = false;
+                            if (nextIndex > this.current) {
+                                this.isLeft = true;
+                            } else {
+                                this.isLeft = false;
+                                setTimeout(function() {
+                                    that.isLeft = true;
+                                }, 1000);
+                            }
+                            this.current = nextIndex;
+                            setTimeout(function() {
+                                that.wait = true;
+                            }, 1000);
+                        }
+                    } else {
+                        if (this.wait) {
+                            this.wait = false;
+                            this.current++;
+                            if (this.current < this.img.length) {} else {
+                                this.current = 0;
+                            }
+                            setTimeout(function() {
+                                that.wait = true;
+                            }, 1000);
+                        }
+                    }
+                },
+                autoplay: function() {
+                    var that = this;
+                    this.timer = setInterval(() => {
+                        that.next();
+                    }, 4000);
+                },
+                stopRoll: function() {
+                    clearInterval(this.timer);
+                },
+                startRoll: function() {
+                    this.autoplay();
+                },
+                enter: function(el) {
+                    el.style.animation = ((this.isLeft ? "Rin" : "Lin") + " 1s  ease");
+                },
+                beforeleave: function(el) {
+                    el.style.animation = ((this.isLeft ? "Lout" : "Rout") + " 1s  ease");
+                },
+            }
+        });
+        var vm = new Vue({
+            el: "#banner3d",
+            data: {
+                ImgUrl: ["img/1.jpg", "img/2.jpg", "img/3.jpg", "img/4.jpg"],
+                currentIndex: 0,
+                autoTimer: null
+            },
+            created: function() {
+                this.autoplay();
+            },
+            methods: {
+                next: function(e) {
+                    if (e == null) {
+                        let nextIndex = this.currentIndex + 1;
+                        if (nextIndex == this.ImgUrl.length) {
+                            nextIndex = 0;
+                        }
+                        return nextIndex;
+                    } else {
+                        var that = this;
+                        this.currentIndex++;
+                        if (that.currentIndex == that.ImgUrl.length) {
+                            that.currentIndex = 0;
+                        }
+                    }
+                },
+                back: function(e) {
+                    if (e == null) {
+                        let backIndex = this.currentIndex - 1;
+                        if (backIndex == -1) {
+                            backIndex = this.ImgUrl.length - 1;
+                        }
+                        return backIndex;
+                    } else {
+                        var that = this;
+                        this.currentIndex--;
+                        if (that.currentIndex == -1) {
+                            that.currentIndex = that.ImgUrl.length - 1;
+                        }
+                    }
+
+                },
+                beforeEnter: function(el) {},
+                afterEnter: function(el) {},
+                autoplay: function() {
+                    let that = this;
+                    this.autoTimer = setInterval(function() {
+                        that.next(that.next());
+                    }, 4000);
+                },
+                stopAutoPlay: function() {
+                    clearInterval(this.autoTimer);
+                    this.autoTimer = null;
+                },
+                cut: function(e, index) {
+                    let that = this;
+                    this.stopAutoPlay();
+                    that.currentIndex = index;
+
+                },
+                met: function() {
+                    console.log("add");
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

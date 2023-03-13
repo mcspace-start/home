@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天猫登录页</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="iconfont/iconfont.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="shortcut icon" href="img/TB1XlF3RpXXXXc6XXXXXXXXXXXX-16-16.png" type="image/x-icon">
+
+</head>
+
+<body>
+    <!-- 头部区域 -->
+    <header class="banxin header_login">
+        <a href="index.html">
+            <img src="img/login-logo.png" alt="">
+        </a>
+    </header>
+    <!-- 表单+Banner区域  -->
+    <section class="content_login">
+        <div class="banxin">
+            <!-- 键盘输入区域 -->
+            <form action="" class="loginBox act" id="keyEnter">
+                <!-- 选项卡 -->
+                <ul class="nav_top">
+                    <li class="act" onclick="mimaBoxShow(this,'mima')">密码登录</li>
+                    <li onclick="mimaBoxShow(this,'duanxin')">短信登录</li>
+                </ul>
+                <!-- 二维码 -->
+                <div class="erWeiMa" id="erWeiMa" onclick="boxShow('scanBox')">
+                    <span class="iconfont icon-bianzu"></span>
+                    <span class="tip">扫码登录更安全</span>
+                </div>
+                <!-- 密码登录 -->
+                <div class="mimaBox act" id="mima">
+
+                    <p class="inputStyle">
+                        <input type="text" name="" id="" placeholder="会员名/邮箱/手机号">
+                        <span class="iconfont icon-yonghu"></span>
+                    </p>
+                    <p class="inputStyle">
+                        <input type="password" name="" id="" placeholder="请输入登录密码">
+                        <span class="iconfont icon-mima1"></span>
+                    </p>
+                    <button class="btn">登录</button>
+                    <p class="aStyle">
+                        <a href="#">忘记密码</a>
+                        <a href="#">忘记用户名</a>
+                        <a href="#">免费注册</a>
+                    </p>
+                </div>
+                <!-- 短信登录 -->
+                <div class="mimaBox" id="duanxin">
+
+                    <p class="inputStyle">
+                        <input type="text" name="" id="phoneNumber" placeholder="请输入手机号">
+                        <span class="iconfont icon-shouji"></span>
+                        <select name="" id="phoneHeader">
+                            <option value="+86">+86</option>
+                        </select>
+                    </p>
+                    <p class="inputStyle">
+                        <input type="text" name="" id="yanzhengMa" placeholder="请输入验证码">
+                        <span class="iconfont icon-tianmao26geyingwenziti"></span>
+                        <a href="#" id="getCode">获取验证码</a>
+                    </p>
+                    <button class="btn">登录</button>
+                    <p class="aStyle">
+                        <a href="#">免费注册</a>
+                    </p>
+                </div>
+
+
+            </form>
+            <!-- 扫码区域 -->
+            <div class="loginBox" id="scanBox">
+                <p class="title">扫码登录,安全登录</p>
+                <div id="keyENter" class="erWeiMa" onclick="boxShow('keyEnter')">
+                    <span class="iconfont icon-guanwangtongjia"></span>
+                    <div class="sanjiao"></div>
+                </div>
+                <div class="scanBox">
+                    <img src="./img/footer05.png" alt="">
+                </div>
+                <div class="openApp">
+                    <span class="iconfont icon-saoyisao"></span>
+                    <p>
+                        打开 <a href="#">手机淘宝</a>| <a href="#">手机天猫</a> <br> 扫一扫登录
+                    </p>
+                </div>
+                <p class="aStyle">
+                    <a href="#">密码登录</a>
+                    <a href="#">免费注册</a>
+                </p>
+            </div>
+        </div>
+    </section>
+    <!-- 尾部区域 -->
+    <footer class="banxin footer">
+        <p id="a01"></p>
+        <p id="a02"></p>
+        <p class="footerColor">
+            <span>增值电信业务经营许可证： 浙B2-20110446</span>
+            <span>市场名称登记证：工商网市字3301004119号</span>
+            <span>出版物网络交易平台服务经营备案证： 新出发浙备字第001号</span>
+        </p>
+        <p class="footerColor">
+            <span>互联网违法和不良信息举报电话：0571-81683755 blxxjb@alibaba-inc.com</span>
+            <span>互联网药品信息服务资质证书编号：浙-（经营性）-2017-0005 浙公网安备 33010002000120号</span>
+        </p>
+        <p class="footerColor">
+            <span>医疗器械网络交易服务第三方平台备案：（浙）网械平台备字[2018]第00002号</span><span>互联网药品交易服务资格证书：国A20150001</span>
+        </p>
+        <p class="footerColor">
+            <span>浙江省网络食品销售第三方平台提供者备案：浙网食A33010002 </span>
+            <span>12318举报</span>
+        </p>
+        <p class="footerColor">© 2003-2020 TMALL.COM 版权所有</p>
+
+    </footer>
+
+    <script src="js/login.js"></script>
+</body>
+
+</html>

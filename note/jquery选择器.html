@@ -1,0 +1,1145 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<link rel="stylesheet" href="note.css">
+<link href='https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:"Lucida Console",Consolas,"Courier",monospace; --title-bar-height:20px; }
+.mac-os-11 { --title-bar-height:28px; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; inset: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; tab-size: 4; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; overflow-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 36px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+.typora-export .task-list-item input { pointer-events: none; }
+@media screen and (max-width: 500px) {
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; image-orientation: from-image; }
+button, input, select, textarea { color: inherit; font: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 4; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right: 0px; background-color: inherit; }
+.CodeMirror-linenumber { user-select: none; }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background: inherit; position: relative !important; }
+.md-fences-adv-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background: 0px 0px; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; -webkit-tap-highlight-color: transparent; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li blockquote { margin: 1rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print {
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
+  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  .typora-export #write { break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+  .is-mac table { break-inside: avoid; }
+  .typora-export-show-outline .typora-export-sidebar { display: none; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background: rgb(204, 204, 204); display: block; overflow-x: hidden; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+#write.first-line-indent p > .md-image:only-child:not(.md-img-error) img { left: -2em; position: relative; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+.MathJax_ref { fill: currentcolor; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) {
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.6; font-family: var(--monospace); }
+code { text-align: left; vertical-align: initial; }
+a.md-print-anchor { white-space: pre !important; border-width: initial !important; border-style: none !important; border-color: initial !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; background: 0px 0px !important; text-decoration: initial !important; text-shadow: initial !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+mark { background: rgb(255, 255, 0); color: rgb(0, 0, 0); }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+.md-expand mark .md-meta { opacity: 0.3 !important; }
+mark .md-meta { color: rgb(0, 0, 0); }
+@media print {
+  .typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6 { break-inside: avoid; }
+}
+.md-diagram-panel .messageText { stroke: none !important; }
+.md-diagram-panel .start-state { fill: var(--node-fill); }
+.md-diagram-panel .edgeLabel rect { opacity: 1 !important; }
+.md-fences.md-fences-math { font-size: 1em; }
+.md-fences-advanced:not(.md-focus) { padding: 0px; white-space: nowrap; border: 0px; }
+.md-fences-advanced:not(.md-focus) { background: inherit; }
+.typora-export-show-outline .typora-export-content { max-width: 1440px; margin: auto; display: flex; flex-direction: row; }
+.typora-export-sidebar { width: 300px; font-size: 0.8rem; margin-top: 80px; margin-right: 18px; }
+.typora-export-show-outline #write { --webkit-flex:2; flex: 2 1 0%; }
+.typora-export-sidebar .outline-content { position: fixed; top: 0px; max-height: 100%; overflow: hidden auto; padding-bottom: 30px; padding-top: 60px; width: 300px; }
+@media screen and (max-width: 1024px) {
+  .typora-export-sidebar, .typora-export-sidebar .outline-content { width: 240px; }
+}
+@media screen and (max-width: 800px) {
+  .typora-export-sidebar { display: none; }
+}
+.outline-content li, .outline-content ul { margin-left: 0px; margin-right: 0px; padding-left: 0px; padding-right: 0px; list-style: none; }
+.outline-content ul { margin-top: 0px; margin-bottom: 0px; }
+.outline-content strong { font-weight: 400; }
+.outline-expander { width: 1rem; height: 1.42857rem; position: relative; display: table-cell; vertical-align: middle; cursor: pointer; padding-left: 4px; }
+.outline-expander::before { content: ""; position: relative; font-family: Ionicons; display: inline-block; font-size: 8px; vertical-align: middle; }
+.outline-item { padding-top: 3px; padding-bottom: 3px; cursor: pointer; }
+.outline-expander:hover::before { content: ""; }
+.outline-h1 > .outline-item { padding-left: 0px; }
+.outline-h2 > .outline-item { padding-left: 1em; }
+.outline-h3 > .outline-item { padding-left: 2em; }
+.outline-h4 > .outline-item { padding-left: 3em; }
+.outline-h5 > .outline-item { padding-left: 4em; }
+.outline-h6 > .outline-item { padding-left: 5em; }
+.outline-label { cursor: pointer; display: table-cell; vertical-align: middle; text-decoration: none; color: inherit; }
+.outline-label:hover { text-decoration: underline; }
+.outline-item:hover { border-color: rgb(245, 245, 245); background-color: var(--item-hover-bg-color); }
+.outline-item:hover { margin-left: -28px; margin-right: -28px; border-left: 28px solid transparent; border-right: 28px solid transparent; }
+.outline-item-single .outline-expander::before, .outline-item-single .outline-expander:hover::before { display: none; }
+.outline-item-open > .outline-item > .outline-expander::before { content: ""; }
+.outline-children { display: none; }
+.info-panel-tab-wrapper { display: none; }
+.outline-item-open > .outline-children { display: block; }
+.typora-export .outline-item { padding-top: 1px; padding-bottom: 1px; }
+.typora-export .outline-item:hover { margin-right: -8px; border-right: 8px solid transparent; }
+.typora-export .outline-expander::before { content: "+"; font-family: inherit; top: -1px; }
+.typora-export .outline-expander:hover::before, .typora-export .outline-item-open > .outline-item > .outline-expander::before { content: "−"; }
+.typora-export-collapse-outline .outline-children { display: none; }
+.typora-export-collapse-outline .outline-item-open > .outline-children, .typora-export-no-collapse-outline .outline-children { display: block; }
+.typora-export-no-collapse-outline .outline-expander::before { content: "" !important; }
+.typora-export-show-outline .outline-item-active > .outline-item .outline-label { font-weight: 700; }
+.md-inline-math-container mjx-container { zoom: 0.95; }
+
+
+:root {
+  --side-bar-bg-color: #fafafa;
+  --control-text-color: #777;
+}
+
+@include-when-export url(https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
+
+/* open-sans-regular - latin-ext_latin */
+
+/* open-sans-italic - latin-ext_latin */
+
+/* open-sans-700 - latin-ext_latin */
+
+/* open-sans-700italic - latin-ext_latin */
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: "Open Sans", "Clear Sans", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
+  color: rgb(51, 51, 51);
+  line-height: 1.6;
+}
+
+#write {
+  /* max-width: 860px; */
+  max-width: 850px;
+  margin: 0 auto;
+  margin-bottom: 50px;
+  padding: 10px 30px 26px 30px;
+  border: 4px solid #ccc;
+  border-radius: 5px;
+  margin-top: 10px;
+  background-color: rgb(246, 232, 206);
+}
+
+/* @media only screen and (min-width: 1000px) {
+  #write {
+    max-width: 600px;
+  }
+}
+*/
+@media only screen and (min-width: 1400px) {
+  #write {
+    max-width: 1024px;
+  }
+}
+/*
+@media only screen and (min-width: 1800px) {
+  #write {
+     max-width:none; 
+  }
+}
+*/
+#write>ul:first-child,
+#write>ol:first-child {
+  margin-top: 30px;
+}
+
+a {
+  color: #4183c4;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  position: relative;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  line-height: 1.4;
+  cursor: text;
+}
+
+h1:hover a.anchor,
+h2:hover a.anchor,
+h3:hover a.anchor,
+h4:hover a.anchor,
+h5:hover a.anchor,
+h6:hover a.anchor {
+  text-decoration: none;
+}
+
+h1 tt,
+h1 code {
+  font-size: inherit;
+}
+
+h2 tt,
+h2 code {
+  font-size: inherit;
+}
+
+h3 tt,
+h3 code {
+  font-size: inherit;
+}
+
+h4 tt,
+h4 code {
+  font-size: inherit;
+}
+
+h5 tt,
+h5 code {
+  font-size: inherit;
+}
+
+h6 tt,
+h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 2rem;
+  text-align: center;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 1.75em;
+  line-height: 1.225;
+}
+
+/*@media print {
+    .typora-export h1,
+    .typora-export h2 {
+        border-bottom: none;
+        padding-bottom: initial;
+    }
+
+    .typora-export h1::after,
+    .typora-export h2::after {
+        content: "";
+        display: block;
+        height: 100px;
+        margin-top: -96px;
+        border-top: 1px solid #eee;
+    }
+}*/
+
+h3 {
+  font-size: 1.5em;
+  line-height: 1.43;
+}
+
+h4 {
+  font-size: 1.25em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 1em;
+  color: #777;
+}
+
+p,
+blockquote,
+ul,
+ol,
+dl,
+table {
+  margin: 0.8em 0;
+}
+
+li>ol,
+li>ul {
+  margin: 0 0;
+}
+
+hr {
+  height: 2px;
+  padding: 0;
+  margin: 16px 0;
+  background-color: #666;
+  border: 0 none;
+  overflow: hidden;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+li p.first {
+  display: inline-block;
+}
+
+ul,
+ol {
+  padding-left: 30px;
+  background-color: #f8f8f8;
+  border-radius: 6px;
+  padding-top: 10px;
+  padding-bottom: 4px;
+}
+
+ul:first-child,
+ol:first-child {
+  margin-top: 0;
+}
+
+ul:last-child,
+ol:last-child {
+  margin-bottom: 0;
+}
+
+blockquote {
+  border-left: 4px solid #4fbae8;
+  background-color: #f2eee3;
+  padding: 0 15px;
+  color: #333;
+}
+
+blockquote blockquote {
+  padding-right: 0;
+}
+
+table {
+  padding: 0;
+  word-break: initial;
+}
+
+/*首行颜色 thead*/
+
+table>thead>tr {
+  background-color: #666;
+  color: white;
+}
+
+table tr {
+  border: 1px solid #999;
+  margin: 0;
+  padding: 0;
+}
+
+table tr:nth-child(2n),
+thead {
+  background-color: #f8f8f8;
+}
+
+table th {
+  font-weight: bold;
+  border: 1px solid #999;
+  border-bottom: 0;
+  margin: 0;
+  padding: 6px 13px;
+}
+
+table td {
+  border: 1px solid #999;
+  margin: 0;
+  padding: 6px 13px;
+}
+
+table th:first-child,
+table td:first-child {
+  margin-top: 0;
+}
+
+table th:last-child,
+table td:last-child {
+  margin-bottom: 0;
+}
+
+.CodeMirror-lines {
+  padding-left: 4px;
+}
+
+.code-tooltip {
+  box-shadow: 0 1px 1px 0 rgba(0, 28, 36, 0.3);
+  border-top: 1px solid #eef2f2;
+}
+
+.md-fences,
+code,
+tt {
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 0;
+  padding: 2px 4px 0px 4px;
+  font-size: 0.9em;
+}
+
+code {
+  background-color: #f3f4f4;
+  padding: 2px 2px 2px 2px;
+}
+
+.md-fences {
+  color: white;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  padding: 0px;
+}
+
+.md-task-list-item>input {
+  margin-left: -1.3em;
+}
+
+/*markdown字符提示*/
+
+.md-blockmeta {
+  color: #666;
+}
+
+/*语言类型*/
+
+.md-tooltip-remove {
+  color: black;
+}
+
+/*代码框*/
+
+.cm-s-inner.CodeMirror,
+.cm-s-inner .CodeMirror-gutters {
+  background-color: #272c35 !important;
+  border: 1px solid #324560;
+  /* padding: 10px 20px; */
+}
+
+/*代码框文字颜色*/
+.CodeMirror-code {
+  color: white;
+}
+
+.cm-s-inner .CodeMirror-gutters {
+  border: 0;
+  color: #6d8a88;
+}
+
+.cm-s-inner .CodeMirror-cursor {
+  border-left: solid thin #f8f8f2 !important;
+}
+
+.cm-s-inner .CodeMirror-linenumber {
+  color: #6d8a88;
+}
+
+.cm-s-inner .CodeMirror-line::-moz-selection,
+.cm-s-inner .CodeMirror-line::-moz-selection,
+.cm-s-inner .CodeMirror-line>span::-moz-selection,
+.cm-s-inner .CodeMirror-line>span::-moz-selection,
+.cm-s-inner .CodeMirror-line>span>span::-moz-selection,
+.cm-s-inner .CodeMirror-line>span>span::-moz-selection {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.cm-s-inner .CodeMirror-line::selection,
+.cm-s-inner .CodeMirror-line::-moz-selection,
+.cm-s-inner .CodeMirror-line>span::selection,
+.cm-s-inner .CodeMirror-line>span::-moz-selection,
+.cm-s-inner .CodeMirror-line>span>span::selection,
+.cm-s-inner .CodeMirror-line>span>span::-moz-selection {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.cm-s-inner span.cm-comment {
+  color: #6272a4;
+}
+
+.cm-s-inner span.cm-string,
+.cm-s-inner span.cm-string-2 {
+  color: #89c06e;
+}
+
+.cm-s-inner .cm-bracket {
+  color: #a7b0be !important;
+}
+
+.cm-s-inner span.cm-number {
+  color: #da975d;
+}
+
+.cm-s-inner span.cm-variable,
+.cm-s-inner span.cm-variable-2 {
+  color: #ea6171;
+}
+
+.cm-s-inner span.cm-def {
+  color: #ebbe70;
+}
+
+.cm-s-inner span.cm-operator {
+  color: #e66170;
+}
+
+.cm-s-inner span.cm-keyword {
+  color: #d371e3;
+}
+
+.cm-s-inner span.cm-atom {
+  color: #da975d;
+}
+
+.cm-s-inner span.cm-meta {
+  color: #f8f8f2;
+}
+
+.cm-s-inner span.cm-tag {
+  color: #e66170;
+}
+
+.cm-s-inner span.cm-attribute {
+  color: #da985c;
+}
+
+.cm-s-inner span.cm-qualifier {
+  color: #ea6171;
+}
+
+.cm-s-inner span.cm-property {
+  color: #43b0f5;
+}
+
+.cm-s-inner span.cm-builtin {
+  color: #ea6171;
+}
+
+.cm-s-inner span.cm-variable-3,
+.cm-s-inner span.cm-type {
+  color: #ffb86c;
+}
+
+/*代码编辑器文字颜色默认*/
+.CodeMirror-scroll .CodeMirror-line {}
+
+.md-fences.md-focus .cm-s-inner .CodeMirror-activeline-background {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.cm-s-inner .CodeMirror-matchingbracket {
+  color: white !important;
+  text-decoration: underline;
+}
+
+.cm-s-inner .CodeMirror-selected,
+.cm-s-inner .CodeMirror-selectedtext {
+  background: #3b4254 !important;
+  color: inherit;
+  text-shadow: none;
+}
+
+.CodeMirror-sizer {
+  padding-top: 6px;
+  padding-bottom: 8px;
+}
+
+@media print {
+  html {
+    font-size: 13px;
+  }
+
+  table,
+  pre {
+    page-break-inside: avoid;
+  }
+
+  pre {
+    word-wrap: break-word;
+  }
+}
+
+.md-fences {
+  background-color: #f8f8f8;
+}
+
+#write pre.md-meta-block {
+  padding: 1rem;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f7f7f7;
+  border: 0;
+  border-radius: 3px;
+  color: #777777;
+  margin-top: 0 !important;
+}
+
+.mathjax-block>.code-tooltip {
+  bottom: 0.375rem;
+}
+
+.md-mathjax-midline {
+  background: #fafafa;
+}
+
+#write>h3.md-focus:before {
+  left: -1.5625rem;
+  top: 0.375rem;
+  color: #000;
+}
+
+#write>h4.md-focus:before {
+  left: -1.5625rem;
+  top: 0.285714286rem;
+  color: #000;
+}
+
+#write>h5.md-focus:before {
+  left: -1.5625rem;
+  top: 0.285714286rem;
+  color: #000;
+}
+
+#write>h6.md-focus:before {
+  left: -1.5625rem;
+  top: 0.285714286rem;
+  color: #000;
+}
+
+.md-image>.md-meta {
+  /*border: 1px solid #ddd;*/
+  border-radius: 3px;
+  padding: 2px 0px 0px 4px;
+  font-size: 0.9em;
+  color: inherit;
+}
+
+.md-tag {
+  color: #a7a7a7;
+  opacity: 1;
+}
+
+/*目录样式修改*/
+/* 
+.md-toc {
+  min-height: 3.58rem;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  box-sizing: content-box;
+  padding: 0px;
+  list-style: none;
+  position: absolute;
+  left: -166px;
+  width: 150px;
+  top: -4px;
+  border: 4px solid #ccc;
+  overflow-x: hidden;
+  background-color: #f6f4f0;
+  _width: 100%;
+  _left: 0;
+  _top: 0;
+  _position: relative;
+}
+
+.md-toc-content {
+  position: relative;
+  margin: 0;
+}
+
+.md-toc-item {
+  display: block;
+  color: rgb(65, 131, 196);
+  padding-left: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.md-toc-item a {
+  text-decoration: none;
+}
+
+.md-toc-inner {
+  display: inline-block;
+  cursor: pointer;
+  color: black;
+}
+
+.md-toc-h1 .md-toc-inner {
+  color: #999;
+  text-decoration: none;
+  margin-left: 0px;
+  font-weight: 700;
+}
+
+.md-toc-h2 .md-toc-inner {
+  color: #5762aa;
+  font-weight: bold;
+  margin-top: 8px;
+  margin-left: 0;
+}
+
+.md-toc-h3 .md-toc-inner {
+  font-size: 0.84rem;
+  margin-left: 0;
+}
+
+.md-toc-h4 .md-toc-inner {
+  font-size: 0.84rem;
+  margin-left: 20px;
+  margin-left: 1.2rem;
+}
+
+.md-toc-h5 .md-toc-inner {
+  font-size: 0.84rem;
+  margin-left: 20px;
+  margin-left: 1.2rem;
+}
+
+.md-toc-h6 .md-toc-inner {
+  font-size: 0.84rem;
+  margin-left: 20px;
+  margin-left: 1.2rem;
+}
+
+.md-toc-h1 {
+  text-align: center;
+  border: none;
+  background-color: white;
+}
+
+.md-toc-h1::after {
+  content: "目录";
+  color: #999;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.md-toc-h2 {
+  background-color: white;
+} */
+
+/* @media screen and (max-width: 48em) {
+
+} */
+
+
+@media screen and (max-width: 1300px) {
+
+  /* .md-toc {
+    position: relative;
+    left: 0;
+    top: 0;
+    width: 100%;
+  } */
+  .typora-export-content {
+    padding: 0 60px 0 60px !important;
+  }
+}
+
+@media only screen and (max-width: 1140px) {
+  #write {
+    max-width: 660px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+
+  .typora-export-sidebar,
+  .typora-export-sidebar .outline-content {
+    /* width: 240px; */
+    /* width: 160px !important; */
+    display: none;
+  }
+
+  .typora-export-content {
+    padding: 0 50px 0 50px !important;
+  }
+
+}
+
+@media screen and (max-width: 800px) {
+  /* .md-toc {
+    position: relative;
+    left: 0;
+    top: 0;
+    width: 100%;
+  } */
+
+  .typora-export-sidebar,
+  .typora-export-sidebar .outline-content {
+    /* width: 240px; */
+    /* width: 160px !important; */
+    display: none;
+  }
+
+  /* 页面太小不需要padding */
+  .typora-export-content {
+    padding: 0 !important;
+  }
+
+  #write {
+    margin-top: 0px;
+    width: 100%;
+  }
+}
+
+.sidebar-tabs {
+  border-bottom: none;
+}
+
+#typora-quick-open {
+  border: 1px solid #ddd;
+  background-color: #f8f8f8;
+}
+
+#typora-quick-open-item {
+  background-color: #fafafa;
+  border-color: #fefefe #e5e5e5 #e5e5e5 #eee;
+  border-style: solid;
+  border-width: 1px;
+}
+
+/** focus mode */
+
+.on-focus-mode blockquote {
+  border-left-color: rgba(85, 85, 85, 0.12);
+}
+
+header,
+.context-menu,
+.megamenu-content,
+footer {
+  font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.file-node-content:hover .file-node-icon,
+.file-node-content:hover .file-node-open-state {
+  visibility: visible;
+}
+
+.mac-seamless-mode #typora-sidebar {
+  background-color: #fafafa;
+  background-color: var(--side-bar-bg-color);
+}
+
+.md-lang {
+  color: #b4654d;
+}
+
+/*.html-for-mac {
+    --item-hover-bg-color: #E6F0FE;
+}*/
+
+#md-notification .btn {
+  border: 0;
+}
+
+.dropdown-menu .divider {
+  border-color: #e5e5e5;
+  opacity: 0.4;
+}
+
+.ty-preferences .window-content {
+  background-color: #fafafa;
+}
+
+.ty-preferences .nav-group-item.active {
+  color: white;
+  background: #999;
+}
+
+.menu-item-container a.menu-style-btn {
+  background-color: #f5f8fa;
+  background-image: -webkit-linear-gradient(top,
+      hsla(0, 0%, 100%, 0.8),
+      hsla(0, 0%, 100%, 0));
+  background-image: -moz-linear-gradient(top,
+      hsla(0, 0%, 100%, 0.8),
+      hsla(0, 0%, 100%, 0));
+  background-image: -o-linear-gradient(top,
+      hsla(0, 0%, 100%, 0.8),
+      hsla(0, 0%, 100%, 0));
+  background-image: linear-gradient(180deg,
+      hsla(0, 0%, 100%, 0.8),
+      hsla(0, 0%, 100%, 0));
+}
+
+/* 大纲部分 */
+
+/* 相当于页面main标签 */
+.typora-export-content {
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+.typora-export-sidebar {
+  margin-top: 0;
+  width: 220px !important;
+}
+
+/* 大纲最外层 */
+.typora-export-sidebar>.outline-content {
+  padding: 0 !important;
+  margin: 0;
+  border: 4px solid #ccc;
+  background-color: #f6f4f0;
+  list-style: none;
+  border-radius: 5px;
+  width: 220px !important;
+  top: 10px;
+  max-height: 96%;
+}
+
+/* 与大纲重叠用于填补位置 */
+.typora-export-sidebar {
+  width: 140px;
+}
+
+/* 列表左边空白 */
+.outline-expander {
+  width: 1.3rem;
+}
+
+/* chrome滚动条样式 */
+.outline-content::-webkit-scrollbar {
+  width: 6px;
+  background-color: #fff;
+  border-left: 1px solid #ddd;
+}
+
+.outline-content::-webkit-scrollbar-thumb {
+  background-color: rgb(222 221 219);
+  border-radius: 5px;
+  border: 1px solid #bbb;
+}
+
+.outline-content::-webkit-scrollbar-button {
+  background-color: transparent;
+}
+
+/* 伪类插入展开收缩符号 */
+li[class|="outline"]::after {
+  display: block;
+  content: attr(data-title);
+  text-align: center;
+  position: absolute;
+  left: 174px;
+  width: 20px;
+  height: 1.6rem;
+  line-height: 1.6rem;
+  top: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/*  针对h1样式  */
+.outline-h1>.outline-item>.outline-label {
+  color: #999;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.typora-export .outline-item {
+  height: 1.6rem;
+  padding: 0;
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid white;
+}
+
+/* 列表鼠标悬浮样式 */
+.typora-export .outline-item:hover {
+  background-color: rgb(183, 184, 184);
+}
+.typora-export .outline-h5>.outline-item:hover {
+  background-color: #f7f7f7;
+}
+.typora-export .outline-h6>.outline-item:hover {
+  background-color: #f7f7f7;
+}
+
+
+/* 级 */
+.outline-h2 {
+  background-color: white;
+}
+
+.outline-h2>.outline-item {
+  color: #5762aa;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  padding-left: 0 !important;
+}
+
+.outline-h3>.outline-item {
+  padding-left: 1rem;
+}
+
+.outline-h4>.outline-item {
+  padding-left: 2rem;
+  background-color: #e6e6e6;
+}
+
+.outline-h5>.outline-item {
+  padding-left: 3rem;
+  background-color: #ccc;
+
+}
+
+.outline-h6>.outline-item {
+  padding-left: 4rem;
+  background-color: #ababab;
+}
+
+/* 子列表大集合 */
+.outline-children {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.outline-children .outline-item-wrapper{
+ overflow: hidden;
+}
+
+/* h1不设置为伪类 */
+.outline-h1::after {
+  content: none !important;
+}
+
+/* 折叠列表 */
+.act {
+  height: 1.6rem !important;
+  overflow: hidden;
+}
+
+
+.act::after {
+  font-weight: normal !important;
+}
+
+/* h1 不进行折叠 */
+.outline-h1.act {
+  overflow: visible;
+  height: auto !important;
+}
+
+/* .outline-h1.act>.outline-children{
+    opacity: 1;
+} */
+
+
+</style><title>jquery选择器</title>
+</head>
+<body class='typora-export os-windows typora-export-show-outline typora-export-no-collapse-outline'><div class='typora-export-content'>
+<div class="typora-export-sidebar"><div class="outline-content"><li class="outline-item-wrapper outline-h1"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#jquery选择器">jquery选择器</a></div><ul class="outline-children"><li class="outline-item-wrapper outline-h4"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#类名选择">类名选择</a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h4"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#层次选择器">层次选择器</a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h4"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#过滤选择器重点">过滤选择器(重点)</a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h4"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#内容过滤选择器">内容过滤选择器</a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h4"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#可见性过滤选择器">可见性过滤选择器</a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h4"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#属性过滤选择器">属性过滤选择器</a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h4"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#状态过滤选择器">状态过滤选择器</a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h4"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#表单选择器">表单选择器</a></div><ul class="outline-children"></ul></li></ul></li></div></div><div id='write'  class=''><h1 id='jquery选择器'><span>jquery选择器</span></h1><h4 id='类名选择'><span>类名选择</span></h4><figure><table><thead><tr><th><span>书写</span></th><th><span>描述</span></th></tr></thead><tbody><tr><td><span>$(&quot;.class&quot;)</span></td><td><span>类名选择</span></td></tr><tr><td><span>$(&quot;.class,.class&quot;)</span></td><td><span>选择多个，id同理</span></td></tr><tr><td><span>$(&quot;p&quot;)</span></td><td><span>标签名选择</span></td></tr><tr><td><span>$(&quot;p,div,span&quot;)</span></td><td><span>标签名多个选择</span></td></tr><tr><td><span>$(&quot;p:first&quot;)</span></td><td><span>选定所有符合的元素中的第一个</span></td></tr><tr><td><span>$(&quot;p:last&quot;)</span></td><td><span>最后一个</span></td></tr><tr><td><span>$(&quot;p:even&quot;)</span></td><td><span>下标偶数 0开始</span></td></tr><tr><td><span>$(&quot;p:odd&quot;)</span></td><td><span>奇数</span></td></tr><tr><td><span>$(&quot;p:first-child&quot;)</span></td><td><span>选择所匹配元素的各自的第一个元素</span></td></tr><tr><td><span>$(&quot;p:last-child&quot;)</span></td><td><span>与上相反，倒数第一个</span></td></tr><tr><td><span>$(&quot;p:first-of-type &quot;)</span></td><td><span>选取第一个为p的元素 不看下标 该选择器与 :nth-of-type(1) 相同。</span></td></tr><tr><td><span>$(&quot;p:last-of-type&quot;)</span></td><td><span>同上</span></td></tr><tr><td><span>$(&quot;p:nth-child(n)&quot;)</span></td><td><span>选取下标为n的p元素 看下标</span></td></tr><tr><td><span>$(&quot;p:nth-last-child(n)&quot;)</span></td><td><span>从末尾开始数</span></td></tr><tr><td><span>$(&quot;p:nth-of-type(n)&quot;)</span></td><td><span>选取第n个p元素 不看下标</span></td></tr><tr><td><span>$(&quot;p:nth-last-of-type(n)&quot;)</span></td><td><span>选取第n个p元素 不看下标 末尾开始数</span></td></tr><tr><td><span>$(&quot;p:only-child&quot;)</span></td><td><span>选取属于其父元素的唯一子元素 [必须为只有一个子元素] 元素类型为p才可 也就是看下标</span></td></tr><tr><td><span>$(&quot;p:only-of-type&quot;)</span></td><td><span>选取只有一个子元素为p的元素 子元素必须只有一个p 但可以有其他元素</span></td></tr><tr><td><span>$(&quot;p:eq(n)&quot;)</span></td><td><span>选取第n个p元素</span></td></tr><tr><td><span>$(&quot;p:gt(2)&quot;)</span></td><td><span>选择大于第n的后面所有元素 也就是从第四个开始</span></td></tr><tr><td><span>$(&quot;p:lt(2)&quot;)</span></td><td><span>选择小于第n的后面所有元素 也就是从第四个开始</span></td></tr><tr><td><span>$(&quot;p:not(#box)&quot;)</span></td><td><span>选择除了id为box的所有p</span></td></tr><tr><td><span>$(&quot;:header&quot;)</span></td><td><span>选取div内所有标题元素 h1~h6</span></td></tr><tr><td><span>$(&quot;:hidden&quot;)</span></td><td><span>选取所有隐藏的元素</span></td></tr><tr><td><span>$(&quot;:input&quot;)</span></td><td><span>选取所有的input标签</span></td></tr></tbody></table></figure><h4 id='层次选择器'><span>层次选择器</span></h4><figure><table><thead><tr><th><span>书写</span></th><th><span>描述</span></th></tr></thead><tbody><tr><td><span>$(&quot;#id&gt;.classname &quot;)</span></td><td><span>子元素选择器</span></td></tr><tr><td><span>$(&quot;#id .classname &quot;)</span></td><td><span>后代元素选择器</span></td></tr><tr><td><span>$(&quot;#id + .classname &quot;)</span></td><td><span>紧邻下一个元素选择器</span></td></tr><tr><td><span>$(&quot;#id ~ .classname &quot;)</span></td><td><span>兄弟元素选择器</span></td></tr></tbody></table></figure><h4 id='过滤选择器重点'><span>过滤选择器(重点)</span></h4><figure><table><thead><tr><th><span>书写</span></th><th><span>描述</span></th></tr></thead><tbody><tr><td><span>$(&quot;li:first&quot;)</span></td><td><span>第一个li</span></td></tr><tr><td><span>$(&quot;li:last&quot;)</span></td><td><span>最后一个li</span></td></tr><tr><td><span>$(&quot;li:even&quot;)</span></td><td><span>挑选下标为偶数的li</span></td></tr><tr><td><span>$(&quot;li:odd&quot;)</span></td><td><span>挑选下标为奇数的li</span></td></tr><tr><td><span>$(&quot;li:eq(4)&quot;)</span></td><td><span>下标等于 4 的li(第五个 li 元素)</span></td></tr><tr><td><span>$(&quot;li:gt(2)&quot;)</span></td><td><span>下标大于 2 的li</span></td></tr><tr><td><span>$(&quot;li:lt(2)&quot;)</span></td><td><span>下标小于 2 的li</span></td></tr><tr><td><span>$(&quot;li:not(#runoob)&quot;)</span></td><td><span>挑选除 id=&quot;runoob&quot; 以外的所有li</span></td></tr></tbody></table></figure><h4 id='内容过滤选择器'><span>内容过滤选择器</span></h4><figure><table><thead><tr><th style='text-align:left;' ><span>书写</span></th><th style='text-align:left;' ><span>描述</span></th></tr></thead><tbody><tr><td style='text-align:left;' ><span>$(&quot;div:contains(&#39;Runob&#39;)&quot;)</span></td><td style='text-align:left;' ><span>包含 Runob文本的元素</span></td></tr><tr><td style='text-align:left;' ><span>$(&quot;td:empty&quot;)</span></td><td style='text-align:left;' ><span>不包含子元素或者文本的空元素</span></td></tr><tr><td style='text-align:left;' ><span>$(&quot;div:has(selector)&quot;)</span></td><td style='text-align:left;' ><span>含有选择器所匹配的元素</span></td></tr><tr><td style='text-align:left;' ><span>$(&quot;td:parent&quot;)</span></td><td style='text-align:left;' ><span>含有子元素或者文本的元素</span></td></tr></tbody></table></figure><h4 id='可见性过滤选择器'><span>可见性过滤选择器</span></h4><figure><table><thead><tr><th><span>书写</span></th><th><span>描述</span></th></tr></thead><tbody><tr><td><span>$(&quot;li:hidden&quot;)</span></td><td><span>匹配所有不可见元素，或type为hidden的元素</span></td></tr><tr><td><span>$(&quot;li:visible&quot;)</span></td><td><span>匹配所有可见元素</span></td></tr></tbody></table></figure><h4 id='属性过滤选择器'><span>属性过滤选择器</span></h4><figure><table><thead><tr><th><span>书写</span></th><th><span>描述</span></th></tr></thead><tbody><tr><td><span>$(&quot;div[id]&quot;)</span></td><td><span>所有含有 id 属性的 div 元素</span></td></tr><tr><td><span>$(&quot;div[id=&#39;123&#39;]&quot;)</span></td><td><span>id属性值为123的div 元素</span></td></tr><tr><td><span>$(&quot;div[id!=&#39;123&#39;]&quot;)</span></td><td><span>id属性值不等于123的div 元素</span></td></tr><tr><td><span>$(&quot;div[id^=&#39;qq&#39;]&quot;)</span></td><td><span>id属性值以qq开头的div 元素</span></td></tr><tr><td><span>$(&quot;div[id$=&#39;zz&#39;]&quot;)</span></td><td><span>id属性值以zz结尾的div 元素</span></td></tr><tr><td><span>$(&quot;div[id*=&#39;bb&#39;]&quot;)</span></td><td><span>id属性值包含bb的div 元素</span></td></tr><tr><td><span>$(&quot;input</span><span>[</span><span>id][name$=&#39;man&#39;]&quot;)</span></td><td><span>多属性选过滤，同时满足两个属性的条件的元素</span></td></tr></tbody></table></figure><h4 id='状态过滤选择器'><span>状态过滤选择器</span></h4><figure><table><thead><tr><th><span>书写</span></th><th><span>描述</span></th></tr></thead><tbody><tr><td><span>$(&quot;input:enabled&quot;)</span></td><td><span>匹配可用的 input</span></td></tr><tr><td><span>$(&quot;input:disabled&quot;)</span></td><td><span>匹配不可用的 input</span></td></tr><tr><td><span>$(&quot;input:checked&quot;)</span></td><td><span>匹配选中的 input</span></td></tr><tr><td><span>$(&quot;option:selected&quot;)</span></td><td><span>匹配选中的 option</span></td></tr></tbody></table></figure><h4 id='表单选择器'><span>表单选择器</span></h4><figure><table><thead><tr><th><span>书写</span></th><th><span>描述</span></th></tr></thead><tbody><tr><td><span>$(&quot;:input&quot;)</span></td><td><span>匹配所有 input, textarea, select 和 button 元素</span></td></tr><tr><td><span>$(&quot;:text&quot;)</span></td><td><span>所有的单行文本框，$(&quot;:text&quot;)等价于$(&quot;[type=text]&quot;)，推荐使用$(&quot;input:text&quot;)效率更高，下同</span></td></tr><tr><td><span>$(&quot;:password&quot;)</span></td><td><span>所有密码框（type=“password”）</span></td></tr><tr><td><span>$(&quot;:radio&quot;)</span></td><td><span>所有单选按钮</span></td></tr><tr><td><span>$(&quot;:checkbox&quot;)</span></td><td><span>所有复选框</span></td></tr><tr><td><span>$(&quot;:submit&quot;)</span></td><td><span>所有提交按钮</span></td></tr><tr><td><span>$(&quot;:reset&quot;)</span></td><td><span>所有重置按钮</span></td></tr><tr><td><span>$(&quot;:button&quot;)</span></td><td><span>所有button按钮</span></td></tr><tr><td><span>$(&quot;:file&quot;)</span></td><td><span>所有文件域</span></td></tr></tbody></table></figure></div></div>
+
+<script>(function(){var e=document.body.parentElement,t=[],n=null,i=document.body.classList.contains("typora-export-collapse-outline"),r=function(e,t,n){document.addEventListener(e,function(e){if(!e.defaultPrevented)for(var i=e.target;i&&i!=this;i=i.parentNode)if(i.matches(t)){!1===n.call(i,e)&&(e.preventDefault(),e.stopPropagation());break}},!1)};function o(){return e.scrollTop}r("click",".outline-expander",function(e){var t=this.closest(".outline-item-wrapper").classList;return t.contains("outline-item-open")?t.remove("outline-item-open"):t.add("outline-item-open"),d(),!1}),r("click",".outline-item",function(e){var t=this.querySelector(".outline-label");if(location.hash="#"+t.getAttribute("href"),i){var n=this.closest(".outline-item-wrapper").classList;n.contains("outline-item-open")||n.add("outline-item-open"),c(),n.add("outline-item-active")}});var a,s,l=function(){var e=o();n=null;for(var i=0;i<t.length&&t[i][1]-e<60;i++)n=t[i]},c=function(){document.querySelectorAll(".outline-item-active").forEach(e=>e.classList.remove("outline-item-active")),document.querySelectorAll(".outline-item-single.outline-item-open").forEach(e=>e.classList.remove("outline-item-open"))},d=function(){if(n){c();var e=document.querySelector('.outline-label[href="#'+(CSS.escape?CSS.escape(n[0]):n[0])+'"]');if(e)if(i){var t=e.closest(".outline-item-open>ul>.outline-item-wrapper");if(t)t.classList.add("outline-item-active");else{for(var r=(e=e.closest(".outline-item-wrapper")).parentElement.closest(".outline-item-wrapper");r;)r=(e=r).parentElement.closest(".outline-item-wrapper");e.classList.add("outline-item-active")}}else e.closest(".outline-item-wrapper").classList.add("outline-item-active")}};window.addEventListener("scroll",function(e){a&&clearTimeout(a),a=setTimeout(function(){l(),d()},300)});var u=function(){s=setTimeout(function(){!function(){t=[];var e=o();document.querySelector("#write").querySelectorAll("h1, h2, h3, h4, h5, h6").forEach(n=>{var i=n.getAttribute("id");t.push([i,e+n.getBoundingClientRect().y])})}(),l(),d()},300)};window.addEventListener("resize",function(e){s&&clearTimeout(s),u()}),u()})();</script><script src="note.js"></script></body>
+</html>

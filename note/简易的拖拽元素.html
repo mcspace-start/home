@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简易的拖拽元素</title>
+    <script src="js/jquery.min.js"></script>
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .box {
+            width: 400px;
+            height: 400px;
+            background-color: indianred;
+        }
+
+        .chlid {
+            position: absolute;
+            background-color: khaki;
+        }
+
+        .chlid:hover {
+            cursor: move;
+        }
+
+        .chlid::selection {
+            background-color: transparent;
+        }
+
+        .main {
+            width: 200px;
+            margin-bottom: 80px;
+            float: left;
+        }
+
+        .code {
+            float: left;
+            width: 500px;
+            height: 500px;
+            /* margin-bottom: 100px; */
+        }
+
+        .code textarea {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="chlid">移动元素</div>
+        <input type="button" value="input" id="but" class="but">
+    </div>
+    <div class="code">
+        <textarea name="" id="" cols="30" rows="10">
+<div class="chlid">移动元素</div>
+<input type="button" value="input" id="but" class="but">
+
+--------- js ---------
+
+$(document).ready(function () {
+    $(".chlid").mousedown(function () {
+        console.log("down");
+
+        $("html").mousemove(function (e) {
+            $(".chlid").css({
+                left: (e.pageX - 15),
+                top: (e.pageY - 10),
+            })
+
+
+            $("input").val(e.pageX + "," + e.pageY)
+        })
+    })
+    $("html").mouseup(function () {
+        console.log("up")
+
+        $("html").off("mousemove")
+    })
+});
+        </textarea>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $(".chlid").mousedown(function () {
+                console.log("down");
+
+                $("html").mousemove(function (e) {
+                    $(".chlid").css({
+                        left: (e.pageX - 15),
+                        top: (e.pageY - 10),
+                    })
+
+
+                    $("input").val(e.pageX + "," + e.pageY)
+                })
+            })
+            $("html").mouseup(function () {
+                console.log("up")
+
+                $("html").off("mousemove")
+            })
+        });
+    </script>
+
+</body>
+
+</html>

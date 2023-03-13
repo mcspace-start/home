@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>welcome...</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="index.css" />
+    <script src="source.js"></script>
+</head>
+
+<body>
+    <div class="warp" id="warp"></div>
+    <noscript>javaScript无法运行！脚本加载失败！</noscript>
+    <script>
+        // 判断是否为ie
+        function IEVersion() {
+            var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串  
+            var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器  
+            var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器  
+            var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
+            if (isIE) {
+                var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+                reIE.test(userAgent);
+                var fIEVersion = parseFloat(RegExp["$1"]);
+                if (fIEVersion == 7) {
+                    return 7;
+                } else if (fIEVersion == 8) {
+                    return 8;
+                } else if (fIEVersion == 9) {
+                    return 9;
+                } else if (fIEVersion == 10) {
+                    return 10;
+                } else {
+                    return 6; //IE版本<=7
+                }
+            } else if (isEdge) {
+                return 'edge'; //edge
+            } else if (isIE11) {
+                return 11; //IE11  
+            } else {
+                return -1; //不是ie浏览器
+            }
+        }
+        if ((IEVersion() !== -1)) alert("建议使用非 IE 浏览器访问！");
+        // 渲染列表
+        var warp = document.getElementById("warp");
+        var str = "";
+        for (var i = 0; i < person.menu.length; i++) {
+            str += "<div class='menu' ><div class='shade' onclick=\"openList(this)\"><p>"
+                + person.menu[i].groupName + "</p><span><i></i>+<i></i></span></div>\
+                <div style='overflow: hidden;padding-bottom: 4px; position: relative; width:100%;'>\
+                <ul class='link_box' id='link_box'> ";
+            for (var j = 0; j < person.menu[i].data.length; j++) {
+                str +=
+                    "<li title='" +
+                    person.menu[i].data[j].title +
+                    "'><p>" +
+                    person.menu[i].data[j].content +
+                    "</p><a href='" +
+                    person.menu[i].data[j].url +
+                    "'target='_blank'>跳转</a></li>";
+            }
+            str += "<p class='total'>总条数：" + person.menu[i].data.length+"</p></ul></div></div>";
+        }
+        warp.innerHTML = str;
+
+        function getByClass(name) {
+            //如果浏览器支持 会得到一个函数体
+            if (document.getElementsByClassName) {
+                return document.getElementsByClassName(name);
+            }
+            //把所有的元素获取到
+            var allItems = document.getElementsByTagName("*");
+            var newArr = [];
+            //查找每一个元素的className 看其中含不含name
+            for (var i = 0; i < allItems.length; i++) {
+                var classNames = allItems[i].className; //"test test11"
+                var arrClass = classNames.split(" ");
+                for (var j = 0; j < arrClass.length; j++) {
+                    if (arrClass[j] == name) {
+                        newArr.push(allItems[i]);
+                    }
+                }
+            }
+            return newArr;
+        }
+        var menu_box = getByClass("menu");
+        var link_box = getByClass("link_box");
+        menu_box[0].className += " open";
+
+        function openList(el) {
+            if (el.parentNode.className.match(/open/)) {
+                el.parentNode.className = el.parentNode.className.replace(
+                    /\s*open\s*/,
+                    ""
+                );
+            } else {
+                for (var i = 0; i < menu_box.length; i++) {
+                    menu_box[i].className = el.parentNode.className.replace(
+                        /\s*open\s*/,
+                        ""
+                    );
+                }
+                el.parentNode.className += " open";
+            }
+        }
+
+        function addEvent(elList) {
+            for (var i = 0; i < elList.length; i++) {
+                elList[i].onmouseover = function (el) {
+                    var eve = el || window.event;
+                    var objEl = eve.target || eve.srcElement;
+                    if (objEl.nodeName.toLocaleLowerCase() == "a") {
+                        objEl.className = "act";
+                    }
+                };
+                elList[i].onmouseout = function (el) {
+                    var eve = el || window.event;
+                    var objEl = eve.target || eve.srcElement;
+                    if (objEl.nodeName.toLocaleLowerCase() == "a") {
+                        objEl.className = "";
+                    }
+                };
+                //触摸
+                elList[i].ontouchstart = function (el) {
+                    var eve = el || window.event;
+                    var objEl = eve.target || eve.srcElement;
+                    if (objEl.nodeName.toLocaleLowerCase() == "a") {
+                        objEl.className = "act";
+                    }
+                };
+                elList[i].ontouchend = function (el) {
+                    var eve = el || window.event;
+                    var objEl = eve.target || eve.srcElement;
+                    if (objEl.nodeName.toLocaleLowerCase() == "a") {
+                        objEl.className = "";
+                    }
+                };
+            }
+        }
+
+        addEvent(link_box);
+
+        console.log(
+            "%cლ(ಠAಠლ)",
+            "background-color:#67d9ff;font-size:18px;padding:4px;border-radius: 5px;border:2px solid #666;color:#000"
+        );
+    </script>
+</body>
+
+</html>

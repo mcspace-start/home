@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天猫官网首页</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="./iconfont/iconfont.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="shortcut icon" href="img/TB1XlF3RpXXXXc6XXXXXXXXXXXX-16-16.png" type="image/x-icon">
+</head>
+
+<body>
+    <!-- 加载遮罩 全局-->
+    <div class="loadShade" id="loadShade" style="position: absolute;z-index: 8;width: 100%;height: 100%;background: url(img/load.gif) no-repeat center center rgba(0, 0, 0, 0.9) !important;-o-background-size: 36px !important;background-size: 36px !important;position: fixed;z-index: 11;"></div>
+    <!-- 顶部导航区 -->
+    <header class="topNav">
+        <div class="banXin topNav_Conten">
+            <ul class="topNav_left">
+                <li>
+                    喵，欢迎来天猫
+                </li>
+                <li>
+                    <a href="login.html">请登录</a>
+                </li>
+                <li>
+                    <a href="#">免费注册</a>
+                </li>
+            </ul>
+            <ul class="topNav_right">
+                <li onmouseover="topNavShow(0,'myTao')" onmouseout="topNavHide(0,'myTao')">
+                    <a href="#">
+                        我的淘宝
+                    </a>
+                    <span class="iconfont icon-sanjiao1"></span>
+                </li>
+                <li>
+                    <span class="iconfont icon-31gouwuchexuanzhong"></span>
+                    <a href="#">
+                        购物车
+                    </a>
+                </li>
+                <li onmouseover="topNavShow(2,'myColect')" onmouseout="topNavHide(2,'myColect')">
+                    <a href="#">
+                        收藏夹
+                    </a>
+                    <span class="iconfont icon-sanjiao1"></span>
+                </li>
+                <li onmouseover="topNavShow(3,'phoneQr')" onmouseout="topNavHide(3,'phoneQr')">
+                    <span class="iconfont icon-shouji"></span>
+                    <a href="#">手机版</a>
+                </li>
+                <li>
+                    <a href="#">淘宝网</a>
+                </li>
+                <li onmouseover="topNavShow(5,'shopper');" onmouseout="topNavHide(5,'shopper');">
+                    <a href="#">
+                        商家支持
+                    </a>
+                    <span class="iconfont icon-sanjiao1"></span>
+                </li>
+                <li onmouseover="topNavShow(6,'webNav');" onmouseout="topNavHide(6,'webNav');">
+                    <span class="iconfont icon-liebiao1"></span>
+                    <a href="#">
+                        网站导航
+                    </a>
+                    <span class="iconfont icon-sanjiao1"></span>
+                </li>
+
+            </ul>
+        </div>
+    </header>
+    <!-- 顶部导航栏下拉列表区域 -->
+    <div class="banXin" id="topNav_slBox">
+        <ol id="myTao" onmouseover="topNavShow(0,'myTao')" onmouseout="topNavHide(0,'myTao')">
+            <li>
+                <a href="#">已买到的宝贝</a>
+            </li>
+            <li>
+                <a href="#">已卖出的宝贝</a>
+            </li>
+        </ol>
+        <ol id="myColect" onmouseover="topNavShow(2,'myColect')" onmouseout="topNavHide(2,'myColect')">
+            <li>
+                <a href="#">收藏的宝贝</a>
+            </li>
+            <li>
+                <a href="#">收藏的店铺</a>
+            </li>
+        </ol>
+        <ol id="phoneQr" onmouseover="topNavShow(3,'phoneQr')" onmouseout="topNavHide(3,'phoneQr')">
+            <img src="./img/tianmaoappQR.png" alt="">
+            <span>
+            <h6>到天猫App</h6>
+            <p style="color: #c10000;font-weight: bold;padding-top: 2px;">新人享0.01元好货</p>
+        </span>
+        </ol>
+        <ol id="shopper" onmouseover="topNavShow(5,'shopper')" onmouseout="topNavHide(5,'shopper')">
+            <ul class="shopper_top">
+                <li class="title">商家:</li>
+                <li><a href="#">商家中心</a></li>
+                <li><a href="#">天猫规则</a></li>
+                <li><a href="#">商家入驻</a></li>
+                <li><a href="#">运营服务</a></li>
+                <li><a href="#">商家品控</a></li>
+                <li><a href="#">商家工具</a></li>
+                <li><a href="#">天猫智库</a></li>
+                <li><a href="#">猫言猫语</a></li>
+            </ul>
+            <ul class="shopper_bottom">
+                <li class="title">
+                    帮助:
+                </li>
+                <li>
+                    <a href="#">帮助中心</a>
+                </li>
+                <li>
+                    <a href="#">问友商</a>
+                </li>
+            </ul>
+        </ol>
+        <ol id="webNav" onmouseover="topNavShow(6,'webNav')" onmouseout="topNavHide(6,'webNav')">
+            <li>
+                <p class="webNav_title">热点推荐Hot</p>
+                <p>
+                    <a href="#" class="new">天猫超市</a>
+                    <a href="#">喵鲜生</a>
+                    <a href="#">科技新品</a>
+                    <a href="#" class="hot">女装新品</a>
+                    <a href="#">酷玩街</a>
+                </p>
+                <p>
+                    <a href="#" class="hot">内衣新品</a>
+                    <a href="#">试美妆</a>
+                    <a href="#">运动新品</a>
+                    <a href="#">时尚先生</a>
+                    <a href="#" class="new">精明妈咪</a>
+                </p>
+                <p>
+                    <a href="#">吃乐会</a>
+                    <a href="#">企业采购</a>
+                    <a href="#">会员积分</a>
+                    <a href="#">天猫国际</a>
+                    <a href="#">品质频道</a>
+                </p>
+            </li>
+            <li>
+                <p class="webNav_title">行业市场Market</p>
+                <p>
+                    <a href="#" class="hot">美妆</a>
+                    <a href="#">电器</a>
+                    <a href="#">女装</a>
+                    <a href="#" class="new">男装</a>
+                    <a href="#">女鞋</a>
+                </p>
+                <p>
+                    <a href="#" class="hot">男鞋</a>
+                    <a href="#">内衣</a>
+                    <a href="#">箱包</a>
+                    <a href="#" class="new">运动</a>
+                    <a href="#" class="hot">母婴</a>
+                </p>
+                <p>
+                    <a href="#">家装</a>
+                    <a href="#">医药</a>
+                    <a href="#">食品</a>
+                    <a href="#">配饰</a>
+                    <a href="#">汽车</a>
+                </p>
+            </li>
+            <li>
+                <p class="webNav_title">服务指南Help</p>
+                <p>
+                    <a href="#">帮助中心</a>
+                    <a href="#">品质保障</a>
+                </p>
+                <p>
+                    <a href="#">特色服务</a>
+                    <a href="#">7天退换货</a>
+                </p>
+            </li>
+        </ol>
+    </div>
+    <!-- logo区域 -->
+    <section class="banXin logo">
+        <a href="index.html">
+            <img src="img/index-logo.gif" alt="天猫首页logo" title="天猫logo">
+        </a>
+        <form action="" class="searchBox">
+            <input type="text" placeholder="搜索 天猫 商品/品牌/店铺">
+            <button>搜索</button>
+        </form>
+    </section>
+    <!-- 导航区 -->
+    <nav class="banXin nav">
+        <ul>
+            <li>
+                <span class="iconfont icon-liebiao1"></span> 商品分类
+            </li>
+            <li>
+                <a href="#">
+                    <img src="img/index01-nav-01.png" alt="">
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <img src="img/index01-nav-02.png" alt="">
+                </a>
+            </li>
+            <li><a href="#">天猫会员</a></li>
+            <li><a href="#">电器城</a></li>
+            <li><a href="#">喵鲜生</a></li>
+            <li><a href="#">医药馆</a></li>
+            <li><a href="#">营业厅</a></li>
+            <li><a href="#">魅力惠</a></li>
+            <li><a href="#">飞猪旅行</a></li>
+            <li><a href="#">苏宁易购</a></li>
+        </ul>
+    </nav>
+    <!-- 海报区 -->
+    <section class="bannerBox">
+        <div class="banXin ">
+            <!-- 海报 -->
+            <div class="banner">
+                <a href="javascript:void(0);">
+                    <img id="bannerPic" src="img/index01-banner1.webp" alt="">
+                </a>
+                <ul class="bannerLiterpic">
+                </ul>
+            </div>
+            <!-- 海报小选块 -->
+            <ul class="bannerPoint">
+                <!-- 固定6个 -->
+                <li class="act" onclick="bannerPointClick(0)"></li>
+                <li onclick="bannerPointClick(1)"></li>
+                <li onclick="bannerPointClick(2)"></li>
+                <li onclick="bannerPointClick(3)"></li>
+                <li onclick="bannerPointClick(4)"></li>
+                <li onclick="bannerPointClick(5)"></li>
+                <!-- <li onmouseover="bannerPointClick(5)"></li> -->
+
+            </ul>
+            <!-- 侧边栏 -->
+            <ul class="asideBox">
+                <li class="asideLeft">
+                    <ol>
+                        <!-- js插入数据 -->
+                    </ol>
+                </li>
+                <li class="asideCenter" onmouseover="asideShow()" onmouseout="asideHide()">
+                    <!-- js插入数据 -->
+                </li>
+                <li class="asideRight" onmouseover="asideShow()" onmouseout="asideHide()">
+                    <!-- js插入数据 -->
+                </li>
+            </ul>
+        </div>
+    </section>
+    <!-- 主体标签 -->
+    <main style="background-color: #f5f5f5;">
+        <!-- 模块三 -->
+        <section class="banXin moder3">
+            <P class="moder3_TopPic">
+                <img src="img/index02-01.png" alt="">
+            </P>
+            <ul class="moder3_list">
+                <!-- js插入数据 -->
+            </ul>
+        </section>
+        <!-- 模块四 -->
+        <ul class="banXin moder4">
+            <!-- js插入数据 -->
+        </ul>
+        <!-- 模块五 -->
+        <ul class="banXin moder5">
+            <!-- js插入数据 -->
+        </ul>
+        <!-- 模块六:天猫超市 -->
+        <section id="tmMarket" class="banXin tmMarket tmFixStyle">
+            <h3>
+                <img src="img/index04-01.png" alt="">
+            </h3>
+            <div class="tmFixStyleContent">
+                <!-- 左侧 -->
+                <div class="tmFixStyleLeft">
+                    <a href="#">
+                        <div class="shadow">
+                            <img src="img/index04-02.jpg" alt="">
+                            <div class="tmModerTitle">
+                                <span>天猫<br>超市</span>
+                                <span>1499抢<br>飞天茅台</span>
+                            </div>
+                            <span class="iconfont icon-iconfont31yiguanzhudianpu"></span>
+                        </div>
+                    </a>
+                </div>
+                <!-- 右侧 -->
+                <ul class="tmMarketRight goodListBox">
+                    <!-- 第一个固定li -->
+                    <li class="goodList">
+                        <a href="#">
+                            <div class="tmMarketToday">
+                                <ul class="tmMarketToday_Nav">
+                                    <li class="act">今日疯抢</li>
+                                    <li>量贩装</li>
+                                </ul>
+                                <div class="tmMarketToday_Content">
+                                    <img src="img/index04-03.jpg" alt="">
+                                </div>
+                                <div class="mark">
+                                    <span class="iconfont icon-sanjiao3"></span>
+                                    <p>
+                                        <!-- <span class="iconfont icon-chanpincanshu "></span> 精选好纸 -->
+                                        <!-- js插入数据 -->
+                                    </p>
+                                    <p>
+                                        <!-- 第2件0元 -->
+                                        <!-- js插入数据 -->
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <!-- <li class="goodList">
+                        <a href="#">
+                            <img src="img/index04-05.jpg" alt="">
+                            <p>统一生活面</p>
+                            <p class="goodPrice">￥19.9</p>
+                        </a>
+                    </li> -->
+                    <!-- js插入数据 -->
+                </ul>
+            </div>
+
+        </section>
+        <!-- 模块七:天猫国际 -->
+        <section id="tmInter" class="banXin tmInter tmFixStyle">
+            <h3>
+                <img src="img/index05-01.png" alt="">
+            </h3>
+            <div class="tmFixStyleContent">
+                <!-- 左侧 -->
+                <div class="tmFixStyleLeft">
+                    <a href="#">
+                        <div class="shadow">
+                            <img src="img/index05-02.jpg" alt="">
+                            <div class="tmModerTitle">
+                                <span>进口<br>精选</span>
+                                <span>大牌好货<br>轻松购入</span>
+                            </div>
+                            <span class="iconfont icon-iconfont31yiguanzhudianpu"></span>
+                        </div>
+                    </a>
+                </div>
+                <!-- 右侧 -->
+                <ul class="tmInterRight goodListBox">
+                    <!-- js插入数据 -->
+                </ul>
+            </div>
+            <div class="tmFixStyleContent">
+                <!-- 左侧 -->
+                <div class="tmFixStyleLeft">
+                    <a href="#">
+                        <div class="shadow">
+                            <img src="img/index05-07.jpg" alt="">
+                            <div class="tmModerTitle">
+                                <span>直营<br>品质</span>
+                                <span>放心体验<br>畅销全球</span>
+                            </div>
+                            <span class="iconfont icon-iconfont31yiguanzhudianpu"></span>
+                        </div>
+                    </a>
+                </div>
+                <!-- 右侧 -->
+                <ul class="tmInterRight goodListBox">
+
+                    <!-- js插入数据 -->
+                </ul>
+            </div>
+        </section>
+        <!-- 模块八:美丽人生 -->
+        <section id="beautLife" class="banXin beautLife tmFixStyle">
+            <h3>
+                美丽人生 &nbsp;FASHION & BEAUTY
+            </h3>
+            <div class="tmFixStyleContent">
+                <!-- 左侧 -->
+                <div class="tmFixStyleLeft">
+                    <a href="#">
+                        <div class="shadow">
+                            <img src="img/index07-0.jpg" alt="">
+                            <div class="tmModerTitle">
+                                <span>好货<br>超值</span>
+                                <span>七夕狂欢送<br>爆款不只5折</span>
+                            </div>
+                            <span class="iconfont icon-iconfont31yiguanzhudianpu"></span>
+                        </div>
+                    </a>
+                </div>
+                <!-- 右侧 -->
+                <ul class="tmbeautRight goodListBox">
+                    <!-- js插入数据 -->
+                </ul>
+            </div>
+
+        </section>
+        <!-- 模块九:户外出行 -->
+        <section id="outdoor" class="banXin outdoor tmFixStyle">
+            <h3>
+                户外出行 &nbsp;OUTDOORS & AUTOMOTIVE
+            </h3>
+            <div class="tmFixStyleContent">
+                <!-- 左侧 -->
+                <div class="tmFixStyleLeft">
+                    <a href="#">
+                        <div class="shadow">
+                            <img src="img/index08-01.jpg" alt="">
+                            <div class="tmModerTitle">
+                                <span>金融<br>买车</span>
+                                <span>限时0首付<br>0利息</span>
+                            </div>
+                            <span class="iconfont icon-iconfont31yiguanzhudianpu"></span>
+                        </div>
+                    </a>
+                </div>
+                <!-- 右侧 -->
+                <ul class="tmoutdoorRight goodListBox">
+                    <!-- js插入数据 -->
+                </ul>
+            </div>
+
+        </section>
+        <!-- 模块十:潮电酷玩 -->
+        <section id="electronics" class="banXin electronics tmFixStyle">
+            <h3>
+                潮电酷玩 &nbsp;ELECTRONICS
+            </h3>
+            <div class="tmFixStyleContent">
+                <!-- 左侧 -->
+                <div class="tmFixStyleLeft">
+                    <a href="#">
+                        <div class="shadow">
+                            <img src="img/index09-01.jpg" alt="">
+                            <div class="tmModerTitle">
+                                <span>小米<br>新品</span>
+                                <span>新品抢先订<br>享分期免息</span>
+                            </div>
+                            <span class="iconfont icon-iconfont31yiguanzhudianpu"></span>
+                        </div>
+                    </a>
+                </div>
+                <!-- 右侧 -->
+                <ul class="tmelectronicsRight goodListBox">
+                    <!-- js插入数据 -->
+                </ul>
+            </div>
+
+        </section>
+        <!-- 模块十一:打造爱巢 -->
+        <section id="home" class="banXin home tmFixStyle">
+            <h3>
+                打造爱巢 &nbsp;HOME
+            </h3>
+            <div class="tmFixStyleContent">
+                <!-- 左侧 -->
+                <div class="tmFixStyleLeft">
+                    <a href="#">
+                        <div class="shadow">
+                            <img src="img/index10-01.png" alt="">
+                            <div class="tmModerTitle">
+                                <span>轻松<br>生活</span>
+                                <span>温文尔雅<br>极致条纹感</span>
+                            </div>
+                            <span class="iconfont icon-iconfont31yiguanzhudianpu"></span>
+                        </div>
+                    </a>
+                </div>
+                <!-- 右侧 -->
+                <ul class="tmhomeRight goodListBox">
+                    <!-- js插入数据 -->
+                </ul>
+            </div>
+
+        </section>
+        <!-- 猜你喜欢模块 -->
+        <section id="like" class="banXin like">
+            <p class="like_title">
+                — <span>♡</span> 猜你喜欢 —
+            </p>
+            <ul class="likeContent">
+                <!-- <li class="likeList">
+                    <a href="#">
+                        <div>
+                            <img src="img/index04-08.jpg" alt="">
+                            <p>
+                                李宁卫衣男女同款旗舰秋季长袖圆领情侣</p>
+                            <p class="likePrice">￥199999.9</p>
+                        </div>
+                    </a>
+                </li> -->
+
+
+            </ul>
+        </section>
+        <div class="end"></div>
+    </main>
+    <!-- 尾部区域 -->
+    <footer class=" footer">
+        <!-- <div class="footer_top "></div> -->
+        <div class="footer_center banXin">
+            <!-- ul>(li>ul>li[class="title"]{天猫超市}+(li>a[href="#"]{免费注册})*5)*5 -->
+            <ul>
+                <li class="footer_center_content">
+                    <ul>
+                        <li class="title">购物指南</li>
+                        <li><a href="#">免费注册</a></li>
+                        <li><a href="#">开通支付宝</a></li>
+                        <li><a href="#">支付宝充值</a></li>
+                    </ul>
+                </li>
+                <li class="footer_center_content">
+                    <ul>
+                        <li class="title">天猫保障</li>
+                        <li><a href="#">发票保障</a></li>
+                        <li><a href="#">售后规则</a></li>
+                        <li><a href="#">缺货赔付</a></li>
+                    </ul>
+                </li>
+
+                <li class="footer_center_content">
+                    <ul>
+                        <li class="title">支付方式</li>
+                        <li><a href="#">快捷支付</a></li>
+                        <li><a href="#">信用卡</a></li>
+                        <li><a href="#">余额宝</a></li>
+                        <li><a href="#">蚂蚁花呗</a></li>
+                        <li><a href="#">货到付款</a></li>
+
+                    </ul>
+                </li>
+                <li class="footer_center_content">
+                    <ul>
+                        <li class="title">商家服务</li>
+                        <li><a href="#">天猫规则</a></li>
+                        <li><a href="#">商家入驻</a></li>
+                        <li><a href="#">商家中心</a></li>
+                        <li><a href="#">天猫智库</a></li>
+                        <li><a href="#">物流服务</a></li>
+                        <li><a href="#">喵言喵语</a></li>
+                        <li><a href="#">运营服务</a></li>
+
+                    </ul>
+                </li>
+                <li class="footer_center_content">
+                    <ul>
+                        <li class="title">手机天猫</li>
+                        <a href="#">
+                            <img src="img/footer05.png" alt="">
+                        </a>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+        <div class="footer_bottom banXin">
+            <p id="a01"></p>
+            <p id="a02"></p>
+            <p class="footerColor">
+                <span>增值电信业务经营许可证： 浙B2-20110446</span>
+                <span>市场名称登记证：工商网市字3301004119号</span>
+                <span>出版物网络交易平台服务经营备案证： 新出发浙备字第001号</span>
+            </p>
+            <p class="footerColor">
+                <span>互联网违法和不良信息举报电话：0571-81683755 blxxjb@alibaba-inc.com</span>
+                <span>互联网药品信息服务资质证书编号：浙-（经营性）-2017-0005 浙公网安备 33010002000120号</span>
+            </p>
+            <p class="footerColor">
+                <span>医疗器械网络交易服务第三方平台备案：（浙）网械平台备字[2018]第00002号</span><span>互联网药品交易服务资格证书：国A20150001</span>
+
+
+            </p>
+            <p class="footerColor">
+                <span>浙江省网络食品销售第三方平台提供者备案：浙网食A33010002 </span>
+                <span>12318举报</span>
+
+            </p>
+            <p class="footerColor">© 2003-2020 TMALL.COM 版权所有</p>
+            <div>
+                <a href="#"><img src="img/footer02.gif" alt=""></a>
+                <a href="#"><img src="img/footer04.jpg" alt=""></a>
+            </div>
+        </div>
+
+    </footer>
+    <!-- 顶部固定悬浮窗 -->
+    <div id="head_wrapper" class="">
+        <div class="banXin head_wrapper_content">
+            <ul>
+                <li class="wrapperLogo">
+                    TMALL天猫
+                </li>
+                <li class="search">
+                    <input type="text" name="" id="" placeholder="搜索 天猫 商品/品牌/店铺">
+                </li>
+                <li class="sub">
+                    <button>搜索</button>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+    <!-- 左边固定导航 -->
+    <div id="fixed_Nav">
+        <ul>
+            <li>
+                <a href="javascript:void(0);">导航</a>
+            </li>
+            <li onclick="goTop()" url="#">
+                <a href="javascript:void(0);">天猫<br>官网</a>
+            </li>
+            <li onclick="goWhere('#tmMarket')" url="#tmMarket">
+                <a href="javascript:void(0);">天猫<br>超市</a>
+            </li>
+            <li onclick="goWhere('#tmInter')" url="#tmInter">
+                <a href="javascript:void(0);">天猫<br>国际</a>
+            </li>
+            <li onclick="goWhere('#electronics')" url="#electronics">
+                <a href="javascript:void(0);">潮电<br>酷玩</a>
+            </li>
+            <li onclick="goWhere('#beautLife')" url="#beautLife">
+                <a href="javascript:void(0);">美丽<br>人生</a>
+            </li>
+            <li onclick="goWhere('#home')" url="#home">
+                <a href="javascript:void(0);">打造<br>爱巢</a>
+            </li>
+            <li onclick="goWhere('#outdoor')" url="#outdoor">
+                <a href="javascript:void(0);">户外<br>出行</a>
+            </li>
+            <li onclick="goWhere('#like')" url="#like">
+                <a href="javascript:void(0);">猜你<br>喜欢</a>
+            </li>
+            <li onclick="goTop()">
+                <a href="javascript:void(0);"><span class="iconfont icon-fanhui3"></span><br>顶部</a>
+            </li>
+        </ul>
+    </div>
+    <script src="./js/data.js"></script>
+    <script src="./js/index.js"></script>
+</body>
+
+</html>

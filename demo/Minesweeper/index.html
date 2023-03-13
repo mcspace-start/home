@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-Cn">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <title>扫雷</title>
+    <link rel="stylesheet" href="css/css.css" />
+    <script src="js/vue.js"></script>
+    <script>
+        Vue.config.productionTip = false;
+    </script>
+</head>
+
+<body>
+    <div id="app" :style="{background:this.mainBgColor}">
+        <!-- 明暗度 -->
+        <input type="range" name="" max="100" min="0" value="0" class="rangeColor" v-model="mainBgColor" />
+        <div class="box" v-bind:style="{ width: boxWidth + 'px'}">
+            <div class="left">
+                <!-- 标题 -->
+                <p class="title">{{titleMsg}}</p>
+                <!-- Main -->
+                <div class="main">
+                    <ul class="menu">
+                        <li class="step">{{step}}</li>
+                        <li class="reset" @click="reset"></li>
+                        <li class="time">000</li>
+                    </ul>
+                    <ul class="warp" @mouseover="pieHover($event,1)" @mouseout="pieHover($event,0)">
+                        <ul class="liRow" v-for="(item,index) in list" :key="index">
+                            <li v-for="(pie,cou) in item" :value="pie.tab" :key="pie.key" :class="{'pie':true,'bomb':pie.showBomb,'hide':pie.hide,'one':pie.one,'l':pie.borderL,'t':pie.borderT,'r':pie.borderR,'b':pie.borderB,'mk':pie.mark}" :style="{color:pie.color,backgroundColor:pie.bgColor}"
+                                @click="confirm($event,index,cou)" @contextmenu="tab($event,index,cou)" :x="index" :y="cou">
+                                {{pie.bombCount}}
+                            </li>
+                            <!-- @contextmenu=" tab($event,index,cou) " -->
+                        </ul>
+                    </ul>
+                    <div class="footer">
+                        <p class="select_p">游戏难度</p>
+                        <select name="" class="select" id="" v-model="diff">
+                            <option selected="selected" value="low">初级</option>
+                            <option value="middle">中级</option>
+                            <option value="height">高级</option>
+                            <option value="customize">自定义</option>
+                        </select>
+                        <label for="tips">
+                            <p class="tips_p">显示</p>
+                        </label>
+                        <input type="checkbox" name="" class="tips" id="tips" v-model="openTips" />
+                        <label for="mark" v-show="markCount">
+                            <p class="mark_p">检测</p>
+                        </label>
+                        <input type="checkbox" name="" id="mark" class="mark" v-model="openMark" v-show="markCount" />
+                        <p class="markCount" v-show="markCount">+{{markCount}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <!-- 成绩 -->
+                <div class="record" v-show="recordList.length!==0">
+                    <!-- <div class="record" > -->
+                    <p class="record_title">记录</p>
+                    <ul>
+                        <li v-for="item in recordList">
+                            <span v-show="item[1]">*</span>{{item[0]}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/index.js"></script>
+</body>
+
+</html>

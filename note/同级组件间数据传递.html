@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>Vue统计组件间数据传递</title>
+    <!-- <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script> -->
+    <script src="js/vue.js"></script>
+    <style>
+        .txtinput {
+            height: 40px;
+            width: 300px;
+            font-size: 18px;
+            padding-left: 10px;
+            margin: 20px;
+            border-radius: 8px;
+            border: 2px solid rgb(76, 77, 82);
+            outline: none;
+        }
+
+        .txtinput:focus {
+            border-radius: 8px;
+            border: 2px solid rgb(76, 96, 214);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .main {
+            width: 400px;
+            float: left;
+        }
+
+        .code {
+            float: left;
+            width: 600px;
+            height: 600px;
+        }
+
+        .code textarea {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div id="app">
+            <p>父组件</p>
+            <jerry-button></jerry-button>
+            <tom-button></tom-button>
+        </div>
+    </div>
+    <div class="code">
+        <textarea name="" id="">
+<div id="app">
+    <p>父组件</p>
+    <jerry-button></jerry-button>
+    <tom-button></tom-button>
+</div>
+
+-------js部分--------
+
+// 兄弟组件之间传递数据
+var hub = new Vue(); //事件中心
+var jerry = Vue.component("jerry-button", {
+    data() {
+        return {
+            num: 0
+        }
+    },
+    template: `
+    <div>
+    <div>jerry</div>
+    <input type="button" :value="'Num=' +num" @click="handle">
+    </div>
+    `,
+
+    methods: {
+        handle: function() {
+            //触发兄弟组件的事件
+            //通过事件中心调用
+            hub.$emit('tom-event', 2)
+        }
+    },
+    mounted() {
+        // 事件监听
+        hub.$on('jerry-event', (val) => {
+            this.num += val;
+        })
+    }
+});
+var tom = Vue.component("tom-button", {
+    data() {
+        return {
+            num: 0
+        }
+    },
+    template: `
+    <div>
+    <div>tom</div>
+    <input type="button" :value="'Num=' +num"  @click="handle">
+    </div>
+    `,
+    methods: {
+        handle: function() {
+            //触发兄弟组件的事件
+            //通过事件中心调用
+            hub.$emit('jerry-event', 1)
+        }
+    },
+    mounted() {
+        // 事件监听
+        hub.$on('tom-event', (val) => {
+            this.num += val;
+        })
+    }
+});
+var vm = new Vue({
+    el: "#app",
+    data: {
+
+    }
+})
+        </textarea>
+    </div>
+
+
+    <script>
+        // 兄弟组件之间传递数据
+        var hub = new Vue(); //事件中心
+        var jerry = Vue.component("jerry-button", {
+            data() {
+                return {
+                    num: 0
+                }
+            },
+            template: `
+            <div>
+            <div>jerry</div>
+            <input type="button" :value="'Num=' +num" @click="handle">
+            </div>
+            `,
+
+            methods: {
+                handle: function () {
+                    //触发兄弟组件的事件
+                    //通过事件中心调用
+                    hub.$emit('tom-event', 2)
+                }
+            },
+            mounted() {
+                // 事件监听
+                hub.$on('jerry-event', (val) => {
+                    this.num += val;
+                })
+            }
+        });
+        var tom = Vue.component("tom-button", {
+            data() {
+                return {
+                    num: 0
+                }
+            },
+            template: `
+            <div>
+            <div>tom</div>
+            <input type="button" :value="'Num=' +num"  @click="handle">
+            </div>
+            `,
+            methods: {
+                handle: function () {
+                    //触发兄弟组件的事件
+                    //通过事件中心调用
+                    hub.$emit('jerry-event', 1)
+                }
+            },
+            mounted() {
+                // 事件监听
+                hub.$on('tom-event', (val) => {
+                    this.num += val;
+                })
+            }
+        });
+        var vm = new Vue({
+            el: "#app",
+            data: {
+
+            }
+        })
+    </script>
+</body>
+
+</html>
