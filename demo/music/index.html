@@ -7,21 +7,21 @@
     <title>Music</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="shortcut icon" href="image/music.ico" type="image/x-icon">
-    
+
 </head>
 
 <body>
-    
-
     <div id="app">
         <!-- 加载遮罩 全局-->
-        <div class="loadShade" style="position: absolute;z-index: 8;width: 100%;height: 100%;background: url(image/load.gif) no-repeat center center rgba(0, 0, 0, 0.9) !important;-o-background-size: 36px !important;background-size: 36px !important;" v-show="loadShade"></div>
+        <div class="loadShade"
+            style="position: absolute;z-index: 8;width: 100%;height: 100%;background: url(image/load.gif) no-repeat center center rgba(0, 0, 0, 0.9) !important;-o-background-size: 36px !important;background-size: 36px !important;"
+            v-show="loadShade"></div>
         <div class="main" id="main" :class="{mainHide:mainShow}">
             <!-- 头部 -->
             <div class="search_box">
                 <h1 class="logo">网易云接口</h1>
                 <p class="titleMsg">{{titleMsg}}</p>
-                <input type="text" class="search" @change="search($event)" ref="search" @input="titleMsg='回车搜索'" >
+                <input type="text" class="search" @change="search($event)" ref="search" @input="titleMsg='回车搜索'">
 
             </div>
             <!-- 中间部分 -->
@@ -31,36 +31,42 @@
                 </transition>
                 <div class="song_wrapper">
                     <transition-group tag="ul" name="songAnimate" class="song_list">
-                        <li v-for="(item,index) in songList" :key="item.id" title="" @click="openSongs(item,index)" :class="{'act':songsAct==index}">
+                        <li v-for="(item,index) in songList" :key="item.id" title="" @click="openSongs(item,index)"
+                            :class="{'act':songsAct==index}">
                             <p>
                                 {{item.name}}--{{item.artists?item.artists[0].name:""}}
                             </p>
-                            <span class="playerMv" v-if="item.mvid!=0"><a href="javascript:void(0);"  v-on:click.stop="playMv(item.mvid)"></a></span>
+                            <span class="playerMv" v-if="item.mvid!=0"><a href="javascript:void(0);"
+                                    v-on:click.stop="playMv(item.mvid)"></a></span>
                             <span class="more" @click.stop="more(item,$event)" v-show="moreBtn">⋮</span>
-                            <input type="checkbox" @click.stop :value="item" class="checkboxBtn" v-show="checkboxBtn" v-model="downloadMusicList">
+                            <input type="checkbox" @click.stop :value="item" class="checkboxBtn" v-show="checkboxBtn"
+                                v-model="downloadMusicList">
                         </li>
                     </transition-group>
                 </div>
                 <!-- 专辑区 -->
                 <div class="player_con">
                     <p class="checkboxMsg" v-show="checkboxBtn">已选: {{downloadMusicList.length}}
-                        <a href="javascript:void(0);" title="selectall" @click.stop="downloadMusicList==songList?downloadMusicList=[]:downloadMusicList=songList">全选</a>
+                        <a href="javascript:void(0);" title="selectall"
+                            @click.stop="downloadMusicList==songList?downloadMusicList=[]:downloadMusicList=songList">全选</a>
                         <a href="javascript:void(0);" title="download" @click.stop="downloadSong">下载</a>
-                        <a href="javascript:void(0);" title="calloff" @click.stop="moreBtn=true;checkboxBtn=false;downloadMusicList=[];">取消</a>
+                        <a href="javascript:void(0);" title="calloff"
+                            @click.stop="moreBtn=true;checkboxBtn=false;downloadMusicList=[];">取消</a>
                     </p>
                     <transition name="songNameAnimate" mode="">
                         <p class="songName">{{songName}}</p>
                     </transition>
                     <img src="image/disc.png" alt="" class="disc" id="disc" :style="{animationPlayState:isPlay}">
-                    <img src="image/player_bar.png" class="play_bar" :class="{'isPlay':(isPlay=='running')?true:false}" id="play_bar" alt="">
+                    <img src="image/player_bar.png" class="play_bar" :class="{'isPlay':(isPlay=='running')?true:false}"
+                        id="play_bar" alt="">
                     <img src="image/cover.png" alt="" class="cover" :style="{animationPlayState:isPlay}">
                 </div>
                 <!-- 评论区 -->
                 <transition-group tag="div" name="commentAnimate" class="comment_list">
                     <dl v-for="(item,index) in comment" :key="item.commentId">
                         <dt>
-                                <img :src="item.user.avatarUrl" alt="" @error="imgError($event)">
-                            </dt>
+                            <img :src="item.user.avatarUrl" alt="" @error="imgError($event)">
+                        </dt>
                         <dd class="name">{{item.user.nickname}}</dd>
                         <dd class="detail">{{item.content}}</dd>
                     </dl>
@@ -69,7 +75,8 @@
             </div>
             <!-- 音频播放器 footer-->
             <div class="audio_box">
-                <audio controls="controls" id="player" class="player" src="" @play="playing(true)" @pause="playing(false)" @ended="musicEnd" @canplay="musicReady" type="audio/ogg" >
+                <audio controls="controls" id="player" class="player" src="" @play="playing(true)"
+                    @pause="playing(false)" @ended="musicEnd" @canplay="musicReady" type="audio/ogg">
                     <!-- <source src="" class="player" type="audio/mpeg"></source> -->
                     <!-- <source src="" class="player" type="audio/mpeg"></source> -->
 
@@ -101,7 +108,7 @@
             <div class="mvWindow" v-if="mvShow">
                 <span class="closeMv" @click="closeMv"></span>
                 <video controls autoplay="autoplay" :src="mvUrl" preload="auto" id="videoMv">
-                        <source :src="mvUrl" type="video/mp4" >
+                    <source :src="mvUrl" type="video/mp4">
                 </video>
             </div>
         </transition>
