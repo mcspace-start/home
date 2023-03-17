@@ -9,6 +9,11 @@ var person = {
           title: "项目使用了vue-cli2、vue-router、axios、element-ui",
         },
         {
+          content: "uni-app-电商系统",
+          url: "demo/",
+          title: "项目使用了uni-app",
+        },
+        {
           content: "vue-音乐播放器",
           url: "demo/music",
           title: "项目使用了vue.js、axios.js",
