@@ -586,8 +586,8 @@ v-bind:style="{ color: c, 'font-size': s + 'px',backgroundColor:bg}"
 data: {
   styleObject: {
     color: 'red',
-    fontSize: '13px',					// 驼峰式
-    'background-color':"blue" // 引号
+    fontSize: '13px',  // 驼峰式
+    'background-color':"blue"  // 引号
   }
 }
 ```
@@ -669,7 +669,7 @@ data: {
 
 > **key**
 >
-> 如果我们需要两个元素 ”完全独立，不要复用他们“，只需添加一个具有唯一值的 `key` attribute 即可：
+> 如果我们需要两个元素 “完全独立，不要复用他们”，只需添加一个具有唯一值的 `key` attribute 即可：
 
 ```html
 <template v-if="loginType === 'username'">
@@ -1174,7 +1174,7 @@ data: {
 
 在文本区域插值 (`<textarea>{{text}}</textarea>`) 并不会生效，应用 `v-model` 来代替。
 
-> **复选框 **
+> **复选框**
 >
 > 单选框：绑定为 `Boolean` 类型
 

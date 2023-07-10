@@ -250,11 +250,11 @@ $ git add .          //将所有文件添加值暂存区
 > $ git diff commit-id-1 commit-id-2 >> diff.txt
 > ```
 >
-> 这串 **<span style="color:red">”id“</span>** 可以通过 `$ git log` 获取到
+> 这串 **<span style="color:red">"id"</span>** 可以通过 `$ git log` 获取到
 >
 > * `$ git diff`：是查看 **workspace** 与 **index** 的差别的。
 > * `$ git diff --cached`：是查看 **index** 与 **local repositorty** 的差别的。
-> * `$ git diff head`：是查看 **workspace** 和 **local repository** 的差别的。HEAD 指向的是 local repository 中最新提交的版本）
+> * `$ git diff head`：是查看 **workspace** 和 **local repository** 的差别的。HEAD 指向的是 local repository 中最新提交的版本
 
 
 
@@ -268,7 +268,7 @@ $ git add .          //将所有文件添加值暂存区
 >
 > `$ git commit [file1] [file2] ... -m [message]`  指名文件或多个文件
 >
-> `$ git commit -am [message]` 添加并提交；两部同时执行 **[add] [modify]**
+> `$ git commit -am [message]` 添加并提交；两步同时执行 **[add] [modify]**
 >
 > ```js
 > $ git commit -m "第一次提交"
@@ -372,8 +372,7 @@ $ git add .          //将所有文件添加值暂存区
 >
 > 以更简洁的方式展现
 >
-> ```c
-> $ git log --oneline
+> ```txt
 > $ git log --oneline
 > d5e9fc2 (HEAD -> master) Merge branch 'change_site'
 > c68142b 修改代码
@@ -382,14 +381,14 @@ $ git add .          //将所有文件添加值暂存区
 > 3e92c19 add test.txt
 > 3b58100 第一次版本提交
 > ```
->
-> `$ git log --graph` 选项，查看历史中什么时候出现了分支、合并。以下为相同的命令，开启了拓扑图
->
-> `$ git log --reverse` 参数来逆向显示所有日志。
->
-> 上面两个只是不一样的查看方式
->
-> 更多log命令：http://git-scm.com/docs/git-log git官网
+> 
+>`$ git log --graph` 选项，查看历史中什么时候出现了分支、合并。以下为相同的命令，开启了拓扑图
+> 
+>`$ git log --reverse` 参数来逆向显示所有日志。
+> 
+>上面两个只是不一样的查看方式
+> 
+>更多log命令：http://git-scm.com/docs/git-log Git官网
 
 ## 分支管理
 
