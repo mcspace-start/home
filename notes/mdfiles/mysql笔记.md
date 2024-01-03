@@ -33,38 +33,46 @@
 
 ## sql 数据类型
 
-| 数值类型       |                                     |
-| -------------- | ----------------------------------- |
-| TINYINT        | 可设置有符号和无符号，无符号最大255 |
-| SMALLINT       |                                     |
-| MEDIUMINT      |                                     |
-| INT 或 INTEGER |                                     |
-| FLOAT          | 浮点数，用于存小数                  |
-| DOUBEL         |                                     |
-| DECIMAL        |                                     |
+|    数值类型    |                             范围                             |                           描述                           |
+| :------------: | :----------------------------------------------------------: | :------------------------------------------------------: |
+|    TINYINT     |           -128到127（有符号） 或 0到255（无符号）            |           可设置有符号和无符号，无符号最大255            |
+|    SMALLINT    |       -32,768到32,767（有符号） 或 0到65,535（无符号）       |                                                          |
+|   MEDIUMINT    |  -8,388,608到8,388,607（有符号） 或 0到16,777,215（无符号）  |                                                          |
+| INT 或 INTEGER | -2,147,483,648到2,147,483,647（有符号） 或 0到4,294,967,295（无符号） |                                                          |
+|     FLOAT      |                                                              |           浮点数，用于存小数，精度可能会有损失           |
+|     DOUBLE     |                                                              |        双精度浮点数，用于存小数，精度可能会有损失        |
+|    DECIMAL     |                                                              | 定点数，用于存储精确的小数值，精度和范围可以根据需要调整 |
 
-| 字符串类型 |        |              |      |
-| ---------- | ------ | ------------ | ---- |
-| char       | 字符串 | 定长，性能高 |      |
-| varchar    |        | 变长，性能低 |      |
-| tinyBlob   |        |              |      |
-| tinyText   |        |              |      |
-| Blob       |        |              |      |
-| Text       |        |              |      |
-| mediumBlob |        |              |      |
-| mediumText |        |              |      |
-| longBlob   |        |              |      |
-| longText   |        |              |      |
+> 设置为有符号即可存储负数
 
-| 日期类型  |                |      |
-| --------- | -------------- | ---- |
-| date      |                |      |
-| time      | 包括年月日     |      |
-| year      |                |      |
-| dateYear  | 混合日期和时间 |      |
-| timestamp | 时间戳         |      |
+| 字符串类型 |                 描述                 |            特性            |
+| :--------: | :----------------------------------: | :------------------------: |
+|    char    |       定长字符串类型，长度固定       |        定长，性能高        |
+|  varchar   |       变长字符串类型，长度可变       |        变长，性能低        |
+|  tinyBlob  |    存储小量数据的二进制大对象类型    |  可存储较小量的二进制数据  |
+|  tinyText  |        存储小量文本的文本类型        |   可存储较小量的文本数据   |
+|    Blob    | 二进制大对象类型，用于存储二进制数据 |  可存储较大量的二进制数据  |
+|    Text    |      文本类型，用于存储文本数据      |   可存储较大量的文本数据   |
+| mediumBlob |  存储中等大小数据的二进制大对象类型  | 可存储中等大小的二进制数据 |
+| mediumText |      存储中等大小文本的文本类型      |  可存储中等大小的文本数据  |
+|  longBlob  |    存储大量数据的二进制大对象类型    | 可存储大量大小的二进制数据 |
+|  longText  |        存储大量文本的文本类型        |  可存储大量大小的文本数据  |
+
+| 日期类型  |                 描述                  |             特性             |
+| :-------: | :-----------------------------------: | :--------------------------: |
+|   date    |    仅包含日期，格式为 'YYYY-MM-DD'    |    仅包含日期，不包含时间    |
+|   time    |      包含时间，格式为 'HH:MM:SS'      |    仅包含时间，不包含日期    |
+|   year    |       仅包含年份，格式为 'YYYY'       | 仅包含年份，不包含日期或时间 |
+| dateYear  | 日期和年份的组合，格式为 'YYYY-MM-DD' |  包含日期和年份，不包含时间  |
+| timestamp | 时间戳，格式为 'YYYY-MM-DD HH:MM:SS'  |   包含日期、时间和时区信息   |
 
 ## DDL 数据定义语句
+
+1. CREATE 语句：用于创建数据库、表、索引等数据库对象。例如，CREATE DATABASE 用于创建数据库，CREATE TABLE 用于创建表，CREATE INDEX 用于创建索引。
+2. ALTER 语句：用于修改数据库中已经存在的表、索引等对象的结构。例如，ALTER TABLE 用于修改表的结构，ALTER INDEX 用于修改索引。
+3. DROP 语句：用于删除数据库、表、索引等数据库对象。例如，DROP DATABASE 用于删除数据库，DROP TABLE 用于删除表，DROP INDEX 用于删除索引。
+4. TRUNCATE 语句：用于删除表中的所有数据，但不删除表本身。
+5. RENAME 语句：用于重命名数据库、表等对象。
 
 >  数据库
 
@@ -175,25 +183,25 @@ from students
 where 条件
 ```
 
-|                  |                |
-| ---------------- | -------------- |
-| >                |                |
-| >=               |                |
-| <                |                |
-| <=               |                |
-| =                |                |
-| <>或!=           |                |
-| between...and... | 之间，包含边界 |
-| in(...)          | 多选一         |
-| like             | _      %       |
-| is null          |                |
-| not in           |                |
+|   操作符/函数    |                             描述                             |
+| :--------------: | :----------------------------------------------------------: |
+|        >         |                             大于                             |
+|        >=        |                          大于或等于                          |
+|        <         |                             小于                             |
+|        <=        |                          小于或等于                          |
+|        =         |                             等于                             |
+|     <> 或 !=     | 不等于 (注：`<>` 和 `!=` 在大多数数据库系统中都可以表示不等于，但具体使用哪一个可能取决于数据库的类型或配置) |
+| between...and... | 之间，包含边界 (用于指定一个值的范围，该值应该在这个范围内，包括范围的边界值) |
+|     in(...)      |  多选一 (用于指定一个值的集合，该值应该是这个集合中的一个)   |
+|       like       | 模式匹配 (用于字符串匹配，其中 `_` 代表单个字符，`%` 代表零个或多个字符) |
+|     is null      |            为空 (用于检查一个字段的值是否为NULL)             |
+|      not in      | 不在多选一的集合中 (用于指定一个值的集合，该值不应该是这个集合中的一个) |
 
-|      |      |
-| ---- | ---- |
-| any  |      |
-| some |      |
-| all  |      |
+| 关键字 |                             描述                             |
+| :----: | :----------------------------------------------------------: |
+|  ANY   | 当与子查询一起使用时，表示只要满足子查询结果集中的任何一个值，条件就为真。在比较操作中，相当于“IN”操作符的一种形式。 |
+|  SOME  | 在MySQL中，`SOME`与`ANY`是等价的，都表示满足子查询结果集中的任何一个值即可。它们的用法和效果相同。 |
+|  ALL   | 当与子查询一起使用时，表示必须满足子查询结果集中的所有值，条件才为真。这要求比较操作中的每个值都与子查询结果集中的所有值进行比较，并且都满足条件。 |
 
 > 用以子查询
 >
@@ -204,11 +212,11 @@ SELECT * FROM employees e1
 WHERE e1.age > ALL (SELECT age FROM employees e2 WHERE e2.id != e1.id ORDER BY age ASC LIMIT 1);
 ```
 
-|            |      |
-| ---------- | ---- |
-| and 或 &&  |      |
-| or 或 \|\| |      |
-| not 或 !   |      |
+|   关键字   |                             描述                             |
+| :--------: | :----------------------------------------------------------: |
+| AND 或 &&  | 表示逻辑“与”。当两个条件都满足时，结果为真。用于连接两个或多个条件，只有当所有条件都为真时，整个表达式才为真。 |
+| OR 或 \|\| | 表示逻辑“或”。当任一条件满足时，结果为真。用于连接两个条件，只要其中一个条件为真，整个表达式就为真。 |
+|  NOT 或 !  | 表示逻辑“非”。用于反转条件的真假。当使用`NOT`时，条件的结果为假，反之则为真。 |
 
 > 聚合函数
 
@@ -254,7 +262,7 @@ group by gender
 >
 > where > 聚合函数 > having
 
-排序查询 order by
+### 排序查询
 
 > `select 字段列表 from 表名 order by 字段1 排序方式1，字段2 排序方式2`
 
@@ -262,6 +270,8 @@ group by gender
 select
 from
 order by
+
+ORDER BY department ASC, salary DESC;  // 降序
 ```
 
 | order by 参数 |                |
@@ -295,23 +305,26 @@ limit 0,10  #按每10条为一页，现在查询的是第一条，也就是第�
 
 ### 编写顺序
 
-* select
-* from
-* where
-* group by
-* having 
-* order by
-* limit
+> 指的是我们书写的代码规范
 
-执行顺序
+* **SELECT** - 首先，指定你想要从数据库中检索的字段（列）或计算后的值。这里也可以包括聚合函数
+* **FROM** - 紧接着，指明这些数据来自哪个表或哪些表的组合。这是查询的数据源。
+* **JOIN**（如需要）- 数据分散在多个表中，JOIN可以基于各种条件将不同表的行组合在一起。
+* **WHERE** - 之后，通过WHERE子句来过滤不需要的记录。
+* **GROUP BY**（如需要）- 对结果集按照一个或多个列进行分组，以便对每个组应用聚合函数，就要使用GROUP BY子句。
+* **HAVING**（如需要）- 在使用GROUP BY分组后，HAVING子句允许你过滤掉不满足特定条件的组。这类似于WHERE子句，但它是应用于分组后的结果。
+* **ORDER BY**（如需要）- 最后，在将结果返回给用户之前，你可能希望按照一定的顺序对记录进行排序。ORDER BY子句允许你指定一个或多个列作为排序的依据，并指定排序的方向（升序或降序）。
+* **LIMIT** 和 **OFFSET**（如需要）- 有时你可能不需要查询返回的所有记录，而只是其中的一部分。LIMIT子句限制了返回的记录数，而OFFSET子句则指定了在开始返回记录前要跳过的记录数。这在分页查询中特别有用。
 
-* from
-* where
-* group by
-* having
-* select
-* order by
-* limit
+### 执行顺序
+
+* **FROM**（包括JOIN操作）: 数据库首先确定查询的数据源，一个或多个表，以及这些表之间的连接方式（如INNER JOIN, LEFT JOIN等）。
+* **WHERE**: 接着，数据库根据WHERE子句中的条件对从数据源中获取的记录进行筛选，只保留满足条件的记录。
+* **GROUP BY**: 如果查询包含GROUP BY子句，数据库将对筛选后的记录进行分组，分组的依据是GROUP BY子句中指定的列或表达式。
+* **HAVING**: 在分组完成后，HAVING子句用于对分组结果进行过滤，只保留满足HAVING条件的组。
+* **SELECT**（包括DISTINCT操作）: 接下来是SELECT操作，数据库根据SELECT子句中指定的列或表达式从每个组中选取数据。如果查询包含DISTINCT关键字，数据库还会去除结果中的重复记录。
+* **ORDER BY**: 数据库根据ORDER BY子句中的条件对最终的结果集进行排序，可以指定升序（ASC）或降序（DESC）。
+* **LIMIT**（以及可能的OFFSET）: 最后，LIMIT子句用于限制返回给客户端的记录数。OFFSET子句（如果存在）用于指定在返回结果之前要跳过的记录数。
 
 > 唯一要注意的是 `select` 在having后面执行
 >
@@ -390,7 +403,7 @@ revoke 权限列表 on 数据库名.表名 from '用户名'@'主机名'
 
 ## 字符串
 
-|                          |               |
+|                          | 描述          |
 | ------------------------ | ------------- |
 | concat(s1,s2,s3)         | 拼接          |
 | lower(str)               | 小写          |
@@ -412,16 +425,23 @@ revoke 权限列表 on 数据库名.表名 from '用户名'@'主机名'
 
 ## 日期
 
-|                                   |                                  |
-| --------------------------------- | -------------------------------- |
-| curdate()                         | 当前日期                         |
-| curtime()                         | 当前时间                         |
-| now()                             | 返回包括年月日                   |
-| year(date)                        |                                  |
-| month(date)                       |                                  |
-| day(date)                         |                                  |
-| date add(date,interval expr type) | 返回增加一个时间值，可以是年月日 |
-| datediff(date1,date2)             | 之间相差的天数                   |
+|              函数名               |                             描述                             |
+| :-------------------------------: | :----------------------------------------------------------: |
+|             curdate()             |                           当前日期                           |
+|             curtime()             |                           当前时间                           |
+|               now()               |      返回当前日期和时间，包括年、月、日、小时、分钟和秒      |
+|            year(date)             |                      返回日期的年份部分                      |
+|            month(date)            |                      返回日期的月份部分                      |
+|             day(date)             |                      返回日期的天数部分                      |
+| date add(date,interval expr type) | 返回一个日期，该日期增加了指定的时间间隔。时间间隔可以是年、月、日等。 |
+|       datediff(date1,date2)       | 返回两个日期之间的天数差值。例如，`datediff('2023-01-01', '2023-01-05')` 将返回4。 |
+|           weekday(date)           | 返回日期对应的星期几，其中0代表星期一，1代表星期二，以此类推，6代表星期日。 |
+|         weekofyear(date)          | 返回日期所在的年份中的周数。例如，2023年的第一周可能是1，第二周是2，依此类推。不同的数据库可能有不同的规则来确定每年的第一周。 |
+|         time_to_sec(time)         | 将时间转换为秒数。例如，`time_to_sec('1:30:00')` 将返回5400秒。 |
+|          dayofweek(date)          | 返回日期对应的星期几，其中1代表星期日，2代表星期一，以此类推，7代表星期六。 |
+|          dayofyear(date)          | 返回日期在一年中的天数，从1开始计数。例如，2023年1月1日是第1天。 |
+|          last_day(date)           | 返回给定日期所在月份的最后一天的日期。例如，`last_day('2023-01-15')` 将返回'2023-01-31'。 |
+|          TIMESTAMP(expr)          |                         转化为实践出                         |
 
 ```sql
 SELECT CURDATE()
@@ -553,7 +573,43 @@ drop foreign key 键名
 
 ```
 
+### 添加约束
+
+```sql
+ALTER TABLE table_name  
+ADD CONSTRAINT constraint_name PRIMARY KEY (column1, column2, ...);
+
+ADD CONSTRAINT constraint_name UNIQUE (column1, column2, ...);
+
+ADD CONSTRAINT constraint_name FOREIGN KEY (column1, column2, ...)  
+REFERENCES another_table_name (another_column1, another_column2, ...);
+
+ADD CONSTRAINT constraint_name CHECK (condition);
+
+ALTER COLUMN column_name SET DEFAULT default_value;
+```
+
+
+
+### 删除约束
+
+```sql
+ALTER TABLE 表名 DROP PRIMARY KEY;
+ALTER TABLE 表名 DROP INDEX 约束名称;
+ALTER TABLE 表名 DROP FOREIGN KEY 约束名称;
+ALTER TABLE 表名 DROP CHECK 约束名称;
+ALTER TABLE 表名 ALTER 列名称 DROP DEFAULT;
+DROP TRIGGER 触发器名称;
+```
+
 ### 删除/更新行为
+
+> 这些术语描述的是在处理数据库中的外键关系时，当主表（参照的表）中的记录被删除或更新时，与之相关联的子表（外键所在的表）中的记录应该如何被处理的行为。
+
+|           |        |
+| --------- | ------ |
+| on update | 更新时 |
+| on delete | 删除时 |
 
 |             |            |
 | ----------- | ---------- |
@@ -574,13 +630,17 @@ on update 行为 on delete 行为
 
 # 多表查询
 
+> 联合多个表查询要求
+
 ![img](data:image/gif;base64,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)
 
 > `select * from 表a,表b`
 
 ### 内连接
 
-> inner join，等于取A B交集
+> `inner join`等于取A B交集
+>
+> `on`
 
 ```sql
 # 隐式内连接
@@ -591,8 +651,6 @@ where a.id = b.id
 select *
 from a inner join b on a.id = b.id  
 ```
-
-
 
 ### 外连接
 
@@ -618,9 +676,19 @@ from a right join b on a.id = b.id
 #from a right outer join b on a.id = b.id
 ```
 
+```sql
+# 两个表以上的外连接
+SELECT *  
+FROM table1  
+LEFT JOIN table2 ON table1.id = table2.id  
+LEFT JOIN table3 ON table1.id = table3.id;
+```
+
 ### 自链接
 
 > 自己连接自己，需要起别名
+>
+> 使用自连接可以帮助我们解决一些问题，例如查找与自己相关的记录、比较同一表中的不同行等。
 
 ```sql
 select * 
@@ -665,23 +733,22 @@ where id = (
 					  )
 ```
 
-* 标量子查询
-
-  返回的结果是单个值，一般用比较运算符`=,!=,<,>,...`
-
-* 列子查询
-
-  结果是一列（可以多行），一般用操作符 `in,not in,any,some,all`
-
-* 行子查询
-
-  记过是一行（可以是多列），一般用`=,!=,in,not in`
-
-* 表子查询
-
-* 结果是多行多列（一个表），一般用 `in`
-
-
+1. **标量子查询**：
+   - 返回一个单一的值。
+   - 通常用于比较操作，例如 `=`、`!=`、`<`、`>` 等。
+   - 例如：查询某个表中年龄大于20的员工的数量。
+2. **列子查询**：
+   - 返回一个列（可以有多个行）。
+   - 通常与 `IN`、`NOT IN`、`ANY`、`SOME`、`ALL` 等操作符一起使用。
+   - 例如：查询在某个列表中的员工ID。
+3. **行子查询**：
+   - 返回一行（可以是多列）。
+   - 通常与 `=`、`!=`、`IN`、`NOT IN` 等操作符一起使用。
+   - 例如：查询某位员工的所有相关信息。
+4. **表子查询**：
+   - 返回多行多列，就像一个完整的表。
+   - 通常与 `IN` 等操作符一起使用。
+   - 例如：查询某位员工所在的所有部门。
 
 ```sql
 # 标量子
@@ -707,6 +774,8 @@ select * from (select * frome a,where ...) as e left join table_name on e.id = t
 > `all` 必须是全部
 >
 > `(a,b)=(res1,res2)`
+>
+> 就是说左边的比较值必须和右边的子查询返回值一样
 >
 > 子查询也可以出现在 `select` 之后
 >
@@ -742,7 +811,7 @@ rollback;
 ### 开启事务
 
 ```sql
-start transaction
+start transaction 或者 begin
 ```
 
 > 设置了 `start transcation` 事务提交方式将变为手动，不提交将不会更改数据
@@ -792,7 +861,7 @@ start transaction
 |        |                                                      |
 | ------ | ---------------------------------------------------- |
 | innoDB | 支持事务、外键、行锁                                 |
-| MySAM  | 支持表锁，性能效率高                                 |
+| MyISAM | 支持表锁，性能效率高                                 |
 | MEMORY | 将数据保存在内容中，访问速度快，无法保障数据的安全性 |
 
 > `SHOW ENGINES` 查看数据库引擎
@@ -828,7 +897,7 @@ start transaction
 | ---- | -------------------- | ------------------ | ------- |
 | 主键 | 针对于主键           | 自动创建，只有一个 | primary |
 | 唯一 | 避免重复             | 可以多个           | unique  |
-| 常规 | 快速定位             | 可以多个           |         |
+| 常规 | 快速定位             | 可以多个           | 可省略  |
 | 全文 | 查找关键字，而不是值 | 可以多个           | fulltxt |
 
 |                          |                                                |                  |
@@ -854,7 +923,7 @@ start transaction
 
 ### 创建
 
-> 
+> `CREATE INDEX index_name ON table_name (column1, column2, ...);`
 
 ### 查看
 
@@ -876,7 +945,7 @@ show GLOBAL STATUS LIKE "Com_______"
 
 **慢查询日志**
 
-
+...
 
 执行计划
 
@@ -894,6 +963,41 @@ show GLOBAL STATUS LIKE "Com_______"
 8. **ALL**：表示查询进行了全表扫描，MySQL扫描全表来找到匹配的行。
 
 ## 索引使用
+
+### 索引失效
+
+> 如果在查询中对索引列使用了函数或运算，这会导致索引失效
+
+* 索引列上运算
+
+* 字符串不加引号（数据类型不匹配）
+
+* 模糊查询
+
+  头部会
+
+  尾部模糊匹配索引不会失效
+
+* or连接条件
+
+  or前面有索引后面没有索引，则涉及的索引都不会被用到
+
+* 数据分布影响
+
+  数据量大，分布不均匀，多个表
+  
+  mysql评估使用索引比全搜索慢
+
+```sql
+#并没有走索引
+explain select student_name 
+FROM students 
+WHERE money >= 0
+// >=0 引擎会认为几乎所有数据都比这个大，就会不使用索引
+
+#走索引了
+WHERE money >= 99
+```
 
 >  联合索引
 
@@ -926,6 +1030,12 @@ select * from tb where a >= 20 and b ="0" #b 将不经过索引
 
 然而，如果将查询条件改为 `WHERE a >= 20 AND b = 30`，则不会出现 `b` 索引失效的情况。因为 `a >= 20` 仍然是一个范围查询，但它不会导致索引树进行大的跳跃，从而可以继续利用 `b` 列的索引信息进行查找。
 
+> 当我们在查询中使用 `a > 20` 这样的范围条件时，索引可能不会被有效地使用，因为索引树需要跳过不满足条件的那部分数据。这种跳跃可能导致数据库系统无法快速定位到满足条件的记录，因此可能不会使用索引，而是进行全表扫描。
+>
+> 相比之下，当查询条件中包含等值条件（如 `b = 30`）时，如果它所在的列有索引，那么这个索引通常会被使用，因为等值条件可以直接定位到满足条件的记录，不需要进行跳跃。
+>
+> 而 `a >= 20` 这种范围查询则不会导致大的跳跃，因为 `>=` 表示的是大于或等于，它会匹配所有大于20的记录，不会因为某一部分不满足条件就跳过。因此，即使 `a` 和 `b` 都是聚合索引的一部分，`b` 索引仍然可以被有效地使用。
+
 ```sql
 CREATE INDEX ind_stu_id_money on students(id,money)
 
@@ -944,44 +1054,15 @@ FROM students
 WHERE id <=1 and money = 10
 ```
 
-### 索引失效
-
-> 如果在查询中对索引列使用了函数或运算，这会导致索引失效
-
-* 索引列上运算
-
-* 字符串不加引号（数据类型不匹配）
-
-* 模糊查询
-
-  尾部模糊匹配索引不会失效
-
-* or连接条件
-
-  or前面有索引后面没有索引，则涉及的索引都不会被用到
-
-* 数据分布影响
-
-  mysql评估使用索引比全搜索慢
-
-```sql
-#并没有走索引
-explain select student_name 
-FROM students 
-WHERE money >= 0
-#走索引了
-WHERE money >= 99
-```
-
 ### SQL提示
 
 > 当有多个索引都覆盖绑定同一个值的时候，可以选择切换
 >
-> use index() 建议使用哪个索引，不一定会使用
+> `use index(index_name)` 建议使用哪个索引，不一定会使用
 >
-> ignore index()  忽略哪个索引
+> `ignore index(index_name)`  忽略哪个索引
 >
-> force index() 必须使用哪个索引
+> `force index(index_name)` 必须使用哪个索引
 
 ```sql
 select * 
@@ -996,31 +1077,33 @@ where ...
 >
 > 回表，在使用二级索引查找聚集索引所包含的数据时会回表查询
 >
-> 索引覆盖是指查询中使用的所有列都包含在索引中，这样数据库就不需要访问表中的数据行来获取查询结果，而是可以直接从索引中获取所需的数据。这可以大大提高查询效率，减少数据访问的开销。
+> 实际上是指一个索引包含了查询所需要的所有数据，这样数据库就不需要回到原表中再次进行数据检索，从而避免了所谓的“回表”操作。
 >
 > 
 >
 > 简单来说就是避免回表查询
 
+### 回表
+
+> 根据非主键索引（也称为非聚簇索引）找到了指定的记录所在行后，还需要根据主键再次到数据块（聚集索引）里获取数据的过程。
+
 ### 前缀索引
 
-> ``create index index_name on table_name(index_col_name(n))``
->
-> 在MySQL中，可以使用前缀索引来优化某些查询操作。例如，对于一个包含大量文本数据的字段，如果只需要根据该字段的前几个字符进行查询，那么可以使用前缀索引来提高查询效率。
->
-> 选择性
+> `create index index_name on table_name(index_col_name(n))`
+
+1. **前缀索引**：这是在大型文本字段上的一种常见优化技术。由于一个大型文本字段可能包含很多数据，全字段的索引可能会很大，查询效率也可能受到影响。通过只索引字段的前几个字符（前缀），可以大大减少索引的大小，并提高查询速度。例如，如果一个字段是`VARCHAR(255)`，并且你知道查询经常基于该字段的前10个字符，那么你可以只对这10个字符创建索引。
+2. **选择性**：这是指在一个字段上唯一值的数量与该字段的总记录数之间的比率。选择性高的字段意味着在该字段上有许多不同的值，而选择性低的字段意味着大多数值都是相同的。选择性高的字段更适合于建立索引，因为它们能够更有效地过滤出所需的记录。
+3. **裁剪索引键值**：当索引的键值太大时，数据库可能会对其进行“裁剪”。这意味着它只存储键值的一部分，而不是完整的键值。这是为了减少索引的大小和提高查询效率。例如，如果一个索引是基于一个大型文本字段的前5个字符，那么索引只会存储这5个字符，而不是整个文本。
+
+> 计算一下重复度
 >
 > `select count(distinct substring(1,5))/count(*) from`
->
-> 查看一下重复度
->
-> 
 >
 > 简单来说就是二级索引储存的键值太大，进行裁剪后存储
 
 ### 单列索引和联合索引
 
-> 当单列索引和联合索引绑定同一列的时候MySQL会默认使用单列索引
+> 当单列索引和联合索引绑定同一列的时候MySQL会默认使用`单列索引`
 >
 > 若需要切换可使用
 >
@@ -1068,9 +1151,13 @@ where ...
 
 * 数据组织方式，数据根据主键数据顺序存放的（索引组织表）
 
-  页分裂，乱序导致页分裂
+  - 页分裂
 
-  页合并，默认百分之50
+    乱序容易导致页分裂，当一个数据页（在B-tree或B+tree中）满了，并且需要插入新的数据时，就会发生页分裂。
+
+  - 页合并，默认百分之50
+
+    页合并是将两个或多个数据页合并成一个更大的数据页，发生在删除操作后，当数据页变得过于稀疏或有很多空闲空间时
 
 * 主键设计原则
 
@@ -1081,10 +1168,12 @@ where ...
 
 ### order by优化
 
-1. Using filesort，内存中进行排序
-2. Using index，通过索引
+1. `Using filesort`，内存中进行排序
+2. `Using index`，通过索引
 
 > 在创建索引时时指定升序还是降序
+>
+> 就是索引默认升序，而这个时候 order by 要降序，则会出现`Using filesort`
 
 ```sql
 CREATE INDEX index_name ON table_name (column_name DESC);
@@ -1126,8 +1215,6 @@ order by
 limit 10000,10
 ```
 
-
-
 ```sql
 #不能在in后面使用limit
 select *
@@ -1153,7 +1240,6 @@ from tb as a,(
 				) as b
 where a.id = b.id
 order by
-
 ```
 
 ### count()优化
@@ -1166,9 +1252,11 @@ order by
 
 ### update优化
 
+> **批量更新**：如果需要更新大量数据，考虑使用批量更新，而不是一个接一个地更新。这可以通过减少与磁盘 I/O 相关的操作来实现。
+>
 > 在innoDB默认隔离权限下，事务在未提交时会进行 `行锁`，如果对应字段没有索引则会是 `表锁`
 >
-> 在使用update更新时要使用索引进行数据更新，并且索引不能失效，不然行锁就会升级为表锁，降低并发性能
+> 在使用 update 更新时要使用索引进行数据更新，并且索引不能失效，不然行锁就会升级为表锁，降低并发性能
 
 # 视图 view
 
@@ -1206,8 +1294,6 @@ where id<10
 ## 删除
 
 > `drop view [if exists] 视图名称 `
-
-
 
 ## 检查选项
 
@@ -1395,6 +1481,8 @@ from students
 
 > `declare` 局部声明变量，只能在`begin end`之间使用
 >
+> 在存储过程中定义的变量必须先declare声明
+>
 > `declare 变量名 变量类型[default]`
 
 ```sql
@@ -1524,11 +1612,11 @@ call p9(16)
 
 ## 循环结构
 
-|        |                  |
-| ------ | ---------------- |
-| while  | 满足条件进行循环 |
-| repeat | 满足条件退出循环 |
-| loop   |                  |
+|                |                              |
+| -------------- | ---------------------------- |
+| while..do      | 满足条件进行循环             |
+| repeat...until | 满足条件退出循环类似do while |
+| loop           |                              |
 
 ```sql
 # while
@@ -1563,9 +1651,9 @@ end;
 CALL p11 (100)
 ```
 
-> `loop`
+> `label:loop`
 >
-> `leave`，`iterate`
+> `leave` 退出，`iterate` 跳过当前
 
 ```sql
 #累加
@@ -1633,14 +1721,14 @@ CALL p13 (100)
    `close 游标名称`
 
 ```sql
-CREATE PROCEDURE p6 (in uage int) BEGIN #
+CREATE PROCEDURE p6 (in uage int) BEGIN 
 
 	DECLARE uname VARCHAR(100);  # 定义用于存储从游标读出的数据
 	DECLARE uscore VARCHAR(100);
 	# 声明游标 读取数据结果集
 	DECLARE u_cursor cursor for SELECT student_name,score FROM students WHERE age<= uage; 
 	#声明条件处理程序
-	DECLARE exit handler for not found close u_cursor;# not found没有数据执行close
+	DECLARE exit HANDLER for not found close u_cursor;# not found没有数据执行close
 	
 	drop table if EXISTS tb_user_score;# 删除已存在表
 	create table if not EXISTS tb_user_score(#创建一个表用于存储游标数据
@@ -1745,12 +1833,6 @@ end;
 select fun1(100)  # 直接函数名调用
 ```
 
-
-
-
-
-
-
 # 触发器 trigger
 
 > 触发器是数据库中用于处理表上特定事件（如插入、更新、删除）的特殊存储过程，由特定事件触发的。这些事件通常包括对数据库表的INSERT、UPDATE或DELETE操作。当这些事件发生时，触发器就会被激活并执行相应的操作。
@@ -1826,8 +1908,6 @@ show triggers;
 drop trigger	stu_insert_trigger;
 ```
 
-
-
 # 锁
 
 >在数据库中，锁是用于控制并发访问的一种机制。它能够防止多个事务同时修改同一资源，从而保证数据的一致性和完整性。锁可以防止脏读、不可重复读和幻读等问题。
@@ -1856,7 +1936,7 @@ mysqldump --single-transaction -uroot -p123456 itcast>itcast.sql
 
 > 对整个数据库加锁，加锁后整个数据库所有表都**只能读取**，DML、DDL都不可执行
 >
-> `flush tables with read loc	k` 加锁
+> `flush tables with read lock` 加锁
 >
 > `unlock tables` 解锁
 
@@ -1990,10 +2070,7 @@ LOCK in  share mode; #开启意向共享锁
 1. 索引上的等值查询（唯一索引），给不存在的记录加锁时，优化为间隙锁
 2. 索引上的等值查询（普通索引），向右遍历时最后一个值不满足查询需求时，next-key锁退化为间隙锁
 3. 索引上的范围查询（唯一索引），会访问到不满足条件的第一个值为止
-
-
-
-
+4. 
 
 我们有一个按照ID排序的唯一索引，ID为6的记录后面直接跟着ID为8的记录。当事务T1想要更新ID为8的记录时，它不仅仅需要锁定ID为8的这个索引条目（记录锁），还需要锁定ID为6和ID为8之间的间隙（间隙锁），以确保没有其他事务可以插入一个新的ID（例如ID为7）到这个间隙中。
 
@@ -2032,21 +2109,107 @@ LOCK in  share mode; #开启意向共享锁
 
    行锁、间隙锁、临键锁
 
+# 数据库范式
 
+> 范式是为了消除数据冗余
 
+1. 第一范式（1NF）：要求数据库表的每一列都是不可分割的最小单元，确保每列的原子性。
+2. 第二范式（2NF）：在1NF的基础上，要求表中的所有非主键列都完全依赖于主键，不能只依赖于主键的一部分。如果表是单主键，那么主键以外的列必须完全依赖于主键；如果表是复合主键，那么主键以外的列必须完全依赖于主键。
+3. 第三范式（3NF）：在2NF的基础上，要求非主键列之间没有传递依赖，即非主键列必须直接依赖于主键，而不是相互依赖。
 
+## 第一范式
 
+> 不符合第一范式
+>
+> 一个字段包含多个单元姓名列包含两个数据 `销售部`和 `小张` 
 
+| 员工编码 | 姓名       | 年龄 |
+| -------- | ---------- | ---- |
+| 001      | 销售部小张 | 28   |
+| 002      | 运营部小黄 | 25   |
+| 003      | 技术部小高 | 22   |
 
+> 符合第一范式
+>
+> 将部门和姓名拆开
 
+| 员工编码 | 部门   | 姓名 | 年龄 |
+| -------- | ------ | ---- | ---- |
+| 001      | 销售部 | 小张 | 28   |
+| 002      | 运营部 | 小黄 | 25   |
+| 003      | 技术部 | 小高 | 22   |
 
+## 第二范式
 
+> 在满足第一范式的情况下，遵循唯一性，消除部分依赖。即，**表中任意一个主键或任意一组联合主键，可以确定除该主键外的所有的非主键值。**
+>
+> **一个表只能描述一件事情**。
 
+> 不符合第二范式的例子
 
+| 学号 | 姓名 | 年龄 | 课程名称 | 成绩 | 学分 |
+| ---- | ---- | ---- | -------- | ---- | ---- |
+| 001  | 小张 | 28   | 语文     | 90   | 3    |
+| 001  | 小张 | 28   | 数学     | 90   | 2    |
+| 002  | 小黄 | 25   | 语文     | 90   | 3    |
+| 002  | 小黄 | 25   | 语文     | 90   | 3    |
+| 003  | 小高 | 22   | 数学     | 90   | 2    |
 
+1. 假设学号是表中的唯一主键，那由学号就可以确定姓名和年龄了，但是却不能确定课程名称和成绩。
 
+2. 假设课程名称是表中的唯一主键，那由课程名称就可以确定学分了，但是却不能确定姓名、年龄和成绩。
 
+主要是学分会造成数据冗余，我们定义课程和学分相对应的表即可
 
+**拆分成 3 张表，保证一张表只描述一件事情**。
 
+1. 学生表 - 学号做主键
 
+| 学号 | 姓名 | 年龄 |
+| ---- | ---- | ---- |
+| 001  | 小张 | 28   |
+| 002  | 小黄 | 25   |
+| 003  | 小高 | 22   |
 
+2. 课程表 - 课程名称做主键
+
+| 课程名称 | 学分 |
+| -------- | ---- |
+| 语文     | 3    |
+| 数学     | 2    |
+
+3. 成绩表 - 学号和课程名称做联合主键
+
+| 学号 | 课程名称 | 成绩 |
+| ---- | -------- | ---- |
+| 001  | 语文     | 90   |
+| 001  | 数学     | 90   |
+| 002  | 语文     | 90   |
+| 002  | 语文     | 90   |
+| 003  | 数学     | 90   |
+
+## 第三范式
+
+在满足第二范式的情况下，消除传递依赖。即，**在任一主键都可以确定所有非主键字段值的情况下，不能存在某非主键字段 A 可以获取 某非主键字段 B**。
+
+> 不符合第三范式
+
+| 学号 | 姓名 | 班级          | 班主任 |
+| ---- | ---- | ------------- | ------ |
+| 001  | 小黄 | 一年级（1）班 | 高老师 |
+
+这个表中，学号是主键，它可以唯一确定姓名、班级、班主任，符合了第二范式，但是在非主键字段中，我们也可以通过班级推导出该班级的班主任，所以它是不符合第三范式的。
+
+**因为班主任可以通过班级确认，所以不符合第三范式**
+
+1. 学生表
+
+| 学号 | 姓名 | 班级          |
+| ---- | ---- | ------------- |
+| 001  | 小黄 | 一年级（1）班 |
+
+2. 班级表
+
+| 班级          | 班主任 |
+| ------------- | ------ |
+| 一年级（1）班 | 高老师 |
