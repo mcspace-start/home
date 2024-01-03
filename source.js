@@ -4,6 +4,11 @@ var person = {
       groupName: "项目展示",
       data: [
         {
+          content: "查看Github仓库👉",
+          url: "https://github.com/mcspace-start/home",
+          title: "",
+        },
+        {
           content: "vue-电商后台管理系统",
           url: "demo/vue-shop/dist",
           title: "项目使用了vue-cli2、vue-router、axios、element-ui",
