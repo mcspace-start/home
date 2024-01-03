@@ -2,6 +2,7 @@
 * [vue笔记](/mdfiles/vue笔记)
 * [vuex笔记](/mdfiles/vuex笔记)
 * [vueRouter笔记](/mdfiles/vueRouter笔记)
+* [mysql笔记](/mdfiles/mysql笔记)
 * [Jquery笔记](/mdfiles/Jquery笔记)
 * [jquery常用事件](/mdfiles/jquery常用事件)
 * [jquery选择器](/mdfiles/jquery选择器)
