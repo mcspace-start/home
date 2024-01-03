@@ -15,7 +15,7 @@ var person = {
         },
         {
           content: "uni-app-电商系统",
-          url: "demo/",
+          url: "demo/uniapp_shop",
           title: "项目使用了uni-app",
         },
         {
