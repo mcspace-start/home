@@ -1857,6 +1857,8 @@ console.log(person.age);
 #### 动态属性名
 
 > es5构造函数是不支持这样写法
+>
+> 对象中的动态属性名只会在创建对象时计算一次，之后更改变量值属性名不会发生变动
 
 ```js
 var methodName = 'func'
@@ -1989,7 +1991,7 @@ person.showAge()   // undefined
 
 1. 父类直接调用
 2. 子类继承父类后调用
-3. 子类通过super对象调用
+3. 子类通过`super` 对象调用
 
 ```js
 // 直接调用
@@ -1998,7 +2000,6 @@ class Foo {
     return 'hello';
   }
 }
-
 Foo.classMethod();  // hello
 
 // 子类继承父类调用
@@ -2011,7 +2012,7 @@ class Bar extends Foo {
 }
 Bar.classMethod() // hello
 
-//子类通过super调用
+// 子类通过super调用
 class Foo {
     static classMethod() {
         return 'hello';
@@ -2254,6 +2255,8 @@ let b = new B();
 
 > 上面代码中，super.x 赋值为 3，这时等同于对 this.x 赋值为 3。而当读取 super.x 的时候，调用的是 `A.prototype.x`，但并没有 x 方法，所以返回 **undefined**。
 >
+> `super`是不能直接修改父类属性的
+>
 > 注意，使用 super 的时候，必须显式指定是作为函数，还是作为对象使用，否则会报错。
 
 ```js
@@ -2304,7 +2307,7 @@ f.printSum();  // prints 3
 
 > 子类重写同父类同名方法
 >
-> js 没有 重载
+> js 没有重载
 
 ```js
 class A {
@@ -2732,7 +2735,7 @@ console.log(li);
 | attributes             | 节点的属性列表（只读）                                       |
 | nodeValue              | 属性根据节点的类型设置或返回节点的值（可读写）               |
 | textContent            | 属性设置或者返回指定节点的文本内容（可读写）                 |
-| nodeType               | 属性返回以数字值返回指定节点的节点类型。元素：1、属性：2、文本：3 |
+| nodeType               | 属性返回以数字值返回指定节点的节点类型。元素：1：属性、2：文本 |
 | nodeName               | 返回节点名称，大写字母（只读）                               |
 | innerText              | 节点内获取和写入文本（可读写）                               |
 | innerHTML              | 节点内获取或写入内容（可读写）                               |
@@ -3445,7 +3448,7 @@ setTimeout(print, 3000);
 > - `setInterval()`：按照指定的周期（以毫秒计）来调用函数或计算表达式。方法会不停地调用函数，直到 clearInterval() 被调用或窗口被关闭。
 > - `setTimeout()`：在指定的毫秒数后调用函数或计算表达式。
 
-|                                  | 描述                                                         |
+| 函数                             | 描述                                                         |
 | -------------------------------- | ------------------------------------------------------------ |
 | setTimeout(code,millisec)        | 倒计时器；倒计时完成后执行代码                               |
 | setInterval(code,millisec)       | 循环定时器；一直循环执行代码直到被删除循环定时器             |
@@ -3493,7 +3496,7 @@ setInterval("console.log('你好')", 2000);
 
 > <span style="font-size:18px">**关于 setTimeout 时间设置为 0**</span>
 >
-> js是单线程的，单线程就意味着，所有任务需要排队，前一个任务结束，才会执行后一个任务。如果前一个任务耗时很长，后一个任务就不得不一直等着。
+> js是单线程的，这里的作用是实现JavaScript的 **异步**，让该语句后面的语句执行完再执行本身
 >
 > setTimeout(fn,0)的含义是，那么浏览器便会在合适的时间，将代码插入任务队列，指定某个任务在 **主线程** 最早可得的 **空闲时间** 执行，也就是说，**尽可能早点执行**。它在"任务队列"的 **尾部** 添加一个事件，因此要等到同步任务和"任务队列"现有的事件都处理完，才会得到执行；**并不能保证执行的时间**，是否及时执行取决于 JavaScript 线程是 **拥挤还是空闲**。
 
@@ -3936,7 +3939,7 @@ async function myFunction() {
 }
 ```
 
-> await还具有解析promise的功能类似于then
+> await还具有**解析**promise的功能类似于then
 >
 > 直接获取返回的promise内容
 
@@ -4092,7 +4095,7 @@ var x = 5;
 
 > **脚本文件的变通写法**
 >
-> 打包器肯能会将“正常模式”和“严格模式”文件打包成一个文件，避免是“正常模式”文件下代码无法运行，我们可以利用严格模式针对单个函数特性将整个脚本文件放在一个立即执行的匿名函数之中。
+> 打包器可能会将“正常模式”和“严格模式”文件打包成一个文件，避免是“正常模式”文件下代码无法运行，我们可以利用严格模式针对单个函数特性将整个脚本文件放在一个立即执行的匿名函数之中。
 
 ```js
 (function (){
@@ -4262,7 +4265,7 @@ console.log(time);
 
 ```js
 <input type="file" id="test">
-
+// js
 "use strict";
 let fInput = document.getElementById("test")
 fInput.onchange = function (e) {
@@ -4422,7 +4425,7 @@ Input.onchange = (e) => {
         return false;
     }
     const read = new FileReader(file);
-    read.readAsDataURL(file);
+    read.readAsDataURL(file); // 读取类型为数据URL
     read.onload = () => {
         Img.src = read.result;
         P.innerHTML = `filename: ${file.name}<br>filetype: ${file.type}<br>lastModified: ${new Date(file.lastModified)}<br>filesize: ${Math.floor(file.size / 1024)}KB`;
@@ -4841,7 +4844,7 @@ var a, b;
 ({a, b} = {a: 1, b: 2});
 ```
 
-> 给新的变量名赋值；使用 : 冒号
+> 起别名
 
 ```js
 var o = {p: 42, q: true};
@@ -4985,11 +4988,11 @@ console.log(a.hasOwnProperty('__proto__'));  // false
 >
 > * `href="#"`
 >
->   跳转至假链接；严格来说这不算假链接他是跳转至 # 位置
+>   跳转至假链接；严格来说这不算假链接他是跳转至 # 锚点位置
 >
 > * `href="javascript:void(0)"`
 >
->   推荐使用这种写法；原理是执行javascript语句返回空内容
+>   推荐使用这种写法；原理是执行表达式返回空内容
 
 ```html
 <a href="#">超链接</a>
@@ -5199,7 +5202,7 @@ for (let i of iterable) {
 
 > 总结：
 >
-> for-of 功能很强大除了上面所例还可以编译 set、map、dom集合等等。
+> for-of 功能很强大除了上面所例还可以遍历 set、map、dom集合等等。
 >
 > 无论是for...in还是for...of语句都是迭代一些东西。它们之间的主要区别在于它们的迭代方式。
 >
@@ -5485,7 +5488,7 @@ for (const [key, val] of map) {
 
 #### Set
 
-> Set 和数组非常相似，”存值不存键“；
+> Set 和数组非常相似，存值不存键
 >
 > Set对象是值的集合，你可以按照插入的顺序迭代它的元素。 Set中的元素只会出现一次，即 Set 中的元素是 **唯一** 的。
 >
@@ -5613,7 +5616,7 @@ for (const [key, val] of set) {
 }
 ```
 
-> 可见 Set 遍历和 Map 很相似，也是可以用 forEach、forOf；不同的是 Set 中的"key"是和”value“是相同的，使用 keys() 和 values() 效果相同，不过需要注意的是不能使用 <br>`for (const [key,val] of set) {}` 也就是两个参数，一个参数可以，两个则会报错 <span style="color:red">Uncaught TypeError: .for is not iterable</span> 没有”遍历器“
+> 可见 Set 遍历和 Map 很相似，也是可以用 forEach、forOf；不同的是 Set 中的`key`是和`value`是相同的，使用 keys() 和 values() 效果相同，不过需要注意的是不能使用 <br>`for (const [key,val] of set) {}` 也就是两个参数，一个参数可以，两个则会报错 <span style="color:red">Uncaught TypeError: .for is not iterable</span> 没有”遍历器“
 >
 > 总结：
 >
