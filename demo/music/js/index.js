@@ -39,7 +39,7 @@ var vm = new Vue({
             true
         );
         // 配置 baseURL
-        axios.defaults.baseURL = "https://lianghj.top:3000/";
+        axios.defaults.baseURL = "http://localhost:3000/";
     },
     updated() {
         this.loadShade = false;

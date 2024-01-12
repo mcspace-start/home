@@ -38,6 +38,11 @@ var person = {
           url: "demo/white",
           title: "项目使用了vue.js",
         },
+		{
+          content: "vue-2048",
+          url: "demo/2048",
+          title: "项目使用了vue.js",
+        },
         {
           content: "快速点击",
           url: "demo/fastClick",

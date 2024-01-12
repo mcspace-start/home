@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2048</title>
+    <script src="js/vue@2.js"></script>
+    <script src="js/lodash.min.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        :root {
+            --bdWidth: 8px;
+        }
+
+        .title {
+            width: 200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .box {
+            position: relative;
+            margin: 0 auto;
+            width: 400px;
+            height: 400px;
+            border: var(--bdWidth) solid #bbada0;
+        }
+
+        .bg {
+            display: flex;
+            width: 100%;
+            height: 100%;
+
+            border-radius: 5px;
+            flex-direction: column;
+        }
+
+        .bg ul {
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .bg li {
+            width: 100%;
+            height: 100%;
+            flex: 1;
+            box-sizing: border-box;
+            background-color: #cdc1b4;
+            border: var(--bdWidth) solid #bbada0;
+            display: flex;
+        }
+
+        .pre {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .pre [class*="point"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            text-align: center;
+            line-height: 84px;
+            box-sizing: border-box;
+            font-size: 38px;
+            font-weight: bold;
+            border: 8px dashed transparent;
+            width: 100px;
+            height: 100px;
+            background: rgb(237, 224, 200);
+            background-clip: content-box !important;
+            transition: all 0.1s;
+            transform: translate(0px, 0px);
+        }
+
+        .in {
+            animation: 1 0.1s in;
+        }
+
+        .add {
+            animation: 1 0.2s add;
+        }
+
+        @keyframes add {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes in {
+            0% {
+                transform: scale(0);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .shadow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 10px;
+            background-color: rgba(207, 205, 205, 0.5);
+            transform: translate(-50%, -50%);
+            border: 2px solid #666;
+            font-weight: bold;
+            font-size: 38px;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <div class="title">
+            <button @click="newGame">新游戏</button>
+            <p style="font-size: 40px">2048</p>
+        </div>
+        <div class="box">
+            <!-- 背景 -->
+            <div class="bg">
+                <ul v-for="(item,index) in matrix">
+                    <li v-for="i in item"></li>
+                </ul>
+            </div>
+            <!-- 数字块 -->
+            <ul class="pre">
+                <li v-for="(i,index) in points" v-show="i.number!==0" :style="{
+                        background:i.number>2048?'#333':colors[i.number],
+                        color: i.number>=8?'#fff':'#776e65',
+                        fontSize: i.number>=1024?'24px':'38px',
+                        left:i.x*100 +'px',
+                        top:i.y*100 +  'px'
+                      }" class="point in">
+                    {{i.number}}
+                </li>
+            </ul>
+            <!-- 结束遮罩层 -->
+            <div class="shadow" v-show="gameOver" @click="newGame">游戏结束</div>
+        </div>
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: "#main",
+            data() {
+                return {
+                    colors: {
+                        2: "#eee4da",
+                        4: "#ede0c8",
+                        8: "#f2b179",
+                        16: "#f59563",
+                        32: "#f67c5f",
+                        64: "#f65e3b",
+                        128: "#edcf72",
+                        256: "#edcc61",
+                        512: "#edc850",
+                        1024: "#edbf3a",
+                        2048: "#edba26",
+                    },
+                    matrix: [
+                        [0, 0, 0, 0],
+                        [0, 0, 0, 0],
+                        [0, 0, 0, 0],
+                        [0, 0, 0, 0],
+                    ],
+                    gameOver: false,
+                    points: [],
+                };
+            },
+            created() {
+                // 初始创建两个块
+                this.pointsChange(0);
+                this.randCreate(this.matrix);
+                this.randCreate(this.matrix);
+            },
+            mounted() {
+                document.onkeydown = (e) => {
+                    if (e.code === "ArrowUp") {
+                        this.move(this.matrix, "up");
+                    } else if (e.code === "ArrowDown") {
+                        this.move(this.matrix, "down");
+                    } else if (e.code === "ArrowLeft") {
+                        this.move(this.matrix, "left");
+                    } else if (e.code === "ArrowRight") {
+                        this.move(this.matrix, "right");
+                    }
+                };
+            },
+            methods: {
+                // 块的样式设置
+                pointsChange(status, num, oldCoor, newCoor) {
+                    // status:0初始化 1创建 2移动 3合并
+                    // console.log("css");
+                    // 初始化
+                    switch (status) {
+                        case 0:
+                            // 初始化
+                            this.matrix.map((item, index) => {
+                                item.map((x, i) => {
+                                    if (x !== 0) {
+                                        this.points.push({
+                                            number: x,
+                                            x: i,
+                                            y: index,
+                                        });
+                                    }
+                                });
+                            });
+                            break;
+                        case 1:
+                            // 创建
+                            // console.log("创建");
+                            this.points.push({
+                                number: num,
+                                x: oldCoor.x,
+                                y: oldCoor.y,
+                            });
+
+                            break;
+                        case 2:
+                            // 移动
+                            // console.log("移动");
+                            this.points.map((i, index) => {
+                                if (
+                                    i.x === oldCoor.x &&
+                                    i.y === oldCoor.y &&
+                                    i.number === num
+                                ) {
+                                    i.x = newCoor.x;
+                                    i.y = newCoor.y;
+                                    i.number = num;
+                                }
+                            });
+                            break;
+                        case 3:
+                            // console.log("合并");
+                            // 合并
+                            this.points.map((i, index) => {
+                                // 合并增值
+                                if (i.x === oldCoor.x && i.y === oldCoor.y) {
+                                    i.x = newCoor.x;
+                                    i.y = newCoor.y;
+                                    i.number = num;
+                                }
+                            });
+                            this.points.map((i, index) => {
+                                // 删掉被覆盖的
+                                if (
+                                    i.x === newCoor.x &&
+                                    i.y === newCoor.y &&
+                                    i.number === num / 2
+                                ) {
+                                    // this.points.splice(index, 1)
+                                    setTimeout(() => {
+                                        this.points[index] = {
+                                            number: 0,
+                                        };
+                                        // 由于数据是在视图渲染后变化所以这里使用了强制刷新
+                                        this.$forceUpdate()
+                                    }, 100);
+                                }
+                            });
+                            break;
+                        default:
+                            break;
+                    }
+                },
+                // 随机位置生成数字
+                randCreate(matrix) {
+                    const emptArr = [];
+                    // 储存空位数组
+                    matrix.map((items, index1) => {
+                        items.map((i, index2) => {
+                            if (!i) {
+                                emptArr.push([index1, index2]);
+                            }
+                        });
+                    });
+                    // 有空位
+                    if (emptArr.length !== 0) {
+                        const item = _.sample([2, 4]);
+                        const c = _.sample(emptArr);
+                        this.$set(this.matrix[c[0]], c[1], item);
+                        // 改变css
+                        this.pointsChange(1, item, {
+                            x: c[1],
+                            y: c[0],
+                        });
+                    }
+                },
+                move(matrix, direction) {
+                    // console.log("move");
+                    const rows = matrix.length;
+                    const cols = matrix[0].length;
+                    const that = this;
+                    // 判断是否为不可移动状态
+                    let isMove = false;
+                    let isSum = false;
+
+                    // 判断是否越界
+                    function _inRange(i, j) {
+                        // 分别判断行和列
+                        return matrix[i] && matrix[i][j] !== undefined;
+                    }
+
+                    // 获取下一个位置坐标
+                    const next = {
+                        up: (i, j) => [i + 1, j],
+                        down: (i, j) => [i - 1, j],
+                        left: (i, j) => [i, j + 1],
+                        right: (i, j) => [i, j - 1],
+                    };
+
+                    // 获得下一个非零值
+                    function _getNextNonZeroVal(i, j) {
+                        // 获取下一个坐标
+                        let [nextI, nextJ] = next[direction](i, j);
+                        // console.log("current:" + i,j);
+                        // console.log("next:" + nextI,nextJ);
+                        //
+                        while (_inRange(nextI, nextJ)) {
+                            const nextVal = matrix[nextI][nextJ];
+                            // 如果非零
+                            if (nextVal) {
+                                // 终止函数
+                                return [nextI, nextJ, nextVal];
+                            }
+                            // 为零
+                            else {
+                                // 继续获取下一个位置
+                                [nextI, nextJ] = next[direction](nextI, nextJ);
+                            }
+                        }
+                    }
+                    // 计算一个位置的值
+                    function _cal(i, j) {
+                        // 不在范围内
+                        if (!_inRange(i, j)) {
+                            return;
+                        }
+                        // 计算位置的值
+                        const result = _getNextNonZeroVal(i, j);
+                        //    无非零值
+                        if (!result) {
+                            return;
+                        }
+                        //
+                        const [nextI, nextJ, nextVal] = result;
+                        // 自身为零的情况
+                        if (matrix[i][j] === 0) {
+                            // 是否移动了
+                            isMove = true;
+                            // 改变css
+                            that.pointsChange(
+                                2,
+                                nextVal,
+                                {
+                                    x: nextJ,
+                                    y: nextI,
+                                },
+                                {
+                                    x: j,
+                                    y: i,
+                                }
+                            );
+
+                            // 由于vue无法监听索引改变数组，所以这里使用vue.$set
+                            // matrix[i][j] = nextVal;
+                            that.$set(matrix[i], j, nextVal);
+                            // 被移动位置重置为零
+                            // matrix[nextI][nextJ] = 0;
+                            that.$set(matrix[nextI], nextJ, 0);
+
+                            // 为零的情况移动后再继续查看下一个值是否可以相加
+                            _cal(i, j);
+                        }
+                        // 不为零相等相加
+                        else if (matrix[i][j] === nextVal) {
+                            // 是否合并了
+                            isSum = true;
+                            // matrix[i][j] *= 2;
+                            that.$set(matrix[i], j, (matrix[i][j] *= 2));
+                            // matrix[nextI][nextJ] = 0;
+                            that.$set(matrix[nextI], nextJ, 0);
+                            // console.log(
+                            //     `i:${i}\nj:${j}\nnextI:${nextI}\nnextJ:${nextJ}
+                            //     `
+                            // );
+                            that.pointsChange(
+                                3,
+                                nextVal * 2,
+                                {
+                                    x: nextJ,
+                                    y: nextI,
+                                },
+                                {
+                                    x: j,
+                                    y: i,
+                                }
+                            );
+                        }
+                        // 计算下一个位置的值，递归(算完每一列或行)
+                        _cal(...next[direction](i, j));
+                    }
+
+                    // 遍历每一列或行,_cal传入初始位置
+                    if (direction === "up") {
+                        for (let index = 0; index < cols; index++) {
+                            _cal(0, index);
+                        }
+                    } else if (direction === "down") {
+                        for (let index = 0; index < cols; index++) {
+                            _cal(rows - 1, index);
+                        }
+                    } else if (direction === "left") {
+                        for (let index = 0; index < cols; index++) {
+                            _cal(index, 0);
+                        }
+                    } else if (direction === "right") {
+                        for (let index = 0; index < cols; index++) {
+                            _cal(index, cols - 1);
+                        }
+                    }
+                    // 只有移动了或合并了才会创建下一个数字块
+                    if (isMove || isSum) {
+                        this.randCreate(this.matrix);
+                    }
+
+                    // 判断是否有空位
+                    let hasEmpt = false;
+                    this.matrix.map((item) => {
+                        if (item.some((x) => x == 0)) {
+                            hasEmpt = true;
+                        }
+                    });
+                    // 无空位判断游戏是否结束
+                    if (!hasEmpt) {
+                        // console.log("无空");
+                        // 判断是否游戏结束
+                        this.isGameOver();
+                    }
+                    // vm.$forceUpdate()
+                },
+                isGameOver() {
+                    // console.log("isGameOver?");
+                    let matrix = this.matrix;
+                    const rows = matrix.length;
+                    const cols = matrix[0].length;
+                    let isOver = true;
+                    // 判断是否越界
+                    function _inRange(i, j) {
+                        // 分别判断行和列
+                        return matrix[i] && matrix[i][j] !== undefined;
+                    }
+
+                    // 获取下一个位置坐标
+                    const next = {
+                        up: (i, j) => [i + 1, j],
+                        down: (i, j) => [i - 1, j],
+                        left: (i, j) => [i, j + 1],
+                        right: (i, j) => [i, j - 1],
+                    };
+                    // 获得下一个非零值
+                    function _getNextVal(i, j) {
+                        // 获取下一个坐标
+                        let [nextI, nextJ] = next[direction](i, j);
+                        if (_inRange(nextI, nextJ)) {
+                            // 终止函数
+                            const nextVal = matrix[nextI][nextJ];
+                            return [nextI, nextJ, nextVal];
+                        }
+                    }
+                    // 计算一个位置的值
+                    function _cal(i, j) {
+                        // 不在范围内
+                        if (!_inRange(i, j)) {
+                            return;
+                        }
+                        // 计算位置的值
+                        const result = _getNextVal(i, j);
+                        if (result) {
+                            const [nextI, nextJ, nextVal] = result;
+                            if (matrix[i][j] === nextVal) {
+                                // 如果相等则游戏还没有结束
+                                // console.log("有");
+                                isOver = false;
+                            }
+                        }
+                        // 计算下一个位置的值，递归(算完每一列或行)
+                        _cal(...next[direction](i, j));
+                    }
+
+                    // 尝试每个方向是否可以合并
+                    let direction = "up";
+
+                    for (let index = 0; index < 4; index++) {
+                        switch (index) {
+                            case 1:
+                                direction = "down";
+                                break;
+                            case 2:
+                                direction = "left";
+                                break;
+                            case 3:
+                                direction = "right";
+                                break;
+                            default:
+                                break;
+                        }
+
+                        // 遍历每一列或行,_cal传入初始位置
+                        if (direction === "up") {
+                            for (let index = 0; index < cols; index++) {
+                                _cal(0, index);
+                            }
+                        } else if (direction === "down") {
+                            for (let index = 0; index < cols; index++) {
+                                _cal(rows - 1, index);
+                            }
+                        } else if (direction === "left") {
+                            for (let index = 0; index < cols; index++) {
+                                _cal(index, 0);
+                            }
+                        } else if (direction === "right") {
+                            for (let index = 0; index < cols; index++) {
+                                _cal(index, cols - 1);
+                            }
+                        }
+                    }
+                    // 游戏结束
+                    if (isOver) {
+                        console.log("游戏结束");
+                        this.gameOver = true;
+                    }
+                },
+                newGame() {
+                    this.gameOver = false;
+                    this.matrix =
+                        [[0, 0, 0, 0],
+                        [0, 0, 0, 0],
+                        [0, 0, 0, 0],
+                        [0, 0, 0, 0]]
+                    this.points = []
+                    this.randCreate(this.matrix);
+                    this.randCreate(this.matrix);
+                },
+            },
+        });
+    </script>
+</body>
+
+</html>
