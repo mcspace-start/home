@@ -1,535 +1,532 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>记忆卡片</title>
-    <link rel="stylesheet" href="./iconfont/iconfont.css" />
-    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script> -->
-    <script src="vue.js"></script>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-      }
 
-      /* 主体-外框 */
-      .main {
-        width: 600px;
-        height: 600px;
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        background-color: #eee;
-        margin: 0 auto;
-        border: 8px solid rgb(62, 168, 238);
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>记忆卡片</title>
+  <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="./iconfont/iconfont.css" />
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script> -->
+  <script src="vue.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
 
-      /* 主体-行 */
-      .main .row {
-        flex: 1;
-        display: flex;
-        border-bottom: 2px solid #333;
-      }
+    /* 主体-外框 */
+    .main {
+      width: 600px;
+      height: 600px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background-color: #eee;
+      margin: 0 auto;
+      border: 8px solid rgb(62, 168, 238);
+    }
 
-      .main .row:nth-child(1) {
-        border-top: 2px solid #333;
-      }
+    /* 主体-行 */
+    .main .row {
+      flex: 1;
+      display: flex;
+      border-bottom: 2px solid #333;
+    }
 
-      .main .row .col {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-right: 2px solid #333;
-        /* 用于after */
-        position: relative;
-      }
+    .main .row:nth-child(1) {
+      border-top: 2px solid #333;
+    }
 
-      .main .row .col:nth-child(1) {
-        border-left: 2px solid #333;
-      }
+    .main .row .col {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-right: 2px solid #333;
+      /* 用于after */
+      position: relative;
+    }
 
-      /* 行-字体大小 */
-      .main .row .col span {
-        font-size: 60px;
-      }
+    .main .row .col:nth-child(1) {
+      border-left: 2px solid #333;
+    }
 
-      /* 行-错误或正确 */
-      .main .row .col.error {
-        position: relative;
-        background-color: red;
-      }
+    /* 行-字体大小 */
+    .main .row .col span {
+      font-size: 60px;
+    }
 
-      .main .row .col.success {
-        position: relative;
-        background-color: rgb(97, 243, 97);
-      }
+    /* 行-错误或正确 */
+    .main .row .col.error {
+      position: relative;
+      background-color: red;
+    }
 
-      /* 隐蔽图层 */
-      .main .row .col::after {
-        content: "";
-        position: absolute;
-        width: 0;
-        height: 0;
-        border-radius: 50%;
-        transition: all 1s;
-        background-color: rgb(245, 245, 245);
-      }
+    .main .row .col.success {
+      position: relative;
+      background-color: rgb(97, 243, 97);
+    }
 
-      .main .row .col.hide::after {
-        content: "";
-        position: absolute;
-        background-color: rgb(245, 245, 245);
-        width: 100%;
-        height: 100%;
-        border-radius: 0;
-      }
+    /* 隐蔽图层 */
+    .main .row .col::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      transition: all 1s;
+      background-color: rgb(245, 245, 245);
+    }
 
-      /* 人物 */
-      .main .me {
-        position: absolute;
-        width: 100px;
-        height: 100px;
-        top: 0;
-        left: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.4s;
-        transition-timing-function: linear;
-      }
+    .main .row .col.hide::after {
+      content: "";
+      position: absolute;
+      background-color: rgb(245, 245, 245);
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+    }
 
-      .main .me::before {
-        position: absolute;
-        content: "我";
-        font-weight: bold;
-        color: #333;
-        font-size: 40px;
-        z-index: 1;
-        transition: all 0.4s;
-        transition-timing-function: linear;
-      }
+    /* 人物 */
+    .main .me {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      top: 0;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.4s;
+      transition-timing-function: linear;
+    }
 
-      .main .me::after {
-        content: "我";
-        font-weight: bold;
-        color: #666;
-        font-size: 40px;
-        transition: all 0.4s;
-        transition-timing-function: linear;
-      }
+    .main .me::before {
+      position: absolute;
+      content: "我";
+      font-weight: bold;
+      color: #333;
+      font-size: 40px;
+      z-index: 1;
+      transition: all 0.4s;
+      transition-timing-function: linear;
+    }
 
-      .main .me.move::before {
-        transform: scale(1.2) translateY(-24px);
-      }
+    .main .me::after {
+      content: "我";
+      font-weight: bold;
+      color: #666;
+      font-size: 40px;
+      transition: all 0.4s;
+      transition-timing-function: linear;
+    }
 
-      .main .me.move::after {
-        transform: scale(0.8) translateY(24px);
-      }
+    .main .me.move::before {
+      transform: scale(1.2) translateY(-24px);
+    }
 
-      /* 提示-vue过渡 */
-      .v-message-enter-active,
-      .v-message-leave-active {
-        transition: all 0.5s;
-      }
+    .main .me.move::after {
+      transform: scale(0.8) translateY(24px);
+    }
 
-      .v-message-enter,
-      .v-message-leave-to {
-        top: -100px !important;
-        opacity: 0;
-      }
+    /* 提示-vue过渡 */
+    .v-message-enter-active,
+    .v-message-leave-active {
+      transition: all 0.5s;
+    }
 
-      .main .message {
-        position: absolute;
-        z-index: 2;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        height: 40px;
-        color: #fff;
-        border-radius: 6px;
-        display: flex;
-        padding: 5px 10px;
-        align-items: center;
-        font-size: 26px;
-        line-height: 40px;
-        background-color: rgb(98, 219, 77);
-      }
+    .v-message-enter,
+    .v-message-leave-to {
+      top: -100px !important;
+      opacity: 0;
+    }
 
-      .main .message .img {
-        width: 36px;
-        height: 36px;
-        line-height: 36px;
-        font-size: 30px;
-        background-color: #fff;
-        border-radius: 6px;
-        margin-right: 10px;
-        text-align: center;
-      }
+    .main .message {
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 40px;
+      color: #fff;
+      border-radius: 6px;
+      display: flex;
+      padding: 5px 10px;
+      align-items: center;
+      font-size: 26px;
+      line-height: 40px;
+      background-color: rgb(98, 219, 77);
+    }
 
-      .main .message .tit {
-        font-size: 34px;
-      }
+    .main .message .img {
+      width: 36px;
+      height: 36px;
+      line-height: 36px;
+      font-size: 30px;
+      background-color: #fff;
+      border-radius: 6px;
+      margin-right: 10px;
+      text-align: center;
+    }
 
-      /* 遮罩层 */
-      .main .shadow {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        z-index: 3;
-        background-color: rgba(0, 0, 0, 0.7);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        cursor: default;
-      }
+    .main .message .tit {
+      font-size: 34px;
+    }
 
-      /* 遮罩层-start按钮 */
-      .main .shadow .start {
-        font-size: 30px;
-        width: 100px;
-        border: 1px solid #000;
-        background-color: #fff;
-        border-radius: 10px;
-        color: #000;
-        height: 60px;
-        line-height: 60px;
-        cursor: pointer;
-      }
+    /* 遮罩层 */
+    .main .shadow {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 3;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: default;
+    }
 
-      .main .shadow .start::selection {
-        color: inherit;
-      }
+    /* 遮罩层-start按钮 */
+    .main .shadow .start {
+      font-size: 30px;
+      width: 100px;
+      border: 1px solid #000;
+      background-color: #fff;
+      border-radius: 10px;
+      color: #000;
+      height: 60px;
+      line-height: 60px;
+      cursor: pointer;
+    }
 
-      .v-shadow-enter,
-      .v-shadow-leave-to {
-        opacity: 0;
-      }
+    .main .shadow .start::selection {
+      color: inherit;
+    }
 
-      .v-shadow-enter-active,
-      .v-shadow-leave-active {
-        transition: all 0.3s;
-      }
-    </style>
-    <!-- <script src="vue.js"></script> -->
-  </head>
+    .v-shadow-enter,
+    .v-shadow-leave-to {
+      opacity: 0;
+    }
 
-  <body>
-    <div id="app">
-      <!-- 游戏区域 -->
-      <div class="main">
-        <!-- 行 -->
-        <div class="row" v-for="(item,index) in listData" :key="item.id">
-          <!-- 列 -->
-          <div
-            v-for="(i,count) in item.child"
-            :key="i.id"
-            :class="['col',{ 'hide':boxes.hide},{'error':i.error},{'success':i.success}]"
-          >
-            <span :class="['iconfont', i.icon]"></span>
-          </div>
+    .v-shadow-enter-active,
+    .v-shadow-leave-active {
+      transition: all 0.3s;
+    }
+  </style>
+  <!-- <script src="vue.js"></script> -->
+</head>
+
+<body>
+  <div id="app">
+    <!-- 游戏区域 -->
+    <div class="main">
+      <!-- 行 -->
+      <div class="row" v-for="(item,index) in listData" :key="item.id">
+        <!-- 列 -->
+        <div v-for="(i,count) in item.child" :key="i.id"
+          :class="['col',{ 'hide':boxes.hide},{'error':i.error},{'success':i.success}]">
+          <span :class="['iconfont', i.icon]"></span>
         </div>
-        <!-- 角色 -->
-        <div :class="['me',{'move':moveStyle}]"></div>
-        <!-- 遮罩层 -->
-        <transition name="v-shadow">
-          <div class="shadow" v-show="boxes.shadow">
-            <div class="start" @click="startGame">开始</div>
-          </div>
-        </transition>
-        <!-- 提示层 -->
-        <transition name="v-message" mode="">
-          <div class="message" v-show="boxes.message">
-            <span
-              v-show="boxes.messageHelp"
-              :class="['img', 'iconfont',winicon]"
-            ></span>
-            <div v-show="boxes.messageHelp" class="tit">{{countdown}}</div>
-            <p v-show="!boxes.messageHelp">{{boxes.messageHelpText}}</p>
-          </div>
-        </transition>
       </div>
+      <!-- 角色 -->
+      <div :class="['me',{'move':moveStyle}]"></div>
+      <!-- 遮罩层 -->
+      <transition name="v-shadow">
+        <div class="shadow" v-show="boxes.shadow">
+          <div class="start" @click="startGame">开始</div>
+        </div>
+      </transition>
+      <!-- 提示层 -->
+      <transition name="v-message" mode="">
+        <div class="message" v-show="boxes.message">
+          <span v-show="boxes.messageHelp" :class="['img', 'iconfont',winicon]"></span>
+          <div v-show="boxes.messageHelp" class="tit">{{countdown}}</div>
+          <p v-show="!boxes.messageHelp">{{boxes.messageHelpText}}</p>
+        </div>
+      </transition>
     </div>
-    <script>
-      "use strict";
-      const vm = new Vue({
-        el: "#app",
-        data() {
-          return {
-            level: 3,
-            // 角色样式
-            top: 0,
-            left: 0,
-            // 角色是否在移动
-            move: false,
-            // 游戏是否在进行中用于角色移动
-            starting: false,
-            // 角色坐标
-            meIndex: [0, 0],
-            // 目标图案src
-            winicon: "",
-            // 思考时间-用于渲染
-            countdown: 8,
-            moveStyle: false,
-            boxes: {
-              // 全局遮罩层
-              shadow: true,
-              // 提示框
-              message: false,
-              // 提示框-是否带目标
-              messageHelp: true,
-              // 提示框-纯文字
-              messageHelpText: "",
-              // 图案遮罩层
-              hide: true,
-            },
-            // 图案集
-            icon: [
-              "icon-pingguo",
-              "icon-yingtao",
-              "icon-xiangjiao",
-              "icon-chengzi1",
-              "icon-li1",
-              "icon-huolongguo1",
-              "icon-caomei",
-              "icon-ICON-",
-            ],
-            // 渲染数据
-            listData: [],
-            /*[{id,child:[{
-               id,
-               error,
-               icon
-             }]}]*/
-          };
-        },
-        mounted() {
-          // 绑定按键事件
-          document.onkeydown = (e) => {
-            // 回车开始游戏
-            if (this.boxes.shadow) {
-              if (e.key === "Enter") {
-                this.startGame();
-              }
-            }
-            //
-            if (
-              e.key === "ArrowUp" ||
-              e.key === "ArrowLeft" ||
-              e.key === "ArrowRight" ||
-              e.key === "ArrowDown"
-            ) {
-              // 调用角色行动
-              this.action(e.key);
-            }
-          };
-          // 初始化背景
-          this.createBg(3);
-        },
-        methods: {
-          // 创建背景
-          createBg(l) {
-            console.log("createBg");
-            // 关卡等级-图案数量
-            let count = l;
-            // 大于最大值
-            if (count > this.icon.length) {
-              count = this.icon.length;
-            }
-            // 创建胜利条件
-            // 初始化不创建
-            if (!count) {
-              this.winicon = "";
-            } else {
-              this.winicon = this.icon[_.random(0, count - 1)];
-            }
-            // 创建渲染数组
-            const lis = [];
-            for (let i = 0; i < 6; i++) {
-              // row 行
-              lis.push({
-                id: "f" + i,
-                child: [],
-              });
-              // 列 col
-              for (let j = 0; j < 6; j++) {
-                lis[i].child.push({
-                  id: "c" + i + "" + j,
-                  // 失败图标
-                  error: false,
-                  // 通过图标
-                  success: false,
-                  // icon  是否为初始化
-                  icon: count ? this.icon[_.random(0, count - 1)] : "",
-                });
-              }
-            }
-            this.listData = lis;
+  </div>
+  <script>
+    "use strict";
+    const vm = new Vue({
+      el: "#app",
+      data() {
+        return {
+          level: 3,
+          // 角色样式
+          top: 0,
+          left: 0,
+          // 角色是否在移动
+          move: false,
+          // 游戏是否在进行中用于角色移动
+          starting: false,
+          // 角色坐标
+          meIndex: [0, 0],
+          // 目标图案src
+          winicon: "",
+          // 思考时间-用于渲染
+          countdown: 8,
+          moveStyle: false,
+          boxes: {
+            // 全局遮罩层
+            shadow: true,
+            // 提示框
+            message: false,
+            // 提示框-是否带目标
+            messageHelp: true,
+            // 提示框-纯文字
+            messageHelpText: "",
+            // 图案遮罩层
+            hide: true,
           },
-          // 开始新关卡
-          startGame() {
-            console.log("game-start");
-            // 新的难度
-            this.createBg(this.level);
-            // 重置倒计时
-            this.countdown = 8;
-            //
-            this.boxes.shadow = false;
-            // 可移动
-            this.starting = true;
-            //准备
-            setTimeout(() => {
-              // 记忆时间
-              let time = 15;
-              this.boxes.hide = false;
-              this.boxes.messageHelp = false;
+          // 图案集
+          icon: [
+            "icon-pingguo",
+            "icon-yingtao",
+            "icon-xiangjiao",
+            "icon-chengzi1",
+            "icon-li1",
+            "icon-huolongguo1",
+            "icon-caomei",
+            "icon-ICON-",
+          ],
+          // 渲染数据
+          listData: [],
+          /*[{id,child:[{
+             id,
+             error,
+             icon
+           }]}]*/
+        };
+      },
+      mounted() {
+        // 绑定按键事件
+        document.onkeydown = (e) => {
+          // 回车开始游戏
+          if (this.boxes.shadow) {
+            if (e.key === "Enter") {
+              this.startGame();
+            }
+          }
+          //
+          if (
+            e.key === "ArrowUp" ||
+            e.key === "ArrowLeft" ||
+            e.key === "ArrowRight" ||
+            e.key === "ArrowDown"
+          ) {
+            // 调用角色行动
+            this.action(e.key);
+          }
+        };
+        // 初始化背景
+        this.createBg(3);
+      },
+      methods: {
+        // 创建背景
+        createBg(l) {
+          console.log("createBg");
+          // 关卡等级-图案数量
+          let count = l;
+          // 大于最大值
+          if (count > this.icon.length) {
+            count = this.icon.length;
+          }
+          // 创建胜利条件
+          // 初始化不创建
+          if (!count) {
+            this.winicon = "";
+          } else {
+            this.winicon = this.icon[_.random(0, count - 1)];
+          }
+          // 创建渲染数组
+          const lis = [];
+          for (let i = 0; i < 6; i++) {
+            // row 行
+            lis.push({
+              id: "f" + i,
+              child: [],
+            });
+            // 列 col
+            for (let j = 0; j < 6; j++) {
+              lis[i].child.push({
+                id: "c" + i + "" + j,
+                // 失败图标
+                error: false,
+                // 通过图标
+                success: false,
+                // icon  是否为初始化
+                icon: count ? this.icon[_.random(0, count - 1)] : "",
+              });
+            }
+          }
+          this.listData = lis;
+        },
+        // 开始新关卡
+        startGame() {
+          console.log("game-start");
+          // 新的难度
+          this.createBg(this.level);
+          // 重置倒计时
+          this.countdown = 8;
+          //
+          this.boxes.shadow = false;
+          // 可移动
+          this.starting = true;
+          //准备
+          setTimeout(() => {
+            // 记忆时间
+            let time = 15;
+            this.boxes.hide = false;
+            this.boxes.messageHelp = false;
+            this.boxes.messageHelpText = "记住图案 " + time;
+            this.boxes.message = true;
+            const timer1 = setInterval(() => {
+              time -= 1;
               this.boxes.messageHelpText = "记住图案 " + time;
+              if (time === 0) {
+                clearInterval(timer1);
+                this.boxes.message = false;
+              }
+            }, 1000);
+            setTimeout(() => {
+              // 寻找时间
+              this.boxes.hide = true;
+              this.boxes.messageHelp = true;
               this.boxes.message = true;
-              const timer1 = setInterval(() => {
-                time -= 1;
-                this.boxes.messageHelpText = "记住图案 " + time;
-                if (time === 0) {
-                  clearInterval(timer1);
-                  this.boxes.message = false;
-                }
+              const timer2 = setInterval(() => {
+                this.countdown -= 1;
               }, 1000);
               setTimeout(() => {
-                // 寻找时间
-                this.boxes.hide = true;
-                this.boxes.messageHelp = true;
-                this.boxes.message = true;
-                const timer2 = setInterval(() => {
-                  this.countdown -= 1;
-                }, 1000);
-                setTimeout(() => {
-                  clearInterval(timer2);
-                  this.check();
-                }, this.countdown * 1000);
-              }, time * 1000);
-            }, 1000);
-          },
-          // 角色移动
-          action(d) {
-            // 移动中
-            if (this.move) return;
-            // 未开始
-            if (!this.starting) return;
-            //
-            const me = document.querySelector(".me");
-            // 修改样式
-            switch (d) {
-              case "ArrowLeft": {
-                if (this.meIndex[0] === 0) return;
-                this.meIndex[0] -= 1;
-                this.left -= 100;
-                me.style.left = this.left + "px";
-                break;
-              }
-              case "ArrowRight": {
-                if (this.meIndex[0] === this.listData[0].child.length - 1)
-                  return;
-                this.meIndex[0] += 1;
-                this.left += 100;
-                me.style.left = this.left + "px";
-                break;
-              }
-              case "ArrowUp": {
-                if (this.meIndex[1] === 0) return;
-                this.meIndex[1] -= 1;
-                this.top -= 100;
-                me.style.top = this.top + "px";
-                break;
-              }
-              case "ArrowDown": {
-                if (this.meIndex[1] === this.listData.length - 1) return;
-                this.meIndex[1] += 1;
-                this.top += 100;
-                me.style.top = this.top + "px";
-                break;
-              }
-            }
-
-            // 移动中
-            this.move = true;
-            this.moveStyle = true;
-            setTimeout(() => {
-              this.moveStyle = false;
-            }, 200);
-            setTimeout(() => {
-              this.move = false;
-            }, 400);
-            // console.log(this.meIndex);
-          },
-          // 判定结果
-          check() {
-            console.log("game-check");
-            //
-            this.boxes.message = false;
-            this.boxes.hide = false;
-            this.starting = false;
-            // 站着的位置
-            let win = this.listData[this.meIndex[1]].child[this.meIndex[0]];
-            // 判断是否正确
-            if (win.icon === this.winicon) {
-              this.pass(win);
-            } else {
-              this.gameOver(win);
-            }
-          },
-          // 通过关卡
-          pass(item) {
-            console.log("游戏胜利");
-            // 设置样式
-            item.success = true;
-
-            this.boxes.messageHelpText = "你猜对了";
-            this.boxes.messageHelp = false;
-            this.boxes.message = true;
-            this.level++;
-            this.starting = true;
-            setTimeout(() => {
-              let time = 5;
-              // 恢复行动
-              this.boxes.messageHelpText = "进行下一关 " + time;
-              let timer = setInterval(() => {
-                this.boxes.hide = true;
-                time -= 1;
-                this.boxes.messageHelpText = "进行下一关 " + time;
-                if (time === 0) {
-                  this.boxes.message = false;
-                  clearInterval(timer);
-                  this.startGame();
-                }
-              }, 1000);
-            }, 2000);
-          },
-          // 游戏结束
-          gameOver(item) {
-            console.log("game-over");
-            this.boxes.messageHelpText = "你猜错了";
-            this.boxes.messageHelp = false;
-            this.boxes.message = true;
-            this.level = 3;
-            item.error = true;
-            setTimeout(() => {
-              this.boxes.message = false;
-              this.boxes.shadow = true;
-              this.boxes.hide = true;
-            }, 4000);
-          },
-          // 封装计时器
-          timeOut(fun, time) {
-            const p = new Promise((resolve, reject) => {
-              resolve(this.timeOut);
-            });
-            return p;
-          },
+                clearInterval(timer2);
+                this.check();
+              }, this.countdown * 1000);
+            }, time * 1000);
+          }, 1000);
         },
-      });
-    </script>
-  </body>
+        // 角色移动
+        action(d) {
+          // 移动中
+          if (this.move) return;
+          // 未开始
+          if (!this.starting) return;
+          //
+          const me = document.querySelector(".me");
+          // 修改样式
+          switch (d) {
+            case "ArrowLeft": {
+              if (this.meIndex[0] === 0) return;
+              this.meIndex[0] -= 1;
+              this.left -= 100;
+              me.style.left = this.left + "px";
+              break;
+            }
+            case "ArrowRight": {
+              if (this.meIndex[0] === this.listData[0].child.length - 1)
+                return;
+              this.meIndex[0] += 1;
+              this.left += 100;
+              me.style.left = this.left + "px";
+              break;
+            }
+            case "ArrowUp": {
+              if (this.meIndex[1] === 0) return;
+              this.meIndex[1] -= 1;
+              this.top -= 100;
+              me.style.top = this.top + "px";
+              break;
+            }
+            case "ArrowDown": {
+              if (this.meIndex[1] === this.listData.length - 1) return;
+              this.meIndex[1] += 1;
+              this.top += 100;
+              me.style.top = this.top + "px";
+              break;
+            }
+          }
+
+          // 移动中
+          this.move = true;
+          this.moveStyle = true;
+          setTimeout(() => {
+            this.moveStyle = false;
+          }, 200);
+          setTimeout(() => {
+            this.move = false;
+          }, 400);
+          // console.log(this.meIndex);
+        },
+        // 判定结果
+        check() {
+          console.log("game-check");
+          //
+          this.boxes.message = false;
+          this.boxes.hide = false;
+          this.starting = false;
+          // 站着的位置
+          let win = this.listData[this.meIndex[1]].child[this.meIndex[0]];
+          // 判断是否正确
+          if (win.icon === this.winicon) {
+            this.pass(win);
+          } else {
+            this.gameOver(win);
+          }
+        },
+        // 通过关卡
+        pass(item) {
+          console.log("游戏胜利");
+          // 设置样式
+          item.success = true;
+
+          this.boxes.messageHelpText = "你猜对了";
+          this.boxes.messageHelp = false;
+          this.boxes.message = true;
+          this.level++;
+          this.starting = true;
+          setTimeout(() => {
+            let time = 5;
+            // 恢复行动
+            this.boxes.messageHelpText = "进行下一关 " + time;
+            let timer = setInterval(() => {
+              this.boxes.hide = true;
+              time -= 1;
+              this.boxes.messageHelpText = "进行下一关 " + time;
+              if (time === 0) {
+                this.boxes.message = false;
+                clearInterval(timer);
+                this.startGame();
+              }
+            }, 1000);
+          }, 2000);
+        },
+        // 游戏结束
+        gameOver(item) {
+          console.log("game-over");
+          this.boxes.messageHelpText = "你猜错了";
+          this.boxes.messageHelp = false;
+          this.boxes.message = true;
+          this.level = 3;
+          item.error = true;
+          setTimeout(() => {
+            this.boxes.message = false;
+            this.boxes.shadow = true;
+            this.boxes.hide = true;
+          }, 4000);
+        },
+        // 封装计时器
+        timeOut(fun, time) {
+          const p = new Promise((resolve, reject) => {
+            resolve(this.timeOut);
+          });
+          return p;
+        },
+      },
+    });
+  </script>
+</body>
+
 </html>

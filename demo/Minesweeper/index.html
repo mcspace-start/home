@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
     <title>扫雷</title>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="css/css.css" />
     <script src="js/vue.js"></script>
     <script>
@@ -29,8 +30,11 @@
                     </ul>
                     <ul class="warp" @mouseover="pieHover($event,1)" @mouseout="pieHover($event,0)">
                         <ul class="liRow" v-for="(item,index) in list" :key="index">
-                            <li v-for="(pie,cou) in item" :value="pie.tab" :key="pie.key" :class="{'pie':true,'bomb':pie.showBomb,'hide':pie.hide,'one':pie.one,'l':pie.borderL,'t':pie.borderT,'r':pie.borderR,'b':pie.borderB,'mk':pie.mark}" :style="{color:pie.color,backgroundColor:pie.bgColor}"
-                                @click="confirm($event,index,cou)" @contextmenu="tab($event,index,cou)" :x="index" :y="cou">
+                            <li v-for="(pie,cou) in item" :value="pie.tab" :key="pie.key"
+                                :class="{'pie':true,'bomb':pie.showBomb,'hide':pie.hide,'one':pie.one,'l':pie.borderL,'t':pie.borderT,'r':pie.borderR,'b':pie.borderB,'mk':pie.mark}"
+                                :style="{color:pie.color,backgroundColor:pie.bgColor}"
+                                @click="confirm($event,index,cou)" @contextmenu="tab($event,index,cou)" :x="index"
+                                :y="cou">
                                 {{pie.bombCount}}
                             </li>
                             <!-- @contextmenu=" tab($event,index,cou) " -->

@@ -9,13 +9,15 @@
     </script>
     <link rel="stylesheet" href="css/one.css">
     <link rel="stylesheet" href="css/two.css">
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
 
 </head>
 
 <body>
     <div class="banner" id="banner">
         <div class="bannerBox" @mouseover="stopRoll" @mouseout="startRoll">
-            <transition-group tag="ul" name="image" class="image" v-on:before-enter="enter" v-on:before-leave="beforeleave">
+            <transition-group tag="ul" name="image" class="image" v-on:before-enter="enter"
+                v-on:before-leave="beforeleave">
                 <li v-for="(item,index) in img" :key="item" v-show="index==current"><img :src="item" alt=""></li>
             </transition-group>
             <ul class="piece">
@@ -27,10 +29,13 @@
     <div id="banner3d">
         <div class="wrap">
             <ul class="box">
-                <li v-for="(item,index) in ImgUrl" :key="item" :class="{'left':index==back(),'center':index==currentIndex,'right':index==next()}" @mouseenter="stopAutoPlay" @mouseout="autoplay"><img :src="item" alt=""></li>
+                <li v-for="(item,index) in ImgUrl" :key="item"
+                    :class="{'left':index==back(),'center':index==currentIndex,'right':index==next()}"
+                    @mouseenter="stopAutoPlay" @mouseout="autoplay"><img :src="item" alt=""></li>
             </ul>
             <ul class="pieBox">
-                <li class="pie" v-for="(item,index) in ImgUrl" :key="item" @mouseenter="cut($event,index)" @mouseout="autoplay" :class="{'act':index==currentIndex}"></li>
+                <li class="pie" v-for="(item,index) in ImgUrl" :key="item" @mouseenter="cut($event,index)"
+                    @mouseout="autoplay" :class="{'act':index==currentIndex}"></li>
             </ul>
         </div>
     </div>
@@ -49,7 +54,7 @@
                 this.autoplay();
             },
             methods: {
-                next: function(val) {
+                next: function (val) {
                     var that = this;
                     if (val) {
                         if (this.wait) {
@@ -59,12 +64,12 @@
                                 this.isLeft = true;
                             } else {
                                 this.isLeft = false;
-                                setTimeout(function() {
+                                setTimeout(function () {
                                     that.isLeft = true;
                                 }, 1000);
                             }
                             this.current = nextIndex;
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 that.wait = true;
                             }, 1000);
                         }
@@ -72,31 +77,31 @@
                         if (this.wait) {
                             this.wait = false;
                             this.current++;
-                            if (this.current < this.img.length) {} else {
+                            if (this.current < this.img.length) { } else {
                                 this.current = 0;
                             }
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 that.wait = true;
                             }, 1000);
                         }
                     }
                 },
-                autoplay: function() {
+                autoplay: function () {
                     var that = this;
                     this.timer = setInterval(() => {
                         that.next();
                     }, 4000);
                 },
-                stopRoll: function() {
+                stopRoll: function () {
                     clearInterval(this.timer);
                 },
-                startRoll: function() {
+                startRoll: function () {
                     this.autoplay();
                 },
-                enter: function(el) {
+                enter: function (el) {
                     el.style.animation = ((this.isLeft ? "Rin" : "Lin") + " 1s  ease");
                 },
-                beforeleave: function(el) {
+                beforeleave: function (el) {
                     el.style.animation = ((this.isLeft ? "Lout" : "Rout") + " 1s  ease");
                 },
             }
@@ -108,11 +113,11 @@
                 currentIndex: 0,
                 autoTimer: null
             },
-            created: function() {
+            created: function () {
                 this.autoplay();
             },
             methods: {
-                next: function(e) {
+                next: function (e) {
                     if (e == null) {
                         let nextIndex = this.currentIndex + 1;
                         if (nextIndex == this.ImgUrl.length) {
@@ -127,7 +132,7 @@
                         }
                     }
                 },
-                back: function(e) {
+                back: function (e) {
                     if (e == null) {
                         let backIndex = this.currentIndex - 1;
                         if (backIndex == -1) {
@@ -143,25 +148,25 @@
                     }
 
                 },
-                beforeEnter: function(el) {},
-                afterEnter: function(el) {},
-                autoplay: function() {
+                beforeEnter: function (el) { },
+                afterEnter: function (el) { },
+                autoplay: function () {
                     let that = this;
-                    this.autoTimer = setInterval(function() {
+                    this.autoTimer = setInterval(function () {
                         that.next(that.next());
                     }, 4000);
                 },
-                stopAutoPlay: function() {
+                stopAutoPlay: function () {
                     clearInterval(this.autoTimer);
                     this.autoTimer = null;
                 },
-                cut: function(e, index) {
+                cut: function (e, index) {
                     let that = this;
                     this.stopAutoPlay();
                     that.currentIndex = index;
 
                 },
-                met: function() {
+                met: function () {
                     console.log("add");
                 }
             }
