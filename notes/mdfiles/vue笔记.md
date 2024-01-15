@@ -21,7 +21,7 @@ var vm = new Vue({  // 创建vue实例
 })
 ```
 
-> 使用Object.freeze() 响应系统无法再追踪变化
+> 使用 `Object.freeze()` 响应系统无法再追踪变化
 
 ## 基础
 
@@ -479,6 +479,23 @@ computed: {
 // vm.fullName = "zhang san"
 ```
 
+```
+<input type="text" v-model="getCounter">
+<p>{{ getCounter }}</p>
+
+computed: {
+    getCounter: {
+        get() {
+            return this.counter
+        },
+        set(newValue) {
+            if(newValue > 100) return;
+            this.counter = newValue
+        }
+    }
+}
+```
+
 ### Class 与 Style 绑定
 
 #### 绑定 HTML Class
@@ -722,7 +739,7 @@ data: {
 > <!-- li标签依然会被渲染 -->
 > ```
 >
-> 我们的想法是这个 `v-if` 判断失败不再 `v-for` 进行渲染，但其实是**先for再每个进行if**，<br>不管 `v-if` 或 `v-for` 书写位置谁先谁后都不会改变渲染结果
+> 我们的想法是这个 `v-if` 判断失败不再 `v-for` 进行渲染，但其实是**先for再每个进行if**，<br>不管 `v-if` 或 `v-for` **书写位置**谁先谁后都不会改变渲染结果
 
 ### 列表渲染
 
@@ -768,7 +785,7 @@ var example1 = new Vue({
 >
 > 在遍历对象时，会按 `Object.keys()` 的结果遍历，但是**不能**保证它的结果在不同的 JavaScript 引擎下都一致。
 >
-> 在 vue 的 v-for 中， in 和 of 并没有区别，你把它写成v-for="todo of todos"也是一样的效果
+> 在 vue 的 v-for 中， in 和 of 并没有区别，你把它写成 `v-for="todo of todos"`也是一样的效果
 
 #### 维护状态
 
@@ -1190,7 +1207,7 @@ data: {
 
 > **复选框**
 >
-> 多选框：绑定到同一个数组 `String` 类型的数组
+> 多选框：绑定到同一个数组 `String` 类型的数组，绑定值为 value
 
 ```html
 <input type="checkbox" value="Jack" v-model="checkedNames">
@@ -1261,6 +1278,8 @@ data: {
 > **复选框**
 >
 > `true-value` 和 `false-value`
+>
+> 不应该绑定数组
 >
 > 在复选框为单选是默认为 **Boolean** 类型
 
@@ -1483,6 +1502,8 @@ Vue.component('blog-post', {
 ```
 
 > `$event` 接受来自 `$emit` 抛出的值
+>
+> 普通事件中的 `$event` 是原生事件对象，在自定义中则是子组件传值
 
 ```js
 data: {
@@ -1505,7 +1526,7 @@ Vue.component('my-com', {
 })
 ```
 
-> `$emit(funName,parms...)` 用来触发一个事件并抛出一个值(0.1)
+> `$emit(funName,parms...)` 用来触发一个事件并抛出一个值 "0.1"
 >
 > `v-on` 来监听 `enlarge-text` 事件，`$event` 来接受 `$emit` 抛出的值
 
@@ -1579,13 +1600,12 @@ Vue.component('custom-input', {
   template: `
     <input
       v-bind:value="value"  // 将获取的prop赋值给value
-      v-on:input="$emit('input', $event.target.value)"  // 触发组件input事件并传入value
-    >
-  `
+      v-on:input="$emit('input', $event.target.value)"  // 触发父组件input事件并传入value
+    >`
 })
 ```
 
-> `$event` 指的是该标签 event 对象
+> `$event` 指的是该标签原生 event 对象
 >
 > 现在 `v-model` 就应该可以在这个组件上完美地工作起来了：
 
@@ -1761,7 +1781,7 @@ export default {
   },
   // ...
 }
-// 等同于 上面时缩写语法
+// 等同于 上面是缩写语法，名称必须相同
 export default {
   components: {
     ComponentA:ComponentA,
@@ -2067,13 +2087,15 @@ this.$emit('myEvent')  // 触发一个事件，字符串为事件名
 
 > 不同于组件和 prop，事件名不会被用作一个 JavaScript 变量名或 property 名，所以就没有理由使用 camelCase 或 PascalCase 了。并且 `v-on` 事件监听器在 DOM 模板中会被自动转换为全小写 (因为 HTML 是大小写不敏感的)，所以 `v-on:myEvent` 将会变成 `v-on:myevent`——导致 `myEvent` 不可能被监听到。
 >
-> 也就是定义名字必须与触发一致
+> **也就是定义名字必须与触发一致**
 
 ```js
-this.$emit('event-name', param);  // 后面接着参数
+this.$emit('event-name', params);  // 后面接着参数
 ```
 
-> 关于 `$event` 在事件触发函数时代表 event 对象，在 `$emit` 触发的事件时代表 emit传来的参数
+> 关于 `$event` 在普通事件触发函数时代表 event 对象，在 `$emit` 触发的事件时代表 emit传来的参数
+>
+> 如果使用 emit 触发一个普通事件传值将会失效将会被原生event替代
 
 ```vue
 <div class="box" v-on:click="show($event)" ></div>
@@ -2130,30 +2152,6 @@ show1(e) {
 > `v-on` 监听 **input** 事件将 data 中的 **val** 设置为 `$event`（dom元素event对象）的 **value**。
 >
 > 这样就实现了双向绑定了
-
-变通写法：也可以执行一个方法
-
-```vue
-<input type="text" 
-  v-bind:value="val"
-  v-on:input="el => val = el.target.value"
->
-```
-
-：不使用箭头函数
-
-```vue
-<input type="text" 
-  v-bind:value="val"   // 绑定data的val
-  v-on:input="function(el){
-      val = el.target.value  // val为vm实例内的data，val为事件等于$event
-  }"
->
-```
-
-> 上面所述 `v-model` 只是语法糖，只是默认绑定的是value/checked 值。
->
-> 上面的就是普通dom元素的 `v-model` 实现，现在我们解析一下组件上的 `v-model` 的实现
 >
 > 这是我们写的组件双向绑定：
 
@@ -2167,7 +2165,7 @@ Vue.component("foo", {
       <input 
         type="text"
         v-bind:value="value"
-        v-on:input="$emit('input',$event.target.value)"
+        v-on:input="$emit('input',$event.target.value)" //触发父级input事件
       >
       </input>`,
   props: ['value'],
@@ -2210,6 +2208,7 @@ Vue.component('foo', {
 > model 选项就是修改这个默认设置
 
 ```js
+// 子组件
 Vue.component('foo', {
   model:{
     prop:"checked", // 将默认绑定改为 checked 属性
@@ -2364,7 +2363,7 @@ this.$emit("update:foo",传值)
 </my-com>
 ```
 
-> 直接编写插槽内容是无效的，需要定义一个 `<slot>` 用于内容分发插槽。`<slot>` 元素自身将被替换。
+> 直接编写插槽内容是**无效**的，需要定义一个 `<slot>` 用于内容分发插槽。`<slot>` 元素自身将被替换。
 >
 > `<slot></slot>` 将会被替换为“插槽内容”。插槽内可以包含任何模板代码，包括 HTML
 
@@ -2613,7 +2612,7 @@ template: `
 > 2.6版本后使用用 `v-slot` 代替 
 > 注意 `v-slot` 只能添加在 `<template>` 上，为了能够更统一风格
 >
-> 
+> 作用域插槽的作用就是子组件将内容传递给父级模板
 >
 > 在上面可以得知因为插槽是在**父级模板**中渲染的，是不能够访问到子组件内容的，为了让 `user` 在父级的插槽内容中可用，我们可以将 `user` 作为 `<slot>` 元素的一个 attribute 绑定上去：
 
@@ -2704,7 +2703,7 @@ template: `
 
 > `template` 标签是html5新标签
 >
-> \<template> 标签元素的原本特性，天生 **display:none**，同时模板元素内部内容是不会呈现的。因此，无需设置隐藏。
+> `<template>` 标签元素的原本特性，默认 **display:none**，同时模板元素内部内容是不会呈现的。因此，无需设置隐藏。
 >
 > 这就是HTML5 \<template>标签元素特征之一：标签内容隐藏性，默认隐藏，只不过在 vue 绑定的 **app** 里面如果 **未使用** 会直接渲染出来。
 >
@@ -3302,6 +3301,13 @@ methods: {
 **CSS 类名**
 
 ```html
+<!-- 使用本身的进入动画 -->
+<transition
+  appear
+>
+  <!-- ... -->
+</transition>
+<!-- 设置单独进入动画 -->
 <transition
   appear
   appear-class="appear-enter"
@@ -3547,7 +3553,7 @@ var vm = new Vue({
 
 #### 选项合并
 
-> 数据对象在内部会进行递归合并，并在发生冲突时以组件数据优先
+> 数据对象在内部会进行递归合并，并在发生冲突时以实例数据优先
 
 ```js
 const foo = {
@@ -4057,7 +4063,7 @@ return createElement('button', context.data, context.children)
 </div>
 ```
 
-> 渲染结果还是 `{{ msg }}` ，vue不会对齐进行编译
+> 渲染结果还是 `{{ msg }}` ，vue不会对其进行编译
 
 ### v-cloak
 

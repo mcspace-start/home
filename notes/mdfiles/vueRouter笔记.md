@@ -198,7 +198,7 @@ export default {
 
 ### params
 
-> 动态路径参数，一个“路径参数”使用冒号 : 标记。当匹配到一个路由时，参数值会被设置到 `this.$route.params`，可以在每个组件内使用。
+> 动态路径参数，一个“路径参数”使用冒号` : `标记。当匹配到一个路由时，参数值会被设置到 `this.$route.params`，可以在每个组件内使用。
 >
 > 需要注意的是如果，在路由配置设置了路径参数，在跳转时若没有输入符合的参数时是不会跳转的<br>若没有设置，使用编程式传入 params 时，则会正常跳转，也相当于设置了一个过滤器
 >
@@ -378,6 +378,8 @@ const User = {
     </div>`
 }
 ```
+
+> 如果在路由中设置了 params 也就是 `/class/:id` 再访问子路由 `/class/student` 由于子路由将其视为路径的一部分，而不是参数，会导致路由跳转失败，需要使用命名参数来避免这个问题，需要在子路由加上参数`/class/:id/student` 
 
 ## 编程式的导航
 
@@ -1037,12 +1039,13 @@ beforeRouteEnter (to, from, next) {
 
 <table>
 <tr><td>全局前置守卫：beforeEach</td></tr>
-<tr><td>路由独享守卫：beforeEnter</td></tr>
+<tr><td>路由独享守卫：beforeRouteEnter</td></tr>
 <tr><td>组件路由守卫：beforeRouteEnter，此时this不指向组件</td></tr>
 <tr><td>全局解析守卫 : beforeResolve</td></tr>
 <tr><td>全局后置守卫：afterEach</td></tr>
 <tr><td>---- 生命周期</td></tr>
 </table>
+
 
 
 * 【全局的】：是指路由实例上直接操作的钩子函数，他的特点是 **所有路由** 配置的组件都会触发，直白点就是触发路由就会触发这些钩子函数，钩子函数按执行顺序包括beforeEach、beforeResolve（2.5+）、afterEach三个。
@@ -1060,7 +1063,7 @@ beforeRouteEnter (to, from, next) {
 
 > ```mermaid
 > graph TD
-> A[全局前置守卫 beforeEach] --> B[组件独享守卫 beforeEnter]
+> A[全局前置守卫 beforeEach] --> B[组件独享守卫 beforeRouteEnter]
 > 	B --> C[beforeRouteEnter 组件内守卫]
 >     C --> D[全局解析守卫 beforeResolve]
 >     D --> F[全局后置钩子 afterEach]
@@ -1165,8 +1168,6 @@ mounted() {
   box.title = this.$route.meta.title;// 获取并使用meta
 },
 ```
-
-
 
 ## 过渡动效
 
@@ -1462,3 +1463,53 @@ router.push('/admin').catch(failure => {
 ```
 
 > 在所有情况下，**to** 和 **from** 都是规范化的路由位置。
+
+## 路由结构
+
+```js
+const R = new VueRouter({
+  mode: "history",
+  routers: [
+    { path: "/",redirect: "/name" },  // 重定向
+    { path: "/A",name: "A",component:"A"}, // 指定组件和name
+    { path: "/B/:id/:name", // 携带参数 params
+    	name: "B",
+     	component: "B",
+      mate:{...},  // 传递mate
+      props:true,  // 传递参数params以props形式
+     	children:[{...}], // 子组件
+    },
+    { path: "/C",
+     	alias: "/B",  //起别名
+     	component: "C",
+     	beforeRouteEnter(to,from,next){
+        next(false);
+      },  // 组件内守卫
+      beforeRouteUpdate(to,from,next){...},
+      beforeRouteLeave(to,from,next){...}
+    },
+    { path: "/D",
+     	component: {   // 命名视图
+        default: "D",
+        viewA: "D1"
+      },
+       props:{
+         ...
+       },
+       scrollBehavior(to, from, savedPosition) {  // 滚动行为
+    		return {
+        selector:"#app",    // 页面跳转时，移动到指定锚点位置 //可选
+        x:0,    // 返回位置
+        y:0,
+        behavior: 'smooth', // 平滑滚动
+   		 }
+		  }
+    }
+  ]
+})
+// 全局守卫
+R.breforceEach(to,from,next){...}
+R.breforceResolve(to,from,next){...}
+R.afterEach(to,from){...}
+```
+
