@@ -2006,7 +2006,9 @@ Vue.component("my-com", {
 
 #### 禁用 Attribute 继承
 
-> 如果给子组件传递的数据，子组件不使用props接收，那么这些数据将作为子组件的特性，这些特性绑定在组件的HTML根元素上，可以通过 `inheritAttrs = false` 来控制这些特性是否显示在dom元素上
+> 如果给子组件传递的数据，子组件不使用
+>
+> props接收，那么这些数据将作为子组件的特性，这些特性绑定在组件的HTML根元素上，可以通过 `inheritAttrs = false` 来控制这些特性是否显示在dom元素上
 >
 > inheritAttrs：默认值 true
 
@@ -2426,7 +2428,7 @@ template: `
 Vue.component('my-com', {
 template: `
   <div>
-    <slot>{{msg}}</slot>  // 这里才能访问子级内容
+    <slot></slot>  // 这里才能访问子级内容
   </div>`,
   data () {
     return {

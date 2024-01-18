@@ -361,7 +361,7 @@ export default new Router({
 </template>
 ```
 
-> url地址
+> url 地址
 
 ```url
 #/home/home-child
@@ -1469,6 +1469,7 @@ router.push('/admin').catch(failure => {
 ```js
 const R = new VueRouter({
   mode: "history",
+  base: '/app/',  // 如果整个单页应用服务在 /app/ 下，然后 base 就应该设为 "/app/"
   routers: [
     { path: "/",redirect: "/name" },  // 重定向
     { path: "/A",name: "A",component:"A"}, // 指定组件和name

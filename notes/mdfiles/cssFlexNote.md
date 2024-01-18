@@ -68,7 +68,7 @@
 
 ### flex-flow
 
-> flex-flow属性是 `flex-deriction` 与 `flex-wrap` 属性的简写集合，默认属性为 row nowrap ，即横向排列，且不换行，如果需要控制项目排列与换行，推荐使用此属性，而非单独写两个。
+> flex-flow属性是 `flex-deriction` 与 `flex-wrap` 属性的简写集合，默认属性为 `row nowrap` ，即横向排列，且不换行，如果需要控制项目排列与换行，推荐使用此属性，而非单独写两个。
 
 ### justify-content
 
@@ -102,9 +102,9 @@
 
 ### align-items
 
-> 控制项目在交叉轴排列方式，默认stretch
+> 控制项目在交叉轴排列方式，默认`stretch`
 >
-> 如果项目没设置高度，或高度为auto，则占满整个容器
+> 如果项目没设置高度，或高度为 `auto`，则占满整个容器
 
 默认stretch，box1设置了高度，其余则没有
 
@@ -136,7 +136,7 @@
 
 ### align-content
 
-> 控制 **多行项目** 的对齐方式，如果项目只有一行则不会起作用，需设置flex-wrap: wrap；默认stretch
+> 控制 **多行项目** 的对齐方式，如果项目只有一行则不会起作用，需设置 `flex-wrap: wrap`；默认stretch
 
 * stretch(默认)
 
@@ -192,7 +192,7 @@ box 默认 `grow:0`，box2 设置 `grow:2`，box3设置 `grow:1`，box2 和 box3
 
 ### flex-shrink
 
-> 缩小，默认flex-shrink:1
+> 缩小，默认 `flex-shrink:1`
 >
 > 当所有的元素的属性都为1时，空间不足时全部等比缩小，即便设置了固定宽度，也会缩小。
 
@@ -216,7 +216,7 @@ box 默认 `grow:0`，box2 设置 `grow:2`，box3设置 `grow:1`，box2 和 box3
 
 ### flex
 
-> flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。
+> flex属性是`flex-grow, flex-shrink 和 flex-basis`的简写，默认值为 `0 1 auto`。后两个属性可选。
 >
 > `flex:(放大)(缩小)(宽度)`
 
