@@ -31,7 +31,7 @@
             justify-content: center;
             align-items: center;
             /* background-color: #c3ff8b; */
-            background: url("./img/bg.png") repeat;
+            background: url("./img/bg.gif") repeat;
         }
 
         .main {
@@ -650,7 +650,7 @@
                     if (i.isOut) scale = 0;
                     if (i.isHover) scale = 1.3;
                     return {
-                        transform: `translate(${i.offsetX},${i.offsetY}) scale(${scale}) translateZ(0) translate3d(0,0,0)`,
+                        transform: `translate(${i.offsetX},${i.offsetY}) scale(${scale}) translateZ(0)`,
                         zIndex: i.isHover ? 1 : "",
                         opacity: i.isOpacity ? 0 : "",
                     };
