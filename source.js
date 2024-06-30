@@ -19,9 +19,9 @@ var person = {
           title: "项目使用了uni-app",
         },
         {
-          content: "vue-音乐播放器",
-          url: "demo/music",
-          title: "项目使用了vue.js、axios.js",
+          content: "vue-羊了个羊",
+          url: "demo/yang",
+          title: "项目使用了vue.js",
         },
         {
           content: "vue-扫雷小游戏",
@@ -38,7 +38,12 @@ var person = {
           url: "demo/white",
           title: "项目使用了vue.js",
         },
-		{
+        {
+          content: "vue-音乐播放器",
+          url: "demo/music",
+          title: "项目使用了vue.js、axios.js",
+        },
+        {
           content: "vue-2048",
           url: "demo/2048",
           title: "项目使用了vue.js",
