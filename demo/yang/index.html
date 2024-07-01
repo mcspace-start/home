@@ -7,7 +7,6 @@
     <title>羊了个羊</title>
     <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
     <script src="js/vue.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script> -->
     <style>
         body,
         html,
@@ -32,6 +31,7 @@
             align-items: center;
             /* background-color: #c3ff8b; */
             background: url("./img/bg.gif") repeat;
+            background-size: 100%;
         }
 
         .main {
@@ -677,6 +677,7 @@
                     ];
                 },
                 touchMove(e) {
+                    e.preventDefault();
                     this.touch.move = [e.touches[0].clientX, e.touches[0].clientY];
                 },
                 touchEnd(e) {
