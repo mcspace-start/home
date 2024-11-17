@@ -30,7 +30,6 @@
             justify-content: center;
             align-items: center;
             background-color: #c3ff8b;
-
         }
 
         .main {
@@ -93,6 +92,11 @@
 
         .pie.hover {
             transition: transform 0.15s;
+        }
+
+        .pie.moving {
+            transition: none;
+            pointer-events: none;
         }
 
         .pie.cover {
@@ -412,7 +416,7 @@
                     @touchend="touchEnd($event)">
                     <li v-for="(item,index) in cardList">
                         <div v-for="i in item"
-                            :class="['pie',{cover:i.isCover},{hover:i.isHover},{pending:i.isPending}]"
+                            :class="['pie',{cover:i.isCover},{hover:i.isHover},{pending:i.isPending},{moving:i.moving}]"
                             :style="computedStyle(i)" :x="i.x" :y="i.y" :z="index" :key="i.cardId" :cardid="i.cardId">
                             {{i.icon}}
                         </div>
@@ -548,24 +552,21 @@
     <script>
         console.clear();
         // 判断移动设备
-
         function isMobileDevice() {
             // 匹配常见的移动设备的用户代理
-            const mobileUserAgentRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+            const mobileUserAgentRegex =
+                /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
             // 获取用户代理字符串
-            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            const userAgent =
+                navigator.userAgent || navigator.vendor || window.opera;
             // 使用正则表达式匹配用户代理字符串
-
-
             const str = mobileUserAgentRegex.test(userAgent);
-
             // 使用示例
             if (!str) {
-                alert('请在移动端运行');
+                alert("请在移动端运行");
             }
         }
         isMobileDevice();
-
         //内容样式
         const contentType = {
             1: "🥕",
@@ -591,7 +592,6 @@
         const app = new Vue({
             el: "#app",
             data: {
-                // #region
                 bg: [],
                 curLevel: 1,
                 // 所有卡牌数组
@@ -614,7 +614,6 @@
                 showRevokeTips: false,
                 //  fail success next
                 gameStatus: "",
-                // #endregion
                 // 选项关联数据
                 menu: {
                     showMenu: true,
@@ -767,6 +766,10 @@
                         this.offsetY = offsetY;
                         this.realOffsetX = offsetX;
                         this.realOffsetY = offsetY;
+                        // 元素中心点
+                        this.cx = x * 24 + 24;
+                        this.cy = y * 24 + 24;
+                        // 元素样式
                         this.isOut = false;
                         this.isPending = false;
                         this.isRemove = false;
@@ -775,8 +778,10 @@
                         this.isOpacity = false;
                         this.icon = "";
                         this.cardId = Math.floor(Math.random() * 1000000);
+                        // 弧度
+                        this.angle = 0;
+                        this.moveing = false;
                     }
-
                     // 渲染数组
                     const arr = [];
                     // 层数
@@ -797,7 +802,6 @@
                             density: 0.3,
                         },
                     ];
-
                     // 判断创建模式
                     switch (mode) {
                         case 1:
@@ -1074,7 +1078,6 @@
                         }
                         this.coverList.push(tempCoverList);
                     }
-
                     // 针对特殊方块处理
                     if (mode == 1) {
                         for (let i = 0; i < 11; i++) {
@@ -1107,7 +1110,6 @@
                             this.pieTotal += 2;
                         }
                     }
-
                     // 数组倒序，符合渲染规则
                     arr.reverse();
                     // 数量不足
@@ -1425,7 +1427,6 @@
                     p.offsetX = p.realOffsetX;
                     p.offsetY = p.realOffsetY;
                     p.isPending = false;
-
                     // 删除指定元素
                     const index = this.pendingList.findIndex((item) => {
                         return item.cardId == p.cardId;
@@ -1434,7 +1435,7 @@
                     this.pendingList.splice(index, 1);
                     //
                     this.revokeList.pop();
-
+                    //
                     this.pendingAnimation();
                     this.checkCover(p);
                 },
@@ -1444,14 +1445,18 @@
                         return;
                     }
                     this.ing = true;
-                    // console.log("打乱");
+                    const that = this;
                     // 次数减一
                     this.tools.shuffle--;
-                    // 临时保存所有元素
-                    const arr = [];
-                    // 获取所有元素 x y
-                    let count = 0;
-                    this.cardList.forEach((element) => {
+                    // 0底层 1上层
+                    // 中心点
+                    let cx = 144;
+                    let cy = 216;
+                    // 半径
+                    let r = 44;
+                    // 临时保存可操作元素
+                    const pieList = [];
+                    that.cardList.forEach((element) => {
                         element.forEach((item) => {
                             // 移出区和判定区跳过
                             if (
@@ -1459,46 +1464,98 @@
                                 item.isRemove == false &&
                                 item.isOut == false
                             ) {
-                                if (count > this.pieTotal - 50) {
-                                    item.offsetX = "144px";
-                                    item.offsetY = "216px";
-                                } else {
-                                    item.isOpacity = true;
-                                }
-                                count++;
-                                arr.push(item.icon);
+                                // 元素原位置相对于中心点弧度
+                                item.angle = Math.atan2(item.cy - cy, item.cx - cx);
+                                pieList.push(item);
                             }
                         });
                     });
-                    // 打乱数组顺序
-                    this.shuffleArray(arr);
-                    // 更改原数组icon
-                    let a = 0;
-                    count = 0;
-                    setTimeout(() => {
-                        this.cardList.forEach((element) => {
-                            element.forEach((item) => {
-                                if (
-                                    item.isPending == false &&
-                                    item.isRemove == false &&
-                                    item.isOut == false
-                                ) {
-                                    if (count > this.pieTotal - 50) {
-                                        item.offsetX = item.realOffsetX;
-                                        item.offsetY = item.realOffsetY;
-                                    } else {
-                                        item.isOpacity = false;
-                                    }
-                                    count++;
-                                    item.icon = arr[a];
-                                    a++;
+                    //  动画事件
+                    let animationId = null;
+                    const totalDuration = 700; // 旋转一周的总时长（毫秒）
+                    const frameDuration = 16; // 假设每帧耗时16毫秒（约60FPS）
+                    // 每一帧的弧度
+                    const angleIncrement =
+                        (2 * Math.PI) / (totalDuration / frameDuration);
+                    // 当前弧度
+                    let angle = 0;
+                    // 围绕圆形轨迹运动
+                    function updatePiePosition() {
+                        // 遍历每个元素，更新其位置
+                        pieList.forEach((item, index) => {
+                            if (index >= pieList.length - 50) {
+                                // 计算每个正方形的x和y坐标（相对于围绕中心圆形轨迹）
+                                const mpx = cx + r * Math.cos(angle + item.angle);
+                                const mpy = cy + r * Math.sin(angle + item.angle);
+                                // 元素移动
+                                item.offsetX = mpx + "px";
+                                item.offsetY = mpy + "px";
+                                item.moving = true;
+                            }
+                        });
+                        // 半径增加圆圈变大
+                        r += 0.76;
+                        // 更新角度以便下一帧使用
+                        angle -= angleIncrement;
+                        // 如果角度超过一圈，则重置为0
+                        // if (angle >= 2 * Math.PI) {
+                        //     angle = 0;
+                        // }
+                        //  是否该结束旋转
+                        if (r < 108) {
+                            animationId = requestAnimationFrame(updatePiePosition);
+                        } else {
+                            // 结束旋转
+                            cancelAnimationFrame(animationId);
+                            pieList.forEach((item, index) => {
+                                if (index >= pieList.length - 50) {
+                                    item.offsetX = item.realOffsetX;
+                                    item.offsetY = item.realOffsetY;
+                                    item.moving = false;
+                                } else {
+                                    item.isOpacity = false;
                                 }
                             });
+                            that.ing = false;
+                        }
+                    }
+                    // 动画开始前
+                    function initAnimation() {
+                        pieList.forEach((item, index) => {
+                            if (index >= pieList.length - 50) {
+                                // 计算每个正方形的x和y坐标（相对于容器中心）
+                                const mpx = cx + r * Math.cos(angle + item.angle);
+                                const mpy = cy + r * Math.sin(angle + item.angle);
+                                // 元素移动
+                                item.offsetX = mpx + "px";
+                                item.offsetY = mpy + "px";
+                            } else {
+                                item.isOpacity = true;
+                            }
                         });
                         setTimeout(() => {
-                            this.ing = false;
-                        }, 400);
-                    }, 400);
+                            // 调用动画
+                            requestAnimationFrame(updatePiePosition);
+                            // 打乱数组
+                            const tempPieList = [...pieList];
+                            that.shuffleArray(tempPieList);
+                            // 更改原数组icon
+                            let a = 0;
+                            that.cardList.forEach((element) => {
+                                element.forEach((item) => {
+                                    if (
+                                        item.isPending == false &&
+                                        item.isRemove == false &&
+                                        item.isOut == false
+                                    ) {
+                                        item.icon = tempPieList[a].icon;
+                                        a++;
+                                    }
+                                });
+                            });
+                        }, 300);
+                    }
+                    initAnimation();
                 },
                 getRandom(n, m) {
                     return Math.floor(Math.random() * (m - n + 1) + n);
