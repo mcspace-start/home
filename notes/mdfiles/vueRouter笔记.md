@@ -200,7 +200,7 @@ export default {
 
 > 动态路径参数，一个“路径参数”使用冒号` : `标记。当匹配到一个路由时，参数值会被设置到 `this.$route.params`，可以在每个组件内使用。
 >
-> 需要注意的是如果，在路由配置设置了路径参数，在跳转时若没有输入符合的参数时是不会跳转的<br>若没有设置，使用编程式传入 params 时，则会正常跳转，也相当于设置了一个过滤器
+> 需要注意的是如果，在路由配置设置了路径参数，在跳转时若没有输入符合的参数时是**不会跳转**的<br>若没有设置，使用编程式传入 params 时，则会正常跳转，也相当于设置了一个过滤器
 >
 > 路由配置：
 
@@ -416,17 +416,28 @@ this.$router.push({ path: 'home' });
 this.$router.push({ name: 'user', params: { userId: '123' }});
 // 带查询参数，变成 /register?plan=private
 this.$router.push({ path: 'register', query: { plan: 'private' }});
+// 携带params和qauery
+this.$router.push({
+  name: "study", // 使用name指定路由
+  params: {  // 传递parmas
+    name: "张三",
+    id: "001"
+  },
+  query: {  // 传递query
+    query1: 10,
+    query2: 20
+  }
+});
 ```
 
-**注意：如果提供了 path，params 会被忽略，上述例子中的 query 并不属于这种情况。取而代之的是下面例子的做法，你需要提供路由的 name 或手写完整的带有参数的 path：**
+如果直接提供 `path`，那么 `params` 将被忽略，因为 `path` 已经指定了完整的路径。在这种情况下，你只能传递 `query` 参数。
 
-> 也就是相当于只有两种组合：
->
-> 要么 `path + query` 组合（只需写path和后面跟上参数） 
->
-> 或者 `name + params` 组合（ 需要写name 和 params 集合带参数 ）
->
-> 同样的规则也适用于 `router-link` 组件的 `to` 属性。
+> - 使用 `name`：当使用命名路由时，可以同时传递 `params` 和 `query`。
+>- 使用 `path`：如果直接提供 `path`，则只能传递 `query`，`params` 将被忽略。
+> 
+>使用`name`跳转时即使传递的`params`数量不够还是会尝试跳转
+> 
+>同样的规则也适用于 `router-link` 组件的 `to` 属性。
 
 ````js
 // 字符串
@@ -669,7 +680,7 @@ routes: [{
 }]       
 ```
 
-> 使用对象作为返回参数，一样是两种搭配，分别是 `path + query` 和 `name + params`
+> 使用对象作为返回参数和路由匹配是一样的
 
 ### 别名
 
@@ -849,13 +860,11 @@ export default {
 
 ## History 模式
 
-> vue-router 默认 **hash** 模式 ，使用 URL 的 hash 来模拟一个完整的 URL，于是当 URL 改变时，页面不会重新加载。
+> Vue Router 默认使用 **hash** 模式，通过 URL 的 hash 部分实现页面跳转，不会引起页面重新加载，但 URL 中会包含 `#` 符号。
 >
-> 如果不想要很丑的 hash，我们可以用路由的 **history** 模式，这种模式充分利用 `history.pushState` API 来完成 URL 跳转而无须重新加载页面。
+> 若想避免 `#`，可以使用 **history** 模式，它利用 HTML5 的 `history.pushState` API 来更新 URL，无需页面刷新。
 >
-> history 模式就是 **URL** 地址栏没有 `#` 符号
->
-> history 模式 **需要后端配合配置**，history 是通过使用html5的新 api `history.pushState` 和`history.replaceState` 来修改url地址，**兼容性稍差**
+> **history** 模式的 URL 更加美观，但需要后端配置以支持服务器端渲染，且兼容性相对较差。 
 
 ```js
 const router = new VueRouter({
@@ -1140,13 +1149,13 @@ new Router({
 
 > routes 配置中的每个路由对象为 **路由记录**。路由记录可以是嵌套的，因此，当一个路由匹配成功后，他可能匹配多个路由记录
 >
-> 例如，根据上面的路由配置，`/foo/bar` 这个 URL 将会匹配父路由记录以及子路由记录。
->
 > 一个路由匹配到的**所有路由记录**会暴露为 `$route` 对象 (还有在导航守卫中的路由对象) 的 `$route.matched` **数组**。因此，我们需要遍历 `$route.matched` 来检查路由记录中的 **meta** 字段。
 >
 > `$route.matched` 是数组，可以使用数组方法遍历。
 >
 > 或者组件内 `this.$route.meta` 只包含**当前组件 meta 记录**
+>
+> `$route.meta` 用于直接访问当前路由的元信息，而 `$route.matched` 用于访问当前路由链中所有路由的记录，包括它们的 `meta` 信息。
 >
 > 我们可以使用全局守卫来获得 meta 字段，这样可以包含多个 meta，也可以在组件内来访问特定 meta
 >
@@ -1290,7 +1299,7 @@ scrollBehavior(to, from, savedPosition) {
 }
 ```
 
-> 有锚点就到锚点位置，没有就上[0,0] 
+> 有锚点就到锚点位置，没有就跳到坐标位置
 
 ### 异步滚动
 
@@ -1468,49 +1477,75 @@ router.push('/admin').catch(failure => {
 
 ```js
 const R = new VueRouter({
-  mode: "history",
-  base: '/app/',  // 如果整个单页应用服务在 /app/ 下，然后 base 就应该设为 "/app/"
-  routers: [
-    { path: "/",redirect: "/name" },  // 重定向
-    { path: "/A",name: "A",component:"A"}, // 指定组件和name
-    { path: "/B/:id/:name", // 携带参数 params
-    	name: "B",
-     	component: "B",
-      mate:{...},  // 传递mate
-      props:true,  // 传递参数params以props形式
-     	children:[{...}], // 子组件
+  mode: "history", // 使用HTML5 History模式，不依赖URL的hash部分。
+  base: '/app/', // 应用部署在/app/路径下，设置base以确保路由正确解析。
+  routes: [
+    { path: "/", redirect: "/name"}, // 根路径重定向到/name。
+    { 
+      path: "/A", 
+     	name: "A", 
+     	component: A
+    }, // 路径/A对应组件A，并命名为A。
+    { 
+      path: "/B/:id/:name", 
+     	name: "B",
+     	component: B, // 路径/B/:id/:name携带动态参数。
+      meta: { ... }, // 传递额外的元数据。
+      props: true, // 将路由参数以props形式传递给组件。
+      children: [{ ... }] // 子路由配置。
     },
-    { path: "/C",
-     	alias: "/B",  //起别名
-     	component: "C",
-     	beforeRouteEnter(to,from,next){
-        next(false);
-      },  // 组件内守卫
-      beforeRouteUpdate(to,from,next){...},
-      beforeRouteLeave(to,from,next){...}
+    { 
+      path: "/C",
+     	alias: "/B",
+     	component: C, // 路径/C别名为/B，对应组件C。
     },
-    { path: "/D",
-     	component: {   // 命名视图
-        default: "D",
-        viewA: "D1"
-      },
-       props:{
-         ...
-       },
-       scrollBehavior(to, from, savedPosition) {  // 滚动行为
-    		return {
-        selector:"#app",    // 页面跳转时，移动到指定锚点位置 //可选
-        x:0,    // 返回位置
-        y:0,
-        behavior: 'smooth', // 平滑滚动
-   		 }
-		  }
+    { 
+      path: "/D",
+      component: { // 命名视图组件。
+      default: "D",
+      viewA: D,
+      props: { 
+        default: true,
+        viewA: route => ({ propA: route.query.propA })
+      }, // 命名视图组件的props配置。
+    }, 
+    scrollBehavior(to, from, savedPosition) { // 路由跳转时的滚动行为。
+      return {
+        selector: "#app", // 滚动到指定元素。
+        x: 0, // 水平方向位置。
+        y: 0, // 垂直方向位置。
+        behavior: 'smooth' // 滚动行为，平滑滚动。
+      };
     }
-  ]
-})
+  }
+});
+
 // 全局守卫
-R.breforceEach(to,from,next){...}
-R.breforceResolve(to,from,next){...}
-R.afterEach(to,from){...}
+R.beforeEach((to, from, next) => { ... }); // 路由跳转前执行。
+R.beforeResolve((to, from, next) => { ... }); // 路由解析前执行。
+R.afterEach((to, from) => { ... }); // 路由跳转后执行。
 ```
 
+```js
+// 组件内
+export default {
+  data() {
+    return {};
+  },
+  watch: {
+    '$route'(to, from) { }// 对路由变化作出响应...
+  },
+  beforeRouteUpdate(to, from, next) {
+    // 当路由发生变化，但该路由被复用时，会调用这个钩子。
+    next();
+  },
+  beforeRouteEnter(to, from, next) {
+    // 在渲染该组件的对应路由被确认前调用。
+    next();
+  },
+  beforeRouteLeave(to, from, next) {
+    // 导航离开该组件的对应路由时调用。
+    next();
+  }
+};
+```

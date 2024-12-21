@@ -222,7 +222,7 @@ body {
 ```less
 /* Less */
 @min768: ~"(min-width: 768px)";
-  .element {
+.element {
     @media @min768 {
     font-size: 1.2rem;
   }

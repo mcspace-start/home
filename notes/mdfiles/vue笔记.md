@@ -841,7 +841,7 @@ data: {
 },
 computed: {
   evenNumbers: function () {
-    return this.numbers.filter(function (number) {
+    return this.numbers.filter(function (number) {  // filter
       return number % 2 === 0
     })
   }
@@ -972,7 +972,7 @@ methods: {
 
 > `@click="fun"` 不带括号、不写实参的fun默认传event (事件对象)。
 >
-> `@click="fun(value)"` 只要加括号，无论是否传值，都属于传实参给函数，event (事件对象)就接收不到。
+> `@click="fun(value)"` **只要加括号，无论是否传值，都属于传实参给函数，event (事件对象)就接收不到**。
 > 如果需要实参、又需要event (事件对象)，就需要手动传入 event (事件对象)，如下：
 > `@click="fun($event, value)"`
 >
@@ -1300,7 +1300,7 @@ vm.toggle === 'no'
 
 > **单选按钮**
 >
-> 这样我的的 value 也是可以动态绑定，并非一定要字符串
+> value 也是可以动态绑定，并非一定要字符串
 
 ```html
 <input type="radio" v-model="pick" v-bind:value="a">
@@ -1419,7 +1419,7 @@ Vue.component("my-com", {
 > 动态传递
 
 ```html
-<my-com :title="msg"></my-com>
+  <my-com :title="msg"></my-com>
 ```
 
 ```js
@@ -2037,7 +2037,7 @@ Vue.component('my-com', {
 })
 ```
 
-渲染结果dom元素上将不会有未被prop接受的属性
+渲染结果dom元素上将不会有**未被prop接受**的属性
 
 ```html
 <my-com  abc="123"></my-com>
@@ -2095,9 +2095,8 @@ this.$emit('myEvent')  // 触发一个事件，字符串为事件名
 this.$emit('event-name', params);  // 后面接着参数
 ```
 
-> 关于 `$event` 在普通事件触发函数时代表 event 对象，在 `$emit` 触发的事件时代表 emit传来的参数
+> 关于 `$event` 在普通事件触发函数时代表 event 对象，在 `$emit` 触发的事件时代表 emit 传来的参数
 >
-> 如果使用 emit 触发一个普通事件传值将会失效将会被原生event替代
 
 ```vue
 <div class="box" v-on:click="show($event)" ></div>
@@ -2259,7 +2258,34 @@ Vue.component('foo', {
 <base-input v-on:focus.native="onFocus"></base-input>
 ```
 
-#### $listeners
+#### $listeners 和 $attrs
+
+> `$attrs`
+>
+> - **定义**：`$attrs`是一个对象，包含了父组件传递给子组件的、但未被`props`声明的所有属性。
+> - **用途**：用于在子组件中访问和绑定这些额外的属性。
+>
+> `$listeners`（Vue 2）
+>
+> - **定义**：`$listeners`是一个对象，包含了父组件传递给子组件的所有v-on事件监听器。
+> - **用途**：用于在子组件中访问和绑定这些事件监听器，以实现组件间的通信和交互
+
+```html
+<foo title="hello" @myevent="func"></foo>
+```
+
+```js
+// 子组件
+Vue.component('foo', {
+    template: `<div>child</div>`,
+    mounted () {
+        console.log(this.$attrs); //{title:'hello'}
+        console.log(this.$listeners); //{myevent:function}
+    }
+})
+```
+
+#### .native失效
 
 > `.native` 会有失效的时候，例如被 `<label>` 包裹的 `<input>`
 >
@@ -2270,12 +2296,15 @@ Vue.component('foo', {
 > 包含了父作用域中的 (**不含** `.native` 修饰器的) `v-on` 事件监听器。它可以通过 `v-on="$listeners"` 传入内部组件。
 >
 > `.native` 不会被包含在该对象里面
+>
+> **vue3 被移除**
 
 ```js
 Vue.component('base-input', {
   inheritAttrs: false,
   props: ['label', 'value'],
   computed: {
+    // 监听label 下组件的事件
     inputListeners: function () {
       var vm = this
       // `Object.assign` 将所有的对象合并为一个新对象
@@ -2307,7 +2336,7 @@ Vue.component('base-input', {
 
 #### .sync 修饰符
 
-> sync (后续移除)
+> sync (vue3移除)
 >
 > 在有些情况下，我们可能需要对一个 prop 进行“双向绑定”。不幸的是，真正的双向绑定会带来维护上的问题，因为子组件可以变更父组件，且在父组件和子组件两侧都没有明显的变更来源。
 >
@@ -3169,13 +3198,10 @@ js 事件：
   height: 200px;
   background-color: blue;
 }
-.v-enter-active {
-  transition: all 3s;
-  animation: a 1s;
-}
+.v-enter-active,
 .v-leave-active {
-  transition: all 3s;
-  animation: a 1s;
+    transition: all 3s;
+    animation: a 1s;
 }
 .v-enter {
   background-color: red;
@@ -3685,6 +3711,22 @@ new Vue({
 
 > 除了 `el` 之外，其它参数都应该是只读的，切勿进行修改。如果需要在钩子之间共享数据，建议通过元素的 `dataset`来进行。
 
+```html
+<input type="text" v-focus:foo.a.b="message">
+```
+
+```js
+directives: {
+  focus:{ // 指令名
+    inserted(el,binding,value,vnode,oldvnode){ // 钩子
+      console.log(binding.arg); // 参数 foo
+      console.log(binding.modifiers);// 修饰符 a b
+      console.log(binding.value); // message
+    }
+  }
+}
+```
+
 **动态指令参数**
 
 > `v-mydirective:[argument]="value"` 中，**argument** 参数可以根据组件实例数据进行更新！这使得自定义指令可以在应用中被灵活使用。
@@ -3693,7 +3735,18 @@ new Vue({
 
 > 在很多时候，你可能想在 bind 和 update 时触发相同行为，而不关心其它的钩子。比如这样写：
 
+```html
+<div class="box" v-color-swatch="'blue'"></div>
+```
+
 ```js
+// 原写法
+Vue.directive('color-swatch', {
+    bind(el, binding) {
+        el.style.backgroundColor = binding.value
+    }
+})
+// 缩写，不在使用{}包裹而是直接使用函数
 Vue.directive('color-swatch', function (el, binding) {
   el.style.backgroundColor = binding.value
 })
@@ -4099,3 +4152,52 @@ return createElement('button', context.data, context.children)
 	<li is="mycom"></li>
 </tr>
 ```
+
+### 一个vue例子
+
+```js
+new Vue({
+  el: '.app',
+  data() { return {}; }, /* 数据属性 可以在这里添加您的数据 */
+  watch: {},/* 监听器可以在这里添加您的监听器 */
+  computed: {},/* 计算属性 您可以在这里添加您的计算属性 */
+  methods: {},/* 方法 您可以在这里添加您的方法 */
+  /*生命周期*/
+  beforeCreate() { },/* 实例初始化之后 */
+  created() { },/* 实例已经创建完成之后被调用 */
+  mounted() { },/* el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用该钩子 */
+  beforeUpdate() { },/* 数据更新时调用，发生在虚拟 DOM 打补丁之前 */
+  updated() { },/* 由于数据改变导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用这个钩子 */
+  beforeDestroy() { }, /* 实例销毁之前调用 */
+  destroyed() { }, /* 实例销毁后调用 */
+  provide() { return {}; },/* 依赖注入 */
+  filters: {},/* 过滤器（注意：Vue 3 中已移除） */
+  mixins: [],/* 混入数组，您可以在这里添加混入的对象 */
+  irectives: { /* 自定义指令 */
+      focus: { // 指令名
+          // 当绑定元素插入到 DOM 中时调用
+          inserted: function (el) {
+              el.focus();
+          }
+      }
+  },
+  // 组件
+  components: {
+      'child-component': {
+          template: `<div>这是一个子组件</div>`,
+          render(){},// 于template类型都是描述Vue组件的结构和布局
+          inheritAttrs: false, /* 是否继承未被props捕获属性 */
+          functional: false, /* 是否为函数式组件 */
+          model: { props: "checked", event: "change" },  /* 改变v-model绑定 */
+          props: [], /* 声明接收的 props，建议使用对象语法来指定类型等 */
+          inject: [], /* 声明注入的 properties */
+          activated() { }, /* keep-alive 组件激活时调用 */
+          deactivated() { }, /* keep-alive 组件停用时调用 */
+          errorCaptured(err, vm, info) {
+              return false; /* 如果返回 false，则阻止错误继续向上传播 */
+          }
+      }
+  },
+});
+```
+

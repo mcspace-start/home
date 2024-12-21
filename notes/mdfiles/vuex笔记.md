@@ -604,7 +604,7 @@ actions: {
         return new Promise((resolve, reject) => {
             setTimeout(() => {    // 1秒后执行代码
                 commit("add");
-                resolve(); // then
+                resolve();
             }, 1000)
         })
     },
@@ -738,7 +738,7 @@ state : {
         id : 1
     },
     moduleB : {
-    	id : 2
+    	  id : 2
     }
 }
 
@@ -765,7 +765,6 @@ const moduleA = {
       state.count++
     }
   },
-
   getters: {
     doubleCount (state) {
       return state.count * 2
@@ -825,6 +824,8 @@ computed:{
 
 > 默认情况下，模块内部的 action、mutation 和 getter 是注册在 **全局命名空间** 的——这样使得多个模块能够对同一 mutation 或 action 作出响应。
 >
+> 也就是如果没有开启命名空间，模块内 **state、getters、mutations、actions** 都会映射到全局里面，会可能造成命名冲突
+>
 > 如果希望你的模块具有更高的封装度和复用性，你可以通过添加 `namespaced: true` 的方式使其成为带命名空间的模块。当模块被注册后，它的所有 getter、action 及 mutation 都会自动根据模块注册的路径调整命名。例如：
 
 ```js
@@ -832,7 +833,6 @@ const store = new Vuex.Store({
   modules: {
     account: {   //模块名
       namespaced: true,   //开启命名空间
-
       // 模块内容（module assets）
       state: () => ({ ... }), // 模块内的状态已经是嵌套的了，使用 `namespaced` 属性不会对其产生影响
       getters: {
@@ -955,7 +955,6 @@ modules: {
   modules: {
     foo: {
       namespaced: true,
-
       actions: {
         someAction: {
           root: true,  //root和handler都是固定写法
@@ -1000,7 +999,9 @@ methods: {
 
 > 简化绑定
 >
-> 对于这种情况，你可以将模块的空间名称字符串作为第一个参数传递给上述函数，这样所有绑定都会自动将该模块作为上下文。于是上面的例子可以简化为：
+> 对于这种情况，你可以将模块的空间名称字符串作为第一个参数传递给上述函数，这样所有绑定都会自动将该模块作为上下文（**必须开启命名空间**）。
+>
+> 于是上面的例子可以简化为：
 
 ```js
 //简化写法
@@ -1257,6 +1258,24 @@ computed: {
       this.$store.commit('updateMessage', value)
     }
   }
+}
+```
+
+## 一个vuex例子
+
+```js
+const store = {
+    state: {}, // 根状态，数据存放点
+    getters: {}, // 定义getters，用于访问state中的数据
+    mutations: {}, // 定义mutations，用于同步修改state中的数据
+    actions: {}, // 定义actions，用于处理异步操作
+    modules: { // 定义模块
+        modeA: { // 定义一个名为modeA的模块
+            namespaced: true, // 开启命名空间，使得该模块下的state、getters等都具有唯一性
+            state() { return {}; } // modeA模块的状态
+        }
+    },
+    strict: true // 开启严格模式，用于开发阶段捕捉状态管理错误（生产环境建议关闭）
 }
 ```
 
