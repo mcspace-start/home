@@ -1,0 +1,612 @@
+<template>
+  <!-- 得分 -->
+  <div class="score">得分：{{ score }}</div>
+  <div class="main">
+    <!-- 画布 -->
+    <ul class="warp">
+      <ul v-for="(item, index) in map" :key="index">
+        <li v-for="i in item" :key="i.id"></li>
+      </ul>
+    </ul>
+    <!-- 蛇 -->
+    <ul class="snake" :class="snake.oldDirection">
+      <li
+        v-for="(item, index) of snake.parts"
+        :class="{
+          head: index == 0,
+          tail: index == snake.parts.length - 1,
+        }"
+        :key="item.id"
+        :style="computedStyle(item)"
+      ></li>
+    </ul>
+    <!-- 食物 -->
+    <ul class="foods">
+      <li
+        v-for="item in foods"
+        :key="item.id"
+        :style="
+          'transform:translate(' +
+          item.x * 20 +
+          'px ,' +
+          item.y * 20 +
+          'px) rotate(45deg) scale(0.7)'
+        "
+      ></li>
+    </ul>
+    <!-- 墙 -->
+    <ul class="wall">
+      <li v-for="i in walls" :key="i.id" :style="computedStyle(i)"></li>
+    </ul>
+    <!-- 遮罩-->
+    <div class="cover" v-show="snake.paused">
+      <div
+        v-if="snake.game_over"
+        class="menu_button"
+        onclick="script:window.location.reload()"
+      >
+        重来
+      </div>
+      <div v-else class="menu_button" @click="snake.paused = false">继续</div>
+    </div>
+  </div>
+  <!-- {{ snake.parts[0].x }}:{{ snake.parts[0].y }} -->
+</template>
+<script setup>
+//#region
+console.clear();
+import { ref, reactive, onMounted, onUnmounted } from "vue";
+const computedStyle = (item) => {
+  return {
+    transform: `translate(${item.x * 20}px ,${item.y * 20}px)`,
+  };
+};
+// 游戏状态和逻辑
+const snake = reactive({
+  parts: [],
+  direction: "right",
+  oldDirection: "right",
+  paused: true,
+  game_over: false,
+  speed: 200,
+  wallCount: 5,
+  wallSize: 6,
+});
+// 食物
+const foods = reactive([]);
+// 响应式引用
+const score = ref(0);
+// 地图
+const map = [];
+// 墙
+let walls = [];
+// let walls
+// 生成随机数
+const random = (max, min = 0) =>
+  Math.floor(Math.random() * (max - min + 1)) + min;
+// 生成地图
+const generateMap = (arr) => {
+  // 列
+  for (let i = 0; i < 20; i++) {
+    arr.push([]);
+    // 行
+    for (let j = 0; j < 20; j++) {
+      arr[i].push({
+        id: Symbol(),
+        x: j,
+        y: i,
+      });
+    }
+  }
+};
+generateMap(map);
+//#endregion
+// 生成墙
+const generateWall = () => {
+  // 检查空格
+  const checkGap = (position, arr = walls) => {
+    let x = position[0];
+    let y = position[1];
+    // 定义偏移量数组，用于生成八个位置的坐标
+    const offsetUp = [
+      [0, -1],
+      [0, -2],
+    ];
+    const offsetRight = [
+      [1, 0],
+      [2, 0],
+    ];
+    const offsetDown = [
+      [0, 1],
+      [0, 2],
+    ];
+    const offsetLeft = [
+      [-1, 0],
+      [-2, 0],
+    ];
+    // 判断某个方向是否有墙
+    const func = ([dx, dy]) => {
+      let newX = x + dx;
+      let newY = y + dy;
+      // 确保newX和newY在map的边界内
+      if (newX >= 0 && newX < map.length && newY >= 0 && newY < map[0].length) {
+        // 判断是否有墙
+        const bool = arr.some((i) => {
+          return i.x == newX && i.y == newY;
+        });
+        return bool;
+      } else {
+        return true;
+      }
+    };
+    let up = !offsetUp.some(func)
+      ? [x + offsetUp[0][0], y + offsetUp[0][1]]
+      : false;
+    let right = !offsetRight.some(func)
+      ? [x + offsetRight[0][0], y + offsetRight[0][1]]
+      : false;
+    let down = !offsetDown.some(func)
+      ? [x + offsetDown[0][0], y + offsetDown[0][1]]
+      : false;
+    let left = !offsetLeft.some(func)
+      ? [x + offsetLeft[0][0], y + offsetLeft[0][1]]
+      : false;
+    // up = offsetUp.some(func);
+    // right = offsetright.some(func);
+    // down = offsetDown.some(func);
+    // left = offsetLeft.some(func);
+    console.log("检查坐标" + position);
+    console.log([up, right, down, left]);
+    // 返回四个方向检查状态
+    return [up, right, down, left];
+  };
+  // 用于记录墙的节数
+  let index = 0;
+  // 创建块
+  const createWallItem = (position) => {
+    if (!(index < snake.wallSize)) {
+      index = 0;
+      console.log("长度达标，退出遍历");
+      return;
+    }
+    // 先填充
+    const obj = {
+      id: Symbol(),
+      x: position[0],
+      y: position[1],
+    };
+    walls.push(obj);
+    index++;
+    const status = checkGap(position);
+    // 反向映射
+    const dirRev = [2, 3, 0, 1];
+    // 判断下次可放置位置
+    const next_s_d = [];
+    status.forEach((item, index) => {
+      const next_s_i = checkGap(item);
+      next_s_i[dirRev[index]] = 1;
+      if (next_s_i.every((e) => e)) {
+        next_s_d.push(index);
+      }
+    });
+    // 是否有可放置区域
+    if (next_s_d.length !== 0) {
+      const rand = random(next_s_d.length - 1);
+      const nexPosition = status[next_s_d[rand]];
+      createWallItem(nexPosition);
+    } else {
+      index = 0;
+      console.log("无空间下次创建");
+    }
+  };
+  // 创建一面墙
+  const createWall = () => {
+    // 获取一个随机位置
+    const position = [0, 0];
+    while (true) {
+      const randomX = random(map[0].length - 3, 2);
+      const randomY = random(map.length - 3, 2);
+      // 四个方向必须为空
+      const status = checkGap([randomX, randomY]);
+      const s = status.some((s) => s == false);
+      if (!s) {
+        position[0] = randomX;
+        position[1] = randomY;
+        break;
+      }
+    }
+    createWallItem(position);
+  };
+  // 循环 面墙
+  for (let i = 0; i < snake.wallCount; i++) {
+    createWall();
+  }
+};
+//#region
+// 生成蛇
+const generateSnake = () => {
+  let long = 4;
+  for (; long >= 0; long--) {
+    snake.parts.push({
+      id: Symbol(),
+      x: long,
+      y: 0,
+    });
+  }
+};
+generateSnake();
+// 生成食物
+const generateFood = () => {
+  // 避开身体 避开墙 注意边界
+  const list = [];
+  // 展开二维数组为一维数组
+  map.forEach((row, row_index) => {
+    row.forEach((col, col_index) => {
+      list.push([col_index, row_index]);
+    });
+  });
+  // 排除墙和自身位置
+  const arr = list.filter((item) => {
+    // 检查是否与蛇的身体或墙位置相同
+    return !(
+      snake.parts.some((part) => part.x === item[0] && part.y === item[1]) ||
+      walls.some((wallPart) => wallPart.x === item[0] && wallPart.y === item[1])
+    );
+  });
+  // 有空间生成食物
+  if (arr) {
+    const food = arr[random(arr.length - 1)];
+    foods.push({ id: Symbol(), x: food[0], y: food[1] });
+  } else {
+    alert("游戏胜利");
+    snake.paused = true;
+    console.log("游戏胜利");
+  }
+};
+// 蛇的移动逻辑
+const moveSnake = () => {
+  // 判断游戏状态
+  if (snake.game_over || snake.paused) return;
+  // 键位映射
+  const keyCode = {
+    up: "down",
+    left: "right",
+    down: "up",
+    right: "left",
+  };
+  // 不许后退
+  if (keyCode[snake.direction] == snake.oldDirection) {
+    snake.direction = snake.oldDirection;
+  } else {
+    snake.oldDirection = snake.direction;
+  }
+
+  let newX = snake.parts[0].x;
+  let newY = snake.parts[0].y;
+  switch (snake.oldDirection) {
+    case "up":
+      newY -= 1;
+      break;
+    case "left":
+      newX -= 1;
+      break;
+    case "down":
+      newY += 1;
+      break;
+    case "right":
+      newX += 1;
+      break;
+  }
+  // 检测碰撞
+  checkCollision({ x: newX, y: newY });
+  // 游戏是否结束
+  if (snake.game_over) return;
+  // 移动
+  for (let i = snake.parts.length - 1; i > 0; i--) {
+    snake.parts[i] = { ...snake.parts[i - 1] };
+  }
+  // 单独设置头部
+  snake.parts[0].x = newX;
+  snake.parts[0].y = newY;
+  //
+  snake.oldDirection = snake.direction;
+};
+// 碰撞检测
+const checkCollision = (xy) => {
+  // 撞墙
+  let s = walls.some((i) => i.x == xy.x && i.y == xy.y);
+  // 撞自己
+  let s1 = snake.parts.some((i) => i.x == xy.x && i.y == xy.y);
+  // 撞边界
+  let s3 =
+    xy.x < 0 || xy.x > map.length - 1 || xy.y < 0 || xy.y > map[0].length - 1;
+  if (s || s1 || s3) {
+    snake.game_over = true;
+    snake.paused = true;
+  }
+  // 吃到食物
+  foods.forEach((item, index) => {
+    if (xy.x == item.x && xy.y == item.y) {
+      // 食物减一
+      foods.splice(index, 1);
+      // 增长
+      growSnake(xy);
+    }
+  });
+};
+// 增长
+const growSnake = (xy) => {
+  // 添加新身体
+  snake.parts.push({
+    id: Symbol(),
+    x: xy.x,
+    y: xy.y,
+  });
+  // 生成新的食物
+  generateFood(1);
+  // 计分
+  score.value++;
+};
+// 游戏循环
+const gameLoop = () => {
+  // ...游戏循环的逻辑
+  if (!(snake.game_over || snake.paused)) {
+    moveSnake();
+  }
+  setTimeout(() => {
+    gameLoop();
+  }, snake.speed);
+};
+// 生命周期钩子
+onMounted(() => {
+  // 定义按键映射
+  const keyCode = {
+    w: "up",
+    a: "left",
+    s: "down",
+    d: "right",
+    ArrowUp: "up",
+    ArrowLeft: "left",
+    ArrowDown: "down",
+    ArrowRight: "right",
+  };
+  // 监听键盘事件
+  window.addEventListener("keydown", (p) => {
+    const key = p.key;
+    // 更新蛇的方向或暂停游戏
+    if (key in keyCode) {
+      snake.direction = keyCode[key];
+      // moveSnake();
+      p.preventDefault();
+    }
+    if (key === " " || key === "Enter") {
+      if (snake.game_over) {
+        window.location.reload();
+      }
+      snake.paused = !snake.paused;
+      p.preventDefault();
+    }
+  });
+  // 生成墙
+  generateWall();
+  // 生成食物
+  generateFood();
+  // 启动游戏循环
+  gameLoop();
+});
+//#endregion
+</script>
+<style lang="less">
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.main {
+  @globalWidth: 400px;
+  @globalHidth: 400px;
+  @pieceWidth: 20px;
+  @pieceHeight: 20px;
+
+  margin: 0 auto;
+  position: relative;
+  width: @globalWidth;
+  height: @globalHidth;
+  border: 4px solid rgb(39, 128, 176);
+
+  .warp {
+    position: relative;
+    width: @globalWidth;
+    height: @globalHidth;
+
+    li {
+      width: @pieceWidth;
+      height: @pieceHeight;
+      background-color: #bbb;
+      float: left;
+    }
+
+    ul:nth-child(odd) > li:nth-child(odd) {
+      background-color: #ccc;
+    }
+
+    ul:nth-child(even) > li:nth-child(even) {
+      background-color: #ccc;
+    }
+  }
+
+  .positionA {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  @headColor: #0a0aaf;
+  @bodyColor: #3ca9d4;
+  @tailColor: #bef1f1;
+  @eyesColor: #000;
+
+  // 定义眼睛的样式
+  .eyes() {
+    position: absolute;
+    display: block;
+    content: "";
+    width: 4px;
+    height: 4px;
+    background-color: @eyesColor;
+    box-sizing: border-box;
+    border: 1px solid #add8e6;
+  }
+
+  // 定义头的样式
+  .headStyle(@type) {
+    &::after {
+      .eyes();
+    }
+    &::before {
+      .eyes();
+    }
+  }
+  .headStyle(@type) when (@type = "up") {
+    &::after {
+      left: 4px;
+      top: 4px;
+    }
+    &::before {
+      right: 4px;
+      top: 4px;
+    }
+  }
+  .headStyle(@type) when (@type = "left") {
+    &::after {
+      left: 4px;
+      top: 4px;
+    }
+    &::before {
+      left: 4px;
+      bottom: 4px;
+    }
+  }
+  .headStyle(@type) when (@type = "down") {
+    &::after {
+      left: 4px;
+      bottom: 4px;
+    }
+    &::before {
+      right: 4px;
+      bottom: 4px;
+    }
+  }
+  .headStyle(@type) when (@type = "right") {
+    &::after {
+      right: 4px;
+      top: 4px;
+    }
+    &::before {
+      right: 4px;
+      bottom: 4px;
+    }
+  }
+  // 定义设置样式的混合宏
+  .set-style(@type) {
+    .head {
+      border-radius: 4px;
+      background-color: @headColor;
+      .headStyle(@type);
+    }
+  }
+
+  // 身体
+  .snake {
+    position: absolute;
+    top: 0;
+    left: 0;
+    li {
+      position: absolute;
+      width: @pieceWidth;
+      height: @pieceHeight;
+      border: 1px solid #333;
+      box-sizing: border-box;
+      border-radius: 3px;
+      background-color: @bodyColor;
+    }
+    &.left {
+      .set-style("left");
+    }
+    &.right {
+      .set-style("right");
+    }
+    &.up {
+      .set-style("up");
+    }
+    &.down {
+      .set-style("down");
+    }
+    // 尾部
+    .tail {
+      background-color: @tailColor;
+    }
+  }
+
+  // 遮罩
+  .cover {
+    .positionA();
+    width: @globalWidth;
+    height: @globalHidth;
+    background: rgba(0, 0, 0, 0.5);
+
+    .menu_button {
+      position: absolute;
+      width: 100px;
+      height: 60px;
+      font-size: 28px;
+      font-weight: bold;
+      border-radius: 8px;
+      text-align: center;
+      line-height: 60px;
+      color: #444;
+      border: 2px solid #333;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      cursor: pointer;
+    }
+    .menu_button::selection {
+      background: transparent;
+    }
+  }
+  // 食物
+  .foods {
+    .positionA();
+    li {
+      position: absolute;
+      width: @pieceWidth;
+      height: @pieceHeight;
+      background-color: yellow;
+      border: 3px solid #ff8f00;
+      box-sizing: border-box;
+      transform: rotate(45deg) scale(0.7);
+    }
+  }
+  // 墙
+  .wall {
+    .positionA();
+
+    li {
+      position: absolute;
+      width: @pieceWidth;
+      height: @pieceHeight;
+      background-color: #333;
+      box-sizing: border-box;
+      border: 2px solid #555;
+    }
+  }
+}
+
+.score {
+  text-align: center;
+  margin: 0 auto;
+}
+</style>

@@ -29,6 +29,11 @@ var person = {
           title: "项目使用了vue.js",
         },
         {
+          content: "vue3-贪吃蛇",
+          url: "demo/snake/dist",
+          title: "项目使用了vue3",
+        },
+        {
           content: "vue-记忆图案",
           url: "demo/remember",
           title: "项目使用了vue.js、iconfont",

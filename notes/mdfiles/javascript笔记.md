@@ -5706,6 +5706,33 @@ for (const [key, val] of set) {
 >
 > 一般情况下其实不用考虑这么多，把正常模式  `<script>` 标签放在 `<body>` 标签外面或里面最后一行等待文档加载完执行即可。
 
+### prefetch和preload
+
+1. **Preload（预加载）：**告诉浏览器立即加载资源
+
+2. **Prefetch（预取）：**告诉浏览器空闲时才加载资源
+
+   共同点都是只加载资源，**不执行**，会有缓存
+
+```html
+// Preload
+<link rel="preload" href="style.css" as="style">
+<link rel="preload" href="script.js" as="script">
+// Prefetch
+<link rel="prefetch" href="next-page.html">
+<link rel="prefetch" href="next-page.css" as="style">
+<link rel="prefetch" href="next-page.js" as="script">
+```
+
+```html
+<!-- 预加载CSS文件 -->
+<link rel="preload" href="style.css" as="style">
+<!-- 实际引用CSS文件 -->
+<link rel="stylesheet" href="style.css">
+```
+
+由于他会缓存并不会加载两次
+
 ### 闭包 (Closure)
 
 > 闭包具有 “保存” 和 “保护” 特性，保护就像是保护变量不污染全局，保存则是闭包里面的值不会释放。
