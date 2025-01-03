@@ -1,5 +1,6 @@
 * [javascript笔记](/mdfiles/javascript笔记)
 * [vue笔记](/mdfiles/vue笔记)
+* [vue3笔记](/mdfiles/vue3笔记.md)
 * [vuex笔记](/mdfiles/vuex笔记)
 * [vueRouter笔记](/mdfiles/vueRouter笔记)
 * [mysql笔记](/mdfiles/mysql笔记)
