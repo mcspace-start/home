@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiple Squares Animation</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+
+        .square {
+            width: 20px;
+            height: 20px;
+            background-color: #3498db;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-origin: center center;
+            /* Initial transform to center the square (will be overridden by JS) */
+            transform: translate(-50%, -50%);
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        input[type="range"],
+        input[type="number"] {
+            padding: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="square" id="square1"></div>
+         <div class="square" id="square2"></div>
+        <div class="square" id="square3"></div>
+        <!-- <div class="square" id="square4"></div>
+        <div class="square" id="square5"></div>
+        <div class="square" id="square6"></div>
+        <div class="square" id="square7"></div>
+        <div class="square" id="square8"></div>
+        <div class="square" id="square9"></div>
+        <div class="square" id="square10"></div> -->
+        <!-- 可以添加更多正方形 -->
+    </div>
+    <div class="controls">
+        <button id="startBtn">Start</button>
+        <button id="pauseBtn">Pause</button>
+        <label for="distanceSlider">Distance:</label>
+        <input type="range" id="distanceSlider" min="50" max="200" value="100">
+        <label for="durationInput">Duration (s):</label>
+        <input type="number" id="durationInput" step="0.01" value="5">
+    </div>
+    <script>
+        // 初始化变量
+        let angle = 0; // 当前旋转角度
+        let radius = 100; // 初始距离（半径）
+        let animationId; // 动画帧ID
+        let isPaused = true; // 动画是否暂停
+        let totalDuration = 5000; // 旋转一周的总时长（毫秒）
+        const frameDuration = 16; // 假设每帧耗时16毫秒（约60FPS）
+        const squares = document.querySelectorAll('.square'); // 获取所有正方形元素
+
+        // 更新正方形位置的函数
+        function updateSquarePosition() {
+            // 计算每帧的角度增量
+            const angleIncrement = (2 * Math.PI / (totalDuration / frameDuration));
+
+            // 遍历每个正方形元素，更新其位置
+            squares.forEach((square, index) => {
+                // 计算每个正方形的x和y坐标（相对于容器中心）
+                const offsetAngle = index * (2 * Math.PI / squares.length); // 根据索引添加额外的角度偏移
+                const x = radius * Math.cos(angle + offsetAngle) - 10; // 减去正方形自身宽度的一半以居中
+                const y = radius * Math.sin(angle + offsetAngle) - 10; // 减去正方形自身高度的一半以居中
+
+                // 设置正方形的位置
+                square.style.transform = `translate(${x}px, ${y}px)`;
+            });
+
+            // 更新角度以便下一帧使用
+            angle += angleIncrement;
+            // 如果角度超过一圈，则重置为0
+            if (angle >= 2 * Math.PI) {
+                angle = 0;
+            }
+
+            // 如果动画没有暂停，则请求下一帧
+            if (!isPaused) {
+                animationId = requestAnimationFrame(updateSquarePosition);
+            }
+        }
+
+        // 开始动画的函数
+        function startAnimation() {
+            isPaused = false;
+            // 重置角度（可选，根据需求决定是否需要）
+            angle = 0;
+            // 如果动画没有开始，则调用更新位置的函数
+            if (!animationId) {
+                updateSquarePosition();
+            }
+        }
+
+        // 暂停动画的函数
+        function pauseAnimation() {
+            isPaused = true;
+            // 取消动画帧请求
+            cancelAnimationFrame(animationId);
+            animationId = null;
+        }
+
+        // 动态调整距离的函数
+        function updateRadius(event) {
+            radius = parseFloat(event.target.value);
+            // 如果需要，可以在这里添加重置动画或其他逻辑
+            // 但通常不需要重置角度，因为这样会打断动画的连续性
+        }
+
+        // 动态调整时长的函数
+        function updateDuration(event) {
+            // 如果输入框中有有效数值，则更新总时长
+            if (event.target.value) {
+                totalDuration = parseFloat(event.target.value) * 1000;
+                // 重置角度和动画（可选，根据需求决定是否需要）
+                // 但通常不需要在调整时长时重置角度或动画
+            }
+        }
+
+        // 绑定事件监听器
+        document.getElementById('startBtn').addEventListener('click', startAnimation);
+        document.getElementById('pauseBtn').addEventListener('click', pauseAnimation);
+        document.getElementById('distanceSlider').addEventListener('input', updateRadius);
+        document.getElementById('durationInput').addEventListener('input', updateDuration);
+
+    </script>
+</body>
+
+</html>

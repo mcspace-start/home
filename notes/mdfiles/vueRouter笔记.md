@@ -34,7 +34,7 @@ NPM
 ```js
 创建
 const rouer  = new VueRouter({
-    mode: "history",  //不带#
+    mode: "history",  //不带 #
     routes: [
         { path: '/', redirect: "/home" },   //重定向
         { path: "/home", name: 'home', component: home }, //name也可用于跳转，命名路由

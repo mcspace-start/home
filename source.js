@@ -9,14 +9,14 @@ var person = {
           title: "",
         },
         {
-          content: "vue-电商后台管理系统",
-          url: "demo/vue-shop/dist",
-          title: "项目使用了vue-cli2、vue-router、axios、element-ui",
-        },
-        {
           content: "uni-app-电商系统",
           url: "demo/uniapp_shop",
           title: "项目使用了uni-app",
+        },
+        {
+          content: "vue-电商后台管理系统",
+          url: "demo/vue-shop/dist",
+          title: "项目使用了vue-cli2、vue-router、axios、element-ui",
         },
         {
           content: "vue-羊了个羊",
@@ -44,35 +44,36 @@ var person = {
           title: "项目使用了vue.js",
         },
         {
-          content: "vue-音乐播放器",
-          url: "demo/music",
-          title: "项目使用了vue.js、axios.js",
-        },
-        {
           content: "vue-2048",
           url: "demo/2048",
           title: "项目使用了vue.js",
+        },
+        {
+          content: "仿静态淘宝首页",
+          url: "demo/淘宝首页静态/index.html",
+          title: "纯静态",
         },
         {
           content: "快速点击",
           url: "demo/fastClick",
           title: "项目使用了js事件、计时器",
         },
-        {
-          content: "无框架天猫官网",
-          url: "demo/天猫官网demo/index.html",
-          title: "项目使用了阿里图标库、js事件代理、css动画",
-        },
+        
         {
           content: "vue-轮播图",
           url: "demo/bannerSlide",
           title: "项目使用了vue.js里的动画&过渡",
         },
         {
-          content: "无框架boe官网首页",
+          content: "仿boe官网首页",
           url: "demo/boe",
           title: "",
         },
+        {
+          content: "仿天猫登录页",
+          url: "demo/天猫官网demo/login.html",
+          title: "项目使用了阿里图标库、js事件代理、css动画",
+        }
       ],
     },
     {
@@ -104,6 +105,11 @@ var person = {
           title: "项目使用了javascript",
         },
         {
+          content: "vue-音乐播放器",
+          url: "demo/music",
+          title: "项目使用了vue.js、axios.js",
+        },
+        {
           content: "vue同级组件间数据传递",
           url: "note/同级组件间数据传递.html",
           title: "项目使用了javascript",
@@ -129,19 +135,34 @@ var person = {
           title: "项目使用了jquery",
         },
         {
+          content: "webSocket",
+          url: "note/websocket.html",
+          title: "项目使用了javascript",
+        },
+        {
           content: "js实现返回顶部",
           url: "note/返回顶部.html",
           title: "项目使用了javascript",
         },
         {
-          content: "css实现太极图案",
-          url: "note/太极.html",
-          title: "",
+          content: "围绕圆形轨迹运动",
+          url: "note/围绕圆形轨迹运动.html",
+          title: "项目使用了javascript",
         },
         {
           content: "简易的拖拽元素",
           url: "note/简易的拖拽元素.html",
           title: "项目使用了jquery",
+        },
+        {
+          content: "Jq常用事件",
+          url: "note/jquery常用事件.html",
+          title: "项目使用了jquery",
+        },
+        {
+          content: "css实现太极图案",
+          url: "note/太极.html",
+          title: "",
         },
         {
           content: "边框带文字fieldset",

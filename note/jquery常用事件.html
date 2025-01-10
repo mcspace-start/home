@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jquery常用事件</title>
+    <link rel="stylesheet" href="note.css">
+    <script src="js/jquery.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        
+        .bigBox div {
+            width: 150px;
+            height: 150px;
+            float: left;
+            border: 1px solid #000;
+            margin-bottom: 100px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="bigBox">
+        <div class="box1" id="box1">click
+            <br> 单击
+        </div>
+        <div class="box2" id="box2">dblclick
+            <br> 双击
+        </div>
+        <div class="box3" id="box3">hover
+            <br>鼠标移入
+        </div>
+        <div class="box4" id="box4">mouseenter
+            <br> 鼠标进入
+        </div>
+        <div class="box5" id="box5">mouseleave
+            <br> 鼠标离开
+        </div>
+        <div class="box6" id="box6">mousedown
+            <br>鼠标按下
+        </div>
+        <div class="box7" id="box7">mouseup
+            <br>鼠标松开
+        </div>
+
+        <input type="text" class="but1" id="but1" placeholder="获取焦点focus">
+        <input type="text" class="but2" id="but2" placeholder="失去焦点blur">
+
+    </div>
+    <ul class="box" id="box"></ul>
+    <!-- 常用事件 -->
+
+
+    <script>
+        $(function() {
+            $("#box1").click(function() { //单击
+                $(this).css("background", "red");
+                console.log("你单击了该元素");
+            });
+            $("#box2").dblclick(function() { //双击
+                $(this).css("background", "pink");
+                console.log("你双击了该元素");
+
+            });
+            $("#box3").hover(function() { //移上
+                $(this).css("background", "blue");
+                console.log("鼠标移入该元素上");
+
+            });
+            $("#box4").mouseenter(function() { //进入元素时
+                $(this).css("background", "yellow");
+                console.log("鼠标进入该元素上");
+
+            });
+            $("#box5").mouseleave(function() { //离开元素时
+                $(this).css("background", "black");
+                $(this).css("color", "white");
+                console.log("鼠标离开该元素");
+
+            });
+            $("#box6").mousedown(function() { //在该元素上按下鼠标时
+                $(this).css("background", "green");
+                console.log("在该元素上按下鼠标时");
+
+            });
+            $("#box7").mouseup(function() { //在该元素上松开鼠标
+                $(this).css("background", "gray");
+                console.log("你在该元素上松开鼠标");
+
+            });
+
+            $("#but1").focus(function() { //获得焦点
+                $(this).css("background", "red");
+                console.log("获得焦点");
+            });
+            $("#but2").blur(function() { //失去焦点
+                $(this).css("background", "yellow");
+                console.log("失去焦点");
+
+            });
+
+
+        });
+        var noteContent = {
+            title: "jquery常用事件",
+            content: `// select 选中文本
+$(this).focusin()          //和focu几乎相同 不同的是 当子元素发生focus事件时 focusin也会触发
+$(this).focusout()           //与上相反
+$(this).hover            //鼠标悬停时触发  event.type是 mouseenter
+$(this).keydown  和 $(this).keyup   //按键按下或抬起时触发      需要注意的是down是按下的过程中触发
+$(this).keypress        //按键按下时触发 
+keypress 事件不会触发所有的键（比如 ALT、CTRL、SHIFT、ESC）。请使用 keydown() 方法来检查这些键
+
+$(this).off(event,selector,function,map)      //如果不填参数则为清除所遇事件
+第一个参数是 事件类型 可带命名空间(namespace)
+第二个参数是他的子元素 如果规定了这个参数则为由on定义的子元素事件会被移除
+第三个参数是 事件发生时执行的函数       可是使用map形式处理多个事件
+
+$(this).select(function)         //选中时触发  无参数时运行为选中文本
+$(".txt").select(function(e) {
+    alert("文本以选中")
+    console.log(e.currentTarget)
+})
+$(".but").click(function() {
+    $(".txt").select()
+})
+
+$(this).submit(function)        //提交事件  
+$(".but").click(function() {
+    $("form").submit()       //无参数时则是触发提交事件
+})
+$("form").submit(function(e) {
+e.preventDefault()     即使提交被阻止了 还是会触发事件
+    alert("提交")        //有参数时则是提交事件触发时 执行函数  
+})
+
+$(this).toggle(function,function,..)        //轮流切换执行函数  1.9移除
+$(".but").toggle(
+    function() {
+        console.log("noe")
+    },
+    function() {
+        console.log("two")
+    },
+    function() {
+        console.log("three")
+    }
+)
+
+$(this).trigger(event, param1参数.param2参数)   //触发绑定到被选元素的所有事件,包括默认事件
+$(this).triggerHandler() //参数相同  触发绑定到被选元素的所有函数,不包含默认事件(比如表单提交)
+由 .triggerHandler() 创建的事件不会在 DOM 树中冒泡；如果目标元素不直接处理它们，则不会发生任何事情
+$(".txt").on("focus", function(e) {
+    console.log("获得焦点")
+})
+$(".but").click(function() {
+    $(".txt").trigger("focus")
+})
+$(".box").click(function() {
+    $(".txt").triggerHandler("focus")
+})
+
+$(this).offset(top,left,function)   参数 {top:xx,left:xxx} || function(){return {top:xx,left:xxx}  }
+`
+        };
+    </script>
+    <script src="note.js"></script>
+</body>
+
+</html>

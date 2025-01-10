@@ -10,7 +10,7 @@
 * [axios笔记](/mdfiles/axios笔记)
 * [less笔记](/mdfiles/less笔记)
 * [git笔记](/mdfiles/git笔记)
-* [cssFlexNote](/mdfiles/cssFlexNote)
+* [cssFlex笔记](/mdfiles/cssFlexNote)
 * [js的三种本地储存方式](/mdfiles/js的三种本地储存方式)
 * [typora使用](/mdfiles/typora使用)
 * [正则表达式笔记](/mdfiles/正则表达式笔记)

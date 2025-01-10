@@ -256,7 +256,7 @@ var classA = {
 >
 > Vue.js 都提供了完全的 JavaScript 表达式支持。
 
-```html
+```js
 {{ number + 1 }}
 {{ ok ? 'YES' : 'NO' }}
 {{ message.split('').reverse().join('') }}
@@ -273,7 +273,7 @@ var classA = {
 
 > 模板表达式都被放在沙盒中，只能访问全局变量的一个白名单，如 `Math` 和 `Date` 。你不应该在模板表达式中试图访问用户定义的全局变量。
 
-```html
+```js
 {{ new Date() }} // Date对象
 {{ Math.PI.toFixed(2) }} // Math和Number
 ```
