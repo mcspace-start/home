@@ -8,6 +8,11 @@ var person = {
           url: "https://github.com/mcspace-start/home",
           title: "",
         },
+		{
+          content: "vue-方格音乐",
+          url: "demo/fgmusic",
+          title: "项目使用了uni-app",
+        },
         {
           content: "uni-app-电商系统",
           url: "demo/uniapp_shop",
