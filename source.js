@@ -104,6 +104,11 @@ var person = {
           url: "note/正则表达式应用.html",
           title: "项目使用了javascript",
         },
+		{
+          content: "CSS-抽卡效果",
+          url: "note/抽卡.html",
+          title: "",
+        },
         {
           content: "拾色板",
           url: "note/拾色板.html",
