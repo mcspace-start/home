@@ -2,1574 +2,1576 @@
 <html lang="zh-CN">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>羊了个羊</title>
-    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
-    <script src="js/vue.js"></script>
-    <style>
-        body,
-        html,
-        div,
-        span,
-        ul,
-        li,
-        input,
-        p {
-            padding: 0;
-            margin: 0;
-            list-style: none;
-            -webkit-tap-highlight-color: transparent;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>羊了个羊</title>
+  <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
+  <script src="js/vue.min.js"></script>
+  <style>
+    body,
+    html,
+    div,
+    span,
+    ul,
+    li,
+    input,
+    p {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-        #app {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #c3ff8b;
-        }
+    #app {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #c3ff8b;
+    }
 
-        .main {
-            user-select: none;
-            width: 348px;
-            height: 644px;
-            background: url("./img/bg.gif") repeat;
-            background-size: 100%;
-        }
+    .main {
+      user-select: none;
+      width: 348px;
+      height: 644px;
+      background: url("./img/bg.gif") repeat;
+      background-size: 100%;
+    }
 
-        .warp {
-            /* 24px */
-            position: relative;
-            width: 336px;
-            height: 504px;
-            margin: auto;
-        }
+    .warp {
+      /* 24px */
+      position: relative;
+      width: 336px;
+      height: 504px;
+      margin: auto;
+    }
 
-        /* 背景网格线 */
-        .bg {
-            height: inherit;
-            display: flex;
-            flex-direction: column;
-            border-top: 1px solid #333;
-            border-left: 1px solid #333;
-        }
+    /* 背景网格线 */
+    .bg {
+      height: inherit;
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid #333;
+      border-left: 1px solid #333;
+    }
 
-        .bg>li {
-            display: flex;
-            flex: 1;
-        }
+    .bg>li {
+      display: flex;
+      flex: 1;
+    }
 
-        .bg>li>div {
-            flex: 1;
-            border-bottom: 1px solid #333;
-            border-right: 1px solid #333;
-            background-color: #c3ff8b;
-        }
+    .bg>li>div {
+      flex: 1;
+      border-bottom: 1px solid #333;
+      border-right: 1px solid #333;
+      background-color: #c3ff8b;
+    }
 
-        /* 悬浮方块 */
-        .pie {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 48px;
-            height: 48px;
-            line-height: 40px;
-            font-size: 28px;
-            background-color: #f5ffcd;
-            text-align: center;
-            cursor: pointer;
-            box-sizing: border-box;
-            border: 1px solid #222;
-            border-radius: 6px;
-            overflow: hidden;
-            box-shadow: inset 0 -4px 0px #6ea012, inset 0 -6px 0px #bad176;
-            transition-property: transform, opacity;
-            transition-duration: 0.4s, 0.25s;
-        }
+    /* 悬浮方块 */
+    .pie {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 48px;
+      height: 48px;
+      line-height: 40px;
+      font-size: 28px;
+      background-color: #f5ffcd;
+      text-align: center;
+      cursor: pointer;
+      box-sizing: border-box;
+      border: 1px solid #222;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: inset 0 -4px 0px #6ea012, inset 0 -6px 0px #bad176;
+      transition-property: transform, opacity;
+      transition-duration: 0.4s, 0.25s;
+    }
 
-        .pie.hover {
-            transition: transform 0.15s;
-        }
+    .pie.hover {
+      transition: transform 0.15s;
+    }
 
-        .pie.moving {
-            transition: none;
-            pointer-events: none;
-        }
+    .pie.moving {
+      transition: none;
+      pointer-events: none;
+    }
 
-        .pie.cover {
-            /* 禁止鼠标任何行为 */
-            pointer-events: none;
-        }
+    .pie.cover {
+      /* 禁止鼠标任何行为 */
+      pointer-events: none;
+    }
 
-        .pie::after {
-            content: "";
-            display: block;
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            background-color: rgba(0, 0, 0, 0);
-            transition: all 0.3s;
-        }
+    .pie::after {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0);
+      transition: all 0.3s;
+    }
 
-        .pie.cover::after {
-            content: "";
-            background-color: rgba(0, 0, 0, 0.4);
-        }
+    .pie.cover::after {
+      content: "";
+      background-color: rgba(0, 0, 0, 0.4);
+    }
 
-        .pie.pending {
-            pointer-events: none;
-            /* transition: transform .15s; */
-            z-index: 1;
-        }
+    .pie.pending {
+      pointer-events: none;
+      /* transition: transform .15s; */
+      z-index: 1;
+    }
 
-        /* 队列区 */
-        .queue {
-            height: 48px;
-            width: 336px;
-            border: 2px solid #503307;
-            padding: 4px;
-            border-radius: 8px;
-            background-color: #c38032;
-        }
+    /* 队列区 */
+    .queue {
+      height: 48px;
+      width: 336px;
+      border: 2px solid #503307;
+      padding: 4px;
+      border-radius: 8px;
+      background-color: #c38032;
+    }
 
-        .queue_content {
-            border-radius: inherit;
-            width: 100%;
-            height: 100%;
-            background-color: #965a1c;
-            box-shadow: inset 0 6px 0 #7f4e16;
-        }
+    .queue_content {
+      border-radius: inherit;
+      width: 100%;
+      height: 100%;
+      background-color: #965a1c;
+      box-shadow: inset 0 6px 0 #7f4e16;
+    }
 
-        /* 道具区 */
-        .prop {
-            margin: 16px auto 0px auto;
-            display: flex;
-            justify-content: space-evenly;
-            align-items: center;
-        }
+    /* 道具区 */
+    .prop {
+      margin: 16px auto 0px auto;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+    }
 
-        .prop_item {
-            position: relative;
-            width: 76px;
-            height: 56px;
-            border: 2px solid #333;
-            display: flex;
-            border-radius: 6px;
-            background-color: #27a2f6;
-            box-shadow: 0px 4px 0 rgba(0, 0, 0, 0.3), inset 0px 4px 0px #6dcdfd;
-            cursor: pointer;
-            text-align: center;
-            font-size: 20px;
-        }
+    .prop_item {
+      position: relative;
+      width: 76px;
+      height: 56px;
+      border: 2px solid #333;
+      display: flex;
+      border-radius: 6px;
+      background-color: #27a2f6;
+      box-shadow: 0px 4px 0 rgba(0, 0, 0, 0.3), inset 0px 4px 0px #6dcdfd;
+      cursor: pointer;
+      text-align: center;
+      font-size: 20px;
+    }
 
-        .prop_item_i {
-            line-height: 50px;
-            color: #fff;
-            width: inherit;
-            height: 50px;
-            border-bottom: inherit;
-            border-radius: inherit;
-        }
+    .prop_item_i {
+      line-height: 50px;
+      color: #fff;
+      width: inherit;
+      height: 50px;
+      border-bottom: inherit;
+      border-radius: inherit;
+    }
 
-        .prop_item.cover {
-            pointer-events: none;
-        }
+    .prop_item.cover {
+      pointer-events: none;
+    }
 
-        .prop_item.cover::after {
-            content: "";
-            display: block;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            background-color: rgba(0, 0, 0, 0.6);
-            cursor: default;
-        }
+    .prop_item.cover::after {
+      content: "";
+      display: block;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.6);
+      cursor: default;
+    }
 
-        .tools_count {
-            background-color: #000;
-            display: block;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            text-align: center;
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            font-weight: bold;
-            font-size: 14px;
-            line-height: 22px;
-            box-shadow: 0px 3px 0px rgba(0, 0, 0, 0.3);
-        }
+    .tools_count {
+      background-color: #000;
+      display: block;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      text-align: center;
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 22px;
+      box-shadow: 0px 3px 0px rgba(0, 0, 0, 0.3);
+    }
 
-        /* 遮罩 */
-        .shadow {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 2;
-        }
+    /* 遮罩 */
+    .shadow {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 2;
+    }
 
-        .shadow_main {
-            width: 300px;
-            height: 260px;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            background-color: #f5ffcd;
-            transform: translate(-50%, -50%);
-            border-radius: 20px;
-            font-weight: bold;
-            text-align: center;
-        }
+    .shadow_main {
+      width: 300px;
+      height: 260px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      background-color: #f5ffcd;
+      transform: translate(-50%, -50%);
+      border-radius: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
 
-        .shadow_main .title {
-            font-size: 46px;
-            line-height: 80px;
-            color: #333;
-        }
+    .shadow_main .title {
+      font-size: 46px;
+      line-height: 80px;
+      color: #333;
+    }
 
-        .shadow_main .levelTitle {
-            color: #27a2f6;
-            font-size: 22px;
-        }
+    .shadow_main .levelTitle {
+      color: #27a2f6;
+      font-size: 22px;
+    }
 
-        .shadow_main .block {
-            font-weight: bold;
-            color: #777;
-            margin-bottom: 5px;
-        }
+    .shadow_main .block {
+      font-weight: bold;
+      color: #777;
+      margin-bottom: 5px;
+    }
 
-        .shadow_main .button {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translate(-50%);
-            border: 1px solid #000;
-            width: 120px;
-            height: 40px;
-            font-size: 18px;
-            line-height: 40px;
-            border-radius: 8px;
-            cursor: pointer;
-            background-color: rgb(255, 240, 101);
-            color: #333;
-        }
+    .shadow_main .button {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translate(-50%);
+      border: 1px solid #000;
+      width: 120px;
+      height: 40px;
+      font-size: 18px;
+      line-height: 40px;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: rgb(255, 240, 101);
+      color: #333;
+    }
 
-        .shadow_main .button:hover {
-            background-color: rgb(189, 178, 78);
-        }
+    .shadow_main .button:hover {
+      background-color: rgb(189, 178, 78);
+    }
 
-        .shadow_main .set {
-            cursor: pointer;
-            color: #333;
-        }
+    .shadow_main .set {
+      cursor: pointer;
+      color: #333;
+    }
 
-        .shadow_main .set:hover {
-            text-decoration: underline;
-        }
+    .shadow_main .set:hover {
+      text-decoration: underline;
+    }
 
-        /* 选择菜单 */
-        .menu {
-            position: absolute;
-            background-color: #c3ff8b;
-            display: block;
-            width: 100%;
-            height: 100%;
-            left: 0;
-            top: 0;
-        }
+    /* 选择菜单 */
+    .menu {
+      position: absolute;
+      background-color: #c3ff8b;
+      display: block;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+    }
 
-        .menu_i {
-            width: 200px;
-            height: 200px;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #f5ffcd;
-            border: 4px solid #545549;
-            z-index: 2;
-            border-radius: 20px;
-            text-align: center;
-            overflow: hidden;
-        }
+    .menu_i {
+      width: 200px;
+      height: 200px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #f5ffcd;
+      border: 4px solid #545549;
+      z-index: 2;
+      border-radius: 20px;
+      text-align: center;
+      overflow: hidden;
+    }
 
-        .menu_i .title {
-            line-height: 44px;
-            font-size: 24px;
-            color: #616159;
-            margin-bottom: 16px;
-        }
+    .menu_i .title {
+      line-height: 44px;
+      font-size: 24px;
+      color: #616159;
+      margin-bottom: 16px;
+    }
 
-        .menu_i li {
-            border-bottom: 1px solid #666;
+    .menu_i li {
+      border-bottom: 1px solid #666;
 
-            color: #555;
-            transition: all 0.2s;
-        }
+      color: #555;
+      transition: all 0.2s;
+    }
 
-        /* 对第一个特殊处理 */
-        .tab1 li:nth-of-type(1) {
-            border-top: 1px solid #666;
-        }
+    /* 对第一个特殊处理 */
+    .tab1 li:nth-of-type(1) {
+      border-top: 1px solid #666;
+    }
 
-        .tab1 li {
-            font-weight: bold;
-            cursor: pointer;
-            line-height: 40px;
-            font-size: 18px;
-        }
+    .tab1 li {
+      font-weight: bold;
+      cursor: pointer;
+      line-height: 40px;
+      font-size: 18px;
+    }
 
-        .tab1 li:hover {
-            background-color: rgb(180, 181, 127);
-            color: #fff;
-        }
+    .tab1 li:hover {
+      background-color: rgb(180, 181, 127);
+      color: #fff;
+    }
 
-        /* tab2 */
-        .tab2 li,
-        .tab3 li {
-            height: 40px;
-            line-height: 40px;
-            flex: 1;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 10px;
-        }
+    /* tab2 */
+    .tab2 li,
+    .tab3 li {
+      height: 40px;
+      line-height: 40px;
+      flex: 1;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+    }
 
-        .tab2 input {
-            width: 110px;
-        }
+    .tab2 input {
+      width: 110px;
+    }
 
-        .menu_i .buttonWarp div {
-            height: 36px;
-            line-height: 36px;
-            text-align: center;
-            font-weight: bold;
-            color: #616159;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
+    .menu_i .buttonWarp div {
+      height: 36px;
+      line-height: 36px;
+      text-align: center;
+      font-weight: bold;
+      color: #616159;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
 
-        .menu_i .buttonWarp div:hover {
-            background-color: rgb(180, 181, 127);
-            color: #fff;
-        }
+    .menu_i .buttonWarp div:hover {
+      background-color: rgb(180, 181, 127);
+      color: #fff;
+    }
 
-        .tab2 .buttonWarp div {
-            width: 100px;
-            float: left;
-        }
+    .tab2 .buttonWarp div {
+      width: 100px;
+      float: left;
+    }
 
-        .tab2 .buttonWarp div:nth-of-type(1) {
-            border-right: 1px solid #666;
-            width: 98px;
-        }
+    .tab2 .buttonWarp div:nth-of-type(1) {
+      border-right: 1px solid #666;
+      width: 98px;
+    }
 
-        .tab3 input {
-            width: 80px;
-        }
+    .tab3 input {
+      width: 80px;
+    }
 
-        /* 撤销提示 */
-        .revokeTips {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            color: #fff;
-            transform: translate(-50%, -50%);
-            background-color: #555;
-            width: 120px;
-            text-align: center;
-            line-height: 34px;
-            height: 34px;
-            border-radius: 6px;
-            border: 2px solid #222;
-        }
-    </style>
+    /* 撤销提示 */
+    .revokeTips {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      color: #fff;
+      transform: translate(-50%, -50%);
+      background-color: #555;
+      width: 120px;
+      text-align: center;
+      line-height: 34px;
+      height: 34px;
+      border-radius: 6px;
+      border: 2px solid #222;
+    }
+  </style>
 </head>
 
 <body>
-    <div class="" id="app">
-        <div class="main">
-            <!-- 主体 -->
-            <div class="warp">
-                <!-- 背景 -->
-                <!-- <ul class="bg">
+  <div class="" id="app">
+    <div class="main">
+      <!-- 主体 -->
+      <div class="warp">
+        <!-- 背景 -->
+        <!-- <ul class="bg">
                     <li v-for="item in bg">
                         <div v-for="i in item"></div>
                     </li>
                 </ul> -->
-                <!-- 悬浮方块区域 -->
-                <!-- <ul class="scene" @click="clickPie($event)"> -->
-                <ul class="scene" @touchstart="touchStart($event)" @touchmove="touchMove($event)"
-                    @touchend="touchEnd($event)">
-                    <li v-for="(item,index) in cardList">
-                        <div v-for="i in item"
-                            :class="['pie',{cover:i.isCover},{hover:i.isHover},{pending:i.isPending},{moving:i.moving}]"
-                            :style="computedStyle(i)" :x="i.x" :y="i.y" :z="index" :key="i.cardId" :cardid="i.cardId">
-                            {{i.icon}}
-                        </div>
-                    </li>
-                </ul>
+        <!-- 悬浮方块区域 -->
+        <!-- <ul class="scene" @click="clickPie($event)"> -->
+        <ul class="scene" ref="scene" @touchstart="touchStart($event)" @touchmove="touchMove($event)"
+          @touchend="touchEnd($event)" @click="clickPie">
+          <li v-for="(item,index) in cardList">
+            <div v-for="i in item"
+              :class="['pie',{cover:i.isCover},{hover:i.isHover},{pending:i.isPending},{moving:i.moving}]"
+              :style="computedStyle(i)" :x="i.x" :y="i.y" :z="index" :key="i.cardId" :cardid="i.cardId">
+              {{i.icon}}
             </div>
-            <!-- 列队区  queue-->
-            <div class="queue">
-                <div class="queue_content"></div>
-            </div>
-            <!-- 道具区  prop-->
-            <div class="prop">
-                <div class="prop_item" :class="{'cover':tools.remove==0 }" @click="remove">
-                    <div class="prop_item_i">
-                        <span class="icon">移出</span>
-                        <span class="tools_count" v-show="tools.remove">{{tools.remove}}</span>
-                    </div>
-                </div>
-                <div class="prop_item" :class="{'cover':tools.revoke==0 }" @click="revoke">
-                    <div class="prop_item_i">
-                        <span class="icon">撤销</span>
-                        <span class="tools_count" v-show="tools.revoke">{{tools.revoke}}</span>
-                    </div>
-                </div>
-                <div class="prop_item" :class="{'cover':tools.shuffle==0 }" @click="shuffle">
-                    <div class="prop_item_i">
-                        <span class="icon">洗牌</span>
-                        <span class="tools_count" v-show="tools.shuffle">{{tools.shuffle}}</span>
-                    </div>
-                </div>
-            </div>
-            <!-- 遮罩 -->
-            <div class="shadow" v-show="gameStatus">
-                <!-- 菜单dialog -->
-                <div class="shadow_main">
-                    <!-- 标题 -->
-                    <p class="title" v-if="gameStatus == 'success'">关卡通过</p>
-                    <p class="title" v-else-if="gameStatus == 'fail'">游戏失败</p>
-                    <p class="title" v-else-if="gameStatus == 'next'">通关成功</p>
-                    <!-- 关卡等级 -->
-                    <p class="levelTitle" v-if="gameStatus == 'next'">
-                        关卡：{{curLevel}}
-                    </p>
-                    <!-- 方块数量 -->
-                    <p class="block" v-if="gameStatus == 'fail'">
-                        剩余方块：{{curPieTotal}}
-                    </p>
-                    <p class="block" v-else>消除方块：{{pieTotal}}</p>
-                    <!-- 选项 -->
-                    <span class="set" v-if="gameStatus != 'next'"
-                        @click="menu.showMenu='true';gameStatus='';cardList=[]">⚙选项</span>
-                    <!-- 按钮 -->
-                    <div class="button" v-if="gameStatus == 'success'" @click="play(menu.mode)">
-                        重新游玩
-                    </div>
-                    <div class="button" v-else-if="gameStatus == 'fail'" @click="play(menu.mode)">
-                        再次尝试
-                    </div>
-                    <div class="button" v-else-if="gameStatus == 'next'" @click="play(menu.mode)">
-                        下一关卡
-                    </div>
-                </div>
-            </div>
-            <!-- 选项 -->
-            <div class="menu" v-show="menu.showMenu">
-                <div class="menu_i">
-                    <div class="tab1" v-if="menu.tab == 0">
-                        <p class="title">选项设置</p>
-                        <ul>
-                            <li @click="play(1)">模拟</li>
-                            <li @click="play(2)">关卡</li>
-                            <li @click="menu.tab=1">自定义</li>
-                        </ul>
-                    </div>
-                    <!-- 自定义面板 -->
-                    <div class="tab2" v-else-if="menu.tab == 1">
-                        <ul>
-                            <li>
-                                <span> 层数:{{menu.custom.numZ}}</span>
-                                <input type="range" v-model="menu.custom.numZ" name="" id="" min="1" max="14" />
-                            </li>
-                            <li>
-                                <span> 图案:{{menu.custom.iconCount}} </span>
-
-                                <input type="range" v-model="menu.custom.iconCount" name="" id="" min="1" max="18" />
-                            </li>
-                            <li>
-                                <span> 密度:{{menu.custom.density}} </span>
-                                <input type="range" v-model="menu.custom.density" name="" id="" step="0.01" min="0.1"
-                                    max="1" />
-                            </li>
-                            <li>
-                                <span> 区间:</span>
-                                <input @click="menu.tab = 2" type="button" value="选择区间范围" />
-                            </li>
-                        </ul>
-                        <div class="buttonWarp">
-                            <div class="buttonL" @click="menu.tab=0;menu.mode=0">返回</div>
-                            <div class="buttonR" @click="play(3)">确认</div>
-                        </div>
-                    </div>
-                    <div class="tab3" v-else-if="menu.tab == 2">
-                        <ul>
-                            <li>
-                                <span> 横向起点:{{menu.custom.range.x[0]}}</span>
-                                <input v-model="menu.custom.range.x[0]" type="range" name="" id="" min="0" max="8" />
-                            </li>
-                            <li>
-                                <span> 横向终点:{{menu.custom.range.x[1]}} </span>
-                                <input v-model="menu.custom.range.x[1]" type="range" name="" id="" min="6" max="14" />
-                            </li>
-                            <li>
-                                <span> 纵向起点:{{menu.custom.range.y[0]}} </span>
-                                <input v-model="menu.custom.range.y[0]" type="range" name="" id="" step="1" min="0"
-                                    max="12" />
-                            </li>
-                            <li>
-                                <span> 纵向终点:{{menu.custom.range.y[1]}} </span>
-                                <input v-model="menu.custom.range.y[1]" type="range" name="" id="" step="1" min="6"
-                                    max="18" />
-                            </li>
-                        </ul>
-                        <div class="buttonWarp">
-                            <div @click="menu.tab=1">确认</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- 撤销提示 -->
-            <div class="revokeTips" v-show="showRevokeTips">撤销内容为空</div>
+          </li>
+        </ul>
+      </div>
+      <!-- 列队区  queue-->
+      <div class="queue">
+        <div class="queue_content"></div>
+      </div>
+      <!-- 道具区 prop -->
+      <div class="prop">
+        <div class="prop_item" :class="{'cover':tools.remove == 0 }" @click="remove">
+          <div class="prop_item_i">
+            <span class="icon">移出</span>
+            <span class="tools_count" v-show="tools.remove">{{tools.remove}}</span>
+          </div>
         </div>
+        <div class="prop_item" :class="{'cover':tools.revoke==0 }" @click="revoke">
+          <div class="prop_item_i">
+            <span class="icon">撤销</span>
+            <span class="tools_count" v-show="tools.revoke">{{tools.revoke}}</span>
+          </div>
+        </div>
+        <div class="prop_item" :class="{'cover':tools.shuffle==0 }" @click="shuffle">
+          <div class="prop_item_i">
+            <span class="icon">洗牌</span>
+            <span class="tools_count" v-show="tools.shuffle">{{tools.shuffle}}</span>
+          </div>
+        </div>
+      </div>
+      <!-- 遮罩 -->
+      <div class="shadow" v-show="gameStatus">
+        <!-- 菜单dialog -->
+        <div class="shadow_main">
+          <!-- 标题 -->
+          <p class="title" v-if="gameStatus == 'success'">关卡通过</p>
+          <p class="title" v-else-if="gameStatus == 'fail'">游戏失败</p>
+          <p class="title" v-else-if="gameStatus == 'next'">通关成功</p>
+          <!-- 关卡等级 -->
+          <p class="levelTitle" v-if="gameStatus == 'next'">
+            关卡：{{curLevel}}
+          </p>
+          <!-- 方块数量 -->
+          <p class="block" v-if="gameStatus == 'fail'">
+            剩余方块：{{curPieTotal}}
+          </p>
+          <p class="block" v-else>消除方块：{{pieTotal}}</p>
+          <!-- 选项 -->
+          <span class="set" v-if="gameStatus != 'next'"
+            @click="menu.showMenu='true';gameStatus='';cardList=[]">⚙选项</span>
+          <!-- 按钮 -->
+          <div class="button" v-if="gameStatus == 'success'" @click="play(menu.mode)">
+            重新游玩
+          </div>
+          <div class="button" v-else-if="gameStatus == 'fail'" @click="play(menu.mode)">
+            再次尝试
+          </div>
+          <div class="button" v-else-if="gameStatus == 'next'" @click="play(menu.mode)">
+            下一关卡
+          </div>
+        </div>
+      </div>
+      <!-- 选项 -->
+      <div class="menu" v-show="menu.showMenu">
+        <div class="menu_i">
+          <div class="tab1" v-if="menu.tab == 0">
+            <p class="title">选项设置</p>
+            <ul>
+              <li @click="play(1)">模拟</li>
+              <li @click="play(2)">关卡</li>
+              <li @click="menu.tab=1">自定义</li>
+            </ul>
+          </div>
+          <!-- 自定义面板 -->
+          <div class="tab2" v-else-if="menu.tab == 1">
+            <ul>
+              <li>
+                <span> 层数:{{menu.custom.numZ}}</span>
+                <input type="range" v-model="menu.custom.numZ" name="" id="" min="1" max="14" />
+              </li>
+              <li>
+                <span> 图案:{{menu.custom.iconCount}} </span>
+
+                <input type="range" v-model="menu.custom.iconCount" name="" id="" min="1" max="18" />
+              </li>
+              <li>
+                <span> 密度:{{menu.custom.density}} </span>
+                <input type="range" v-model="menu.custom.density" name="" id="" step="0.01" min="0.1" max="1" />
+              </li>
+              <li>
+                <span> 区间:</span>
+                <input @click="menu.tab = 2" type="button" value="选择区间范围" />
+              </li>
+            </ul>
+            <div class="buttonWarp">
+              <div class="buttonL" @click="menu.tab=0;menu.mode=0">返回</div>
+              <div class="buttonR" @click="play(3)">确认</div>
+            </div>
+          </div>
+          <div class="tab3" v-else-if="menu.tab == 2">
+            <ul>
+              <li>
+                <span> 横向起点:{{menu.custom.range.x[0]}}</span>
+                <input v-model="menu.custom.range.x[0]" type="range" name="" id="" min="0" max="8" />
+              </li>
+              <li>
+                <span> 横向终点:{{menu.custom.range.x[1]}} </span>
+                <input v-model="menu.custom.range.x[1]" type="range" name="" id="" min="6" max="14" />
+              </li>
+              <li>
+                <span> 纵向起点:{{menu.custom.range.y[0]}} </span>
+                <input v-model="menu.custom.range.y[0]" type="range" name="" id="" step="1" min="0" max="12" />
+              </li>
+              <li>
+                <span> 纵向终点:{{menu.custom.range.y[1]}} </span>
+                <input v-model="menu.custom.range.y[1]" type="range" name="" id="" step="1" min="6" max="18" />
+              </li>
+            </ul>
+            <div class="buttonWarp">
+              <div @click="menu.tab=1">确认</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 撤销提示 -->
+      <div class="revokeTips" v-show="showRevokeTips">撤销内容为空</div>
     </div>
-    <script>
-        console.clear();
-        // 判断移动设备
-        function isMobileDevice() {
-            // 匹配常见的移动设备的用户代理
-            const mobileUserAgentRegex =
-                /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
-            // 获取用户代理字符串
-            const userAgent =
-                navigator.userAgent || navigator.vendor || window.opera;
-            // 使用正则表达式匹配用户代理字符串
-            const str = mobileUserAgentRegex.test(userAgent);
-            // 使用示例
-            if (!str) {
-                alert("请在移动端运行");
+  </div>
+  <script>
+    //内容样式
+    const contentType = {
+      1: "🥕",
+      2: "✂️",
+      3: "🥦",
+      4: "🥛",
+      5: "🌊",
+      6: "🧤",
+      7: "🧵",
+      8: "🌱",
+      9: "🔨",
+      10: "🌽",
+      11: "🌾",
+      12: "🐑",
+      13: "🔥",
+      14: "☘️",
+      15: "⭐️",
+      16: "🥝",
+      17: "🍉",
+      18: "🚀",
+    };
+
+    const app = new Vue({
+      el: "#app",
+      data: {
+        bg: [],
+        curLevel: 1,
+        // 所有卡牌数组
+        cardList: [],
+        // 列队区
+        pendingList: [],
+        // 卡片总数
+        pieTotal: 0,
+        curPieTotal: 0,
+        // 道具次数
+        tools: {
+          remove: 1,
+          revoke: 2,
+          shuffle: 3,
+        },
+        // 阴影方块
+        coverList: [],
+        // 用于撤销的数组
+        revokeList: [],
+        showRevokeTips: false,
+        //  fail success next
+        gameStatus: "",
+        // 选项关联数据
+        menu: {
+          showMenu: true,
+          mode: 0,
+          tab: 0,
+          custom: {
+            numZ: 4,
+            iconCount: 4,
+            density: 0.2,
+            range: {
+              x: [2, 12],
+              y: [4, 14],
+            },
+          },
+        },
+        // 禁止点击
+        ing: false,
+        // 用于移动端点击
+        touch: {
+          id: null,
+          pie: null,
+          start: null,
+          move: null,
+        },
+        isPC: true
+      },
+      mounted() {
+        //初始化背景
+        this.bg = this.initBg();
+        // this.createPie();
+        this.isPC = this.isMobileDevice()
+      },
+      methods: {
+        isMobileDevice() {
+          // 匹配常见的移动设备的用户代理
+          const mobileUserAgentRegex =
+            /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+          // 获取用户代理字符串
+          const userAgent =
+            navigator.userAgent || navigator.vendor || window.opera;
+          // 使用正则表达式匹配用户代理字符串
+          const str = mobileUserAgentRegex.test(userAgent);
+          // 使用示例
+          if (!str) {
+            return true
+          }
+          return false
+        },
+        computedStyle(i) {
+          let scale = 1;
+          if (i.isOut) scale = 0;
+          if (i.isHover) scale = 1.3;
+          return {
+            transform: `translate(${i.offsetX},${i.offsetY}) scale(${scale}) translateZ(0)`,
+            zIndex: i.isHover ? 1 : "",
+            opacity: i.isOpacity ? 0 : "",
+          };
+        },
+        touchStart(e) {
+          if (this.isPC) return;
+          if (this.ing || e.target.nodeName !== "DIV") {
+            return;
+          }
+          this.ing = true;
+          // 使用了事件代理，所以需要读取属性以确定元素
+          const x = e.target.getAttribute("x");
+          const y = e.target.getAttribute("y");
+          const z = e.target.getAttribute("z");
+          const id = e.target.getAttribute("cardid");
+          const temp = this.coverList;
+          const pie = temp[temp.length - 1 - z][y][x];
+
+          pie.isHover = true;
+          this.touch.pie = pie;
+          this.touch.id = id;
+          this.touch.start = [
+            e.target.getBoundingClientRect().left,
+            e.target.getBoundingClientRect().top,
+          ];
+        },
+        touchMove(e) {
+          if (this.isPC) return;
+
+          e.preventDefault();
+          this.touch.move = [e.touches[0].clientX, e.touches[0].clientY];
+        },
+        touchEnd(e) {
+          if (this.isPC) return;
+          console.log("touchEnd");
+          // 禁止多指操作
+          if (this.touch.id !== e.target.getAttribute("cardid")) {
+            return;
+          }
+          this.ing = false;
+          // 没有移动 直接添加
+          if (this.touch.move == null) {
+            this.addPending(this.touch.pie);
+            this.checkCover(this.touch.pie);
+          } else {
+            // 移动判断是否出界
+            const x = this.touch.start[0];
+            const y = this.touch.start[1];
+            const moveX = this.touch.move[0];
+            const moveY = this.touch.move[1];
+            // 元素 48px 大小
+            const boolX = moveX > x && moveX < x + 48;
+            const boolY = moveY > y && moveY < y + 48;
+
+            if (boolX && boolY) {
+              // console.log("范围里");
+              this.addPending(this.touch.pie);
+              this.checkCover(this.touch.pie);
             }
-        }
-        isMobileDevice();
-        //内容样式
-        const contentType = {
-            1: "🥕",
-            2: "✂️",
-            3: "🥦",
-            4: "🥛",
-            5: "🌊",
-            6: "🧤",
-            7: "🧵",
-            8: "🌱",
-            9: "🔨",
-            10: "🌽",
-            11: "🌾",
-            12: "🐑",
-            13: "🔥",
-            14: "☘️",
-            15: "⭐️",
-            16: "🥝",
-            17: "🍉",
-            18: "🚀",
-        };
-
-        const app = new Vue({
-            el: "#app",
-            data: {
-                bg: [],
-                curLevel: 1,
-                // 所有卡牌数组
-                cardList: [],
-                // 列队区
-                pendingList: [],
-                // 卡片总数
-                pieTotal: 0,
-                curPieTotal: 0,
-                // 道具次数
-                tools: {
-                    remove: 1,
-                    revoke: 2,
-                    shuffle: 3,
-                },
-                // 阴影方块
-                coverList: [],
-                // 用于撤销的数组
-                revokeList: [],
-                showRevokeTips: false,
-                //  fail success next
-                gameStatus: "",
-                // 选项关联数据
-                menu: {
-                    showMenu: true,
-                    mode: 0,
-                    tab: 0,
-                    custom: {
-                        numZ: 4,
-                        iconCount: 4,
-                        density: 0.2,
-                        range: {
-                            x: [2, 12],
-                            y: [4, 14],
-                        },
-                    },
-                },
-                // 禁止点击
-                ing: false,
-                // 用于移动端点击
-                touch: {
-                    id: null,
-                    pie: null,
-                    start: null,
-                    move: null,
-                },
+          }
+          this.touch.pie.isHover = false;
+          this.touch = {
+            pie: null,
+            start: null,
+            move: null,
+          };
+        },
+        initBg() {
+          const arr = [];
+          const x = 21;
+          const y = 14;
+          for (let i = 0; i < x; i++) {
+            arr.push([]);
+            for (let j = 0; j < y; j++) {
+              arr[i].push(0);
+            }
+          }
+          return arr;
+        },
+        // 初始化数据
+        init(mode) {
+          this.pieTotal = 0;
+          this.curPieTotal = 0;
+          this.pendingList = [];
+          this.coverList = [];
+          this.cardList = [];
+          this.gameStatus = "";
+          this.ing = false;
+        },
+        // 菜单选择
+        play(mode) {
+          // console.log("play");
+          this.menu.mode = mode;
+          if (this.gameStatus == "next") {
+            this.curLevel++;
+          } else {
+            this.curLevel = 1;
+            this.tools = {
+              remove: 1,
+              revoke: 2,
+              shuffle: 3,
+            };
+            this.revokeList = [];
+          }
+          // 生成方块
+          this.createPie(mode);
+          this.menu.showMenu = false;
+        },
+        // 随机生成方块 mode: 0 1 2 3
+        createPie(mode = 0) {
+          // 初始化
+          this.init(mode);
+          // 块基本信息
+          function Pie(x, y, offsetX, offsetY) {
+            this.x = x;
+            this.y = y;
+            this.offsetX = offsetX;
+            this.offsetY = offsetY;
+            this.realOffsetX = offsetX;
+            this.realOffsetY = offsetY;
+            // 元素中心点
+            this.cx = x * 24 + 24;
+            this.cy = y * 24 + 24;
+            // 元素样式
+            this.isOut = false;
+            this.isPending = false;
+            this.isRemove = false;
+            this.isCover = false;
+            this.isHover = false;
+            this.isOpacity = false;
+            this.icon = "";
+            this.cardId = Math.floor(Math.random() * 1000000);
+            // 弧度
+            this.angle = 0;
+            this.moveing = false;
+          }
+          // 渲染数组
+          const arr = [];
+          // 层数
+          let numZ = 2;
+          // 图案数量
+          let iconCount = 2;
+          // 数据布局数组
+          const tempArrX = 14;
+          const tempArrY = 20;
+          // 规则
+          let rule = [
+            {
+              curZ: 14,
+              range: {
+                x: [0, 14],
+                y: [0, 18],
+              },
+              density: 0.3,
             },
-            mounted() {
-                //初始化背景
-                this.bg = this.initBg();
-                // this.createPie();
-            },
-            methods: {
-                computedStyle(i) {
-                    let scale = 1;
-                    if (i.isOut) scale = 0;
-                    if (i.isHover) scale = 1.3;
-                    return {
-                        transform: `translate(${i.offsetX},${i.offsetY}) scale(${scale}) translateZ(0)`,
-                        zIndex: i.isHover ? 1 : "",
-                        opacity: i.isOpacity ? 0 : "",
-                    };
-                },
-                touchStart(e) {
-                    if (this.ing || e.target.nodeName !== "DIV") {
-                        return;
-                    }
-                    this.ing = true;
-                    // 使用了事件代理，所以需要读取属性以确定元素
-                    const x = e.target.getAttribute("x");
-                    const y = e.target.getAttribute("y");
-                    const z = e.target.getAttribute("z");
-                    const id = e.target.getAttribute("cardid");
-                    const temp = this.coverList;
-                    const pie = temp[temp.length - 1 - z][y][x];
+          ];
+          // 判断创建模式
+          switch (mode) {
+            case 1:
+              // 模拟模式
+              numZ = 12;
+              iconCount = 18;
+              rule = [
+                {
+                  curZ: 1,
+                  // range: [0, 14],
+                  range: {
+                    x: [1, 13],
+                    y: [1, 13],
+                  },
+                  density: 0.25,
+                  must: [
+                    [1, 1],
+                    [11, 1],
+                    [11, 11],
+                    [1, 11],
 
-                    pie.isHover = true;
-                    this.touch.pie = pie;
-                    this.touch.id = id;
-                    this.touch.start = [
-                        e.target.getBoundingClientRect().left,
-                        e.target.getBoundingClientRect().top,
-                    ];
+                    [3, 3],
+                    [9, 3],
+                    [3, 9],
+                    [9, 9],
+                    [5, 7],
+                    [7, 5],
+
+                    [1, 16],
+                    [5, 16],
+                    [7, 16],
+                    [11, 16],
+                  ],
                 },
-                touchMove(e) {
-                    e.preventDefault();
-                    this.touch.move = [e.touches[0].clientX, e.touches[0].clientY];
+                {
+                  curZ: 2,
+                  range: {
+                    x: [2, 12],
+                    y: [2, 12],
+                  },
+                  density: 1,
+                  must: [
+                    [0, 0],
+                    [2, 0],
+                    [2, 2],
+                    [0, 2],
+                    [12, 0],
+                    [10, 0],
+                    [10, 2],
+                    [12, 2],
+                    [12, 12],
+                    [12, 10],
+                    [10, 12],
+                    [10, 10],
+                    [0, 10],
+                    [0, 12],
+                    [2, 10],
+                    [2, 12],
+
+                    [0, 16],
+                    [2, 16],
+                    [4, 16],
+                    [6, 16],
+                    [8, 16],
+                    [10, 16],
+                    [12, 16],
+                  ],
                 },
-                touchEnd(e) {
-                    // 禁止多指操作
-                    if (this.touch.id !== e.target.getAttribute("cardid")) {
-                        return;
-                    }
-                    this.ing = false;
-                    // 没有移动 直接添加
-                    if (this.touch.move == null) {
-                        this.addPending(this.touch.pie);
-                        this.checkCover(this.touch.pie);
+                {
+                  curZ: 3,
+                  range: {
+                    x: [5, 8],
+                    y: [5, 8],
+                  },
+                  density: 0,
+                  must: [
+                    [1, 1],
+                    [11, 1],
+                    [11, 11],
+                    [1, 11],
+
+                    [3, 3],
+                    [3, 6],
+                    [3, 9],
+                    [6, 3],
+                    [9, 3],
+
+                    [9, 6],
+                    [9, 9],
+                    [6, 9],
+
+                    [6, 6],
+                  ],
+                },
+                {
+                  curZ: 5,
+                  range: {
+                    x: [2, 12],
+                    y: [2, 12],
+                  },
+                  density: 0.4,
+                  must: [
+                    [5, 5],
+                    [7, 5],
+                    [5, 7],
+                    [7, 7],
+
+                    [2, 2],
+                    [2, 10],
+                    [10, 2],
+                    [10, 10],
+                  ],
+                },
+                {
+                  curZ: 8,
+                  range: {
+                    x: [3, 11],
+                    y: [3, 11],
+                  },
+                  density: 0.4,
+                  must: [[6, 6]],
+                },
+                {
+                  curZ: 12,
+                  range: {
+                    x: [4, 10],
+                    y: [4, 10],
+                  },
+                  density: 0.55,
+                  empty: [[6, 6]],
+                },
+              ];
+              break;
+            case 2:
+              // 关卡模式
+              numZ = Math.min(this.curLevel + 1, 12);
+              iconCount = Math.min(this.curLevel + 1, 18);
+              rule = [
+                {
+                  curZ: 12,
+                  range: {
+                    x: [0, 14],
+                    y: [0, 18],
+                  },
+                  density: 0.25,
+                },
+              ];
+              break;
+            case 3:
+              // 自定义模式
+              numZ = this.menu.custom.numZ;
+              iconCount = this.menu.custom.iconCount;
+              rule = [
+                {
+                  curZ: 14,
+                  range: {
+                    // 转换为number类型
+                    x: [
+                      this.menu.custom.range.x[0] - 0,
+                      this.menu.custom.range.x[1] - 0,
+                    ],
+                    y: [
+                      this.menu.custom.range.y[0] - 0,
+                      this.menu.custom.range.y[1] - 0,
+                    ],
+                  },
+                  density: this.menu.custom.density,
+                },
+              ];
+              break;
+          }
+          // icon渲染数量
+          let tempRule;
+          // 用于匹配rule
+          let countZ = 0;
+          // 填充数组 层数 Z
+          for (let z = 0; z < numZ; z++) {
+            // 各层规则
+            tempRule = rule[countZ];
+            if (z < rule[countZ].curZ) {
+              tempRule = rule[countZ];
+            } else {
+              countZ++;
+              if (z < rule[countZ].curZ) {
+                tempRule = rule[countZ];
+              }
+            }
+            // 卡片总数组
+            arr.push([]);
+            // 数值布局
+            const tempCoverList = [];
+            // 每层初始数值布局
+            for (let i = 0; i < tempArrY; i++) {
+              // 创建每行的空数组
+              tempCoverList[i] = [];
+              for (let j = 0; j < tempArrX; j++) {
+                tempCoverList[i][j] = 0;
+              }
+            }
+            // 必填区域
+            if (tempRule.must) {
+              tempRule.must.forEach((item) => {
+                const x = item[1];
+                const y = item[0];
+
+                const offsetX = y * 24 + "px";
+                const offsetY = x * 24 + "px";
+
+                const pie = new Pie(y, x, offsetX, offsetY);
+                arr[z].push(pie);
+                // coverList
+                tempCoverList[x][y] = pie;
+                tempCoverList[x + 1][y] = pie;
+                tempCoverList[x][y + 1] = pie;
+                tempCoverList[x + 1][y + 1] = pie;
+
+                this.pieTotal++;
+              });
+            }
+            // 行
+            for (
+              let i = tempRule.range.y[0];
+              i < tempRule.range.y[1] - 1;
+              i++
+            ) {
+              // 列
+              for (
+                let j = tempRule.range.x[0];
+                j < tempRule.range.x[1] - 1;
+                j++
+              ) {
+                // 已存在跳过
+                if (
+                  tempCoverList[i][j] ||
+                  tempCoverList[i][j + 1] ||
+                  tempCoverList[i + 1][j + 1] ||
+                  tempCoverList[i + 1][j]
+                ) {
+                  continue;
+                }
+                // 留空区域
+                if (tempRule.empty) {
+                  const bool = tempRule.empty.some((item) => {
+                    return (
+                      (i == item[1] ||
+                        i == item[1] + 1 ||
+                        i == item[1] - 1) &&
+                      (j == item[0] || j == item[0] + 1 || j == item[0] - 1)
+                    );
+                  });
+                  if (bool) {
+                    continue;
+                  }
+                }
+                // 填充信息
+                if (Math.random() < tempRule.density) {
+                  const x = j;
+                  const y = i;
+                  const offsetX = j * 24 + "px";
+                  const offsetY = i * 24 + "px";
+                  const pie = new Pie(x, y, offsetX, offsetY);
+
+                  // 保存数组
+                  arr[z].push(pie);
+                  // 四个方块填充
+                  tempCoverList[i][j] = pie;
+                  tempCoverList[i + 1][j] = pie;
+                  tempCoverList[i][j + 1] = pie;
+                  tempCoverList[i + 1][j + 1] = pie;
+
+                  this.pieTotal++;
+                }
+              }
+            }
+            this.coverList.push(tempCoverList);
+          }
+          // 针对特殊方块处理
+          if (mode == 1) {
+            for (let i = 0; i < 11; i++) {
+              let x = 0;
+              let y = 14;
+              let offsetX;
+              let offsetY = "336px";
+              const tempCoverList = this.coverList[11 - i];
+
+              offsetX = i * 6 + "px";
+              let pie = new Pie(x, y, offsetX, offsetY);
+
+              arr[arr.length - 1 - i].push(pie);
+
+              tempCoverList[y][x] = pie;
+              tempCoverList[y + 1][x] = pie;
+              tempCoverList[y][x + 1] = pie;
+              tempCoverList[y + 1][x + 1] = pie;
+              // 右侧
+              x = 12;
+              offsetX = 288 - i * 6 + "px";
+
+              pie = new Pie(x, y, offsetX, offsetY);
+              arr[arr.length - 1 - i].push(pie);
+              tempCoverList[y][x] = pie;
+              tempCoverList[y + 1][x] = pie;
+              tempCoverList[y][x + 1] = pie;
+              tempCoverList[y + 1][x + 1] = pie;
+
+              this.pieTotal += 2;
+            }
+          }
+          // 数组倒序，符合渲染规则
+          arr.reverse();
+          // 数量不足
+          if (this.pieTotal < 3) {
+            this.createPie(mode);
+            return;
+          }
+          // 取3的倍数，从底部弹出
+          if (this.pieTotal % 3) {
+            // if (false) {
+            const r = this.pieTotal % 3;
+            const cover = this.coverList;
+            for (let i = 0; i < r; i++) {
+              const a = arr[0].shift();
+              this.pieTotal--;
+
+              cover[cover.length - 1][a.y][a.x] = 0;
+              cover[cover.length - 1][a.y + 1][a.x] = 0;
+              cover[cover.length - 1][a.y][a.x + 1] = 0;
+              cover[cover.length - 1][a.y + 1][a.x + 1] = 0;
+            }
+          }
+          // 填充图案  元素在数组中的位置
+          const iconArrIndex = [];
+          arr.forEach((element, index) => {
+            element.forEach((item, index_i) => {
+              iconArrIndex.push([index, index_i]);
+            });
+          });
+          // 打乱数组位置，随机位置添加icon
+          this.shuffleArray(iconArrIndex);
+          // icon 循环赋值
+          let a = 0;
+          one: while (true) {
+            // icon 循环渲染
+            for (let i = 1; i <= iconCount; i++) {
+              // 连续赋值三个
+              for (let j = 0; j < 3; j++) {
+                const temp = iconArrIndex[a];
+                arr[temp[0]][temp[1]].icon = contentType[i];
+                // end
+                if (a == iconArrIndex.length - 1) {
+                  break one;
+                }
+                a++;
+              }
+            }
+          }
+          // 动画
+          arr.forEach((element) => {
+            element.forEach((item) => {
+              item.offsetX = "144px";
+              item.offsetY = "216px";
+            });
+          });
+          this.ing = true;
+          setTimeout(() => {
+            arr.forEach((element) => {
+              element.forEach((item) => {
+                item.offsetX = item.realOffsetX;
+                item.offsetY = item.realOffsetY;
+              });
+            });
+            setTimeout(() => {
+              this.ing = false;
+            }, 400);
+          }, 400);
+          // 赋值
+          this.curPieTotal = this.pieTotal;
+          this.cardList = arr;
+          this.checkCover();
+        },
+        // 点击交互
+        clickPie(e) {
+          if (!this.isPC) return;
+          console.log("click");
+          if (this.ing || e.target.nodeName !== "DIV") {
+            return;
+          }
+          const x = e.target.getAttribute("x");
+          const y = e.target.getAttribute("y");
+          const z = e.target.getAttribute("z");
+          const temp = this.coverList;
+          const pie = temp[temp.length - 1 - z][y][x];
+
+          this.addPending(pie);
+          this.checkCover(pie);
+        },
+        // 添加至队列区
+        addPending(e) {
+          // console.log("添加列队");
+          // 检查条件
+          e.offsetY = "510px";
+          // 找到最后一个相同元素
+          let index = -1;
+          for (let i = 0; i < this.pendingList.length - 1; i++) {
+            if (e.icon == this.pendingList[i].icon) {
+              index = i;
+            }
+          }
+          if (index !== -1) {
+            // 改变pendingList元素位置
+            const list1 = this.pendingList.slice(0, index + 1);
+            const list2 = this.pendingList.slice(
+              index + 1,
+              this.pendingList.length
+            );
+            // 拼接新数组
+            this.pendingList = [...list1, e, ...list2];
+          } else {
+            this.pendingList.push(e);
+          }
+          // 执行动画
+          this.pendingAnimation();
+          e.isPending = true;
+          // 撤销数组添加
+          this.revokeList.push(e);
+          // 检查消除
+          this.check(e);
+        },
+        // pendingList排序动画
+        pendingAnimation() {
+          this.pendingList.forEach((item, index) => {
+            item.offsetX = index * 48 + "px";
+          });
+        },
+        // 检查遮罩
+        checkCover(pie) {
+          // console.log("检查遮罩");
+          // 点击
+          if (pie) {
+            const startX = pie.x <= 0 ? 0 : pie.x - 1;
+            const endX = pie.x >= 14 ? 14 : pie.x + 1;
+            const startY = pie.y <= 0 ? 0 : pie.y - 1;
+            const endY = pie.y >= 18 ? 18 : pie.y + 1;
+
+            const coverArray = this.coverList;
+            // 循环点击方块周围九宫格
+            for (let z = coverArray.length - 1; z >= 0; z--) {
+              for (let y = startY; y <= endY; y++) {
+                for (let x = startX; x <= endX; x++) {
+                  // 确保有效数据
+                  const item = coverArray[z][y][x];
+                  if (item) {
+                    if (item.isPending || item.isOut) {
+                      continue;
                     } else {
-                        // 移动判断是否出界
-                        const x = this.touch.start[0];
-                        const y = this.touch.start[1];
-                        const moveX = this.touch.move[0];
-                        const moveY = this.touch.move[1];
-                        // 元素 48px 大小
-                        const boolX = moveX > x && moveX < x + 48;
-                        const boolY = moveY > y && moveY < y + 48;
+                      // 先让所有元素显示再判断隐藏
+                      item.isCover = false;
+                      // console.log(item.icon, [item.x, item.y, z] + '-----------');
+                      // 检查上层
+                      for (let countZ = z - 1; countZ >= 0; countZ--) {
+                        // 一个方块四个格子
+                        let a, b, c, d;
+                        a = coverArray[countZ][item.y][item.x];
+                        b = coverArray[countZ][item.y + 1][item.x];
+                        c = coverArray[countZ][item.y][item.x + 1];
+                        d = coverArray[countZ][item.y + 1][item.x + 1];
+                        // 以下情况都不算遮挡
+                        if (!a || a.isPending || a.isOut || a.isRemove) a = 0;
+                        if (!b || b.isPending || b.isOut || b.isRemove) b = 0;
+                        if (!c || c.isPending || c.isOut || c.isRemove) c = 0;
+                        if (!d || d.isPending || d.isOut || d.isRemove) d = 0;
 
-                        if (boolX && boolY) {
-                            // console.log("范围里");
-                            this.addPending(this.touch.pie);
-                            this.checkCover(this.touch.pie);
+                        if (a || b || c || d) {
+                          item.isCover = true;
+                          // console.log("有覆盖");
                         }
+                      }
                     }
-                    this.touch.pie.isHover = false;
-                    this.touch = {
-                        pie: null,
-                        start: null,
-                        move: null,
-                    };
-                },
-                initBg() {
-                    const arr = [];
-                    const x = 21;
-                    const y = 14;
-                    for (let i = 0; i < x; i++) {
-                        arr.push([]);
-                        for (let j = 0; j < y; j++) {
-                            arr[i].push(0);
-                        }
+                  }
+                }
+              }
+            }
+          }
+          // 初始化
+          else {
+            const coverArray = this.coverList;
+            // 层
+            for (let z = coverArray.length - 1; z >= 0; z--) {
+              // 行
+              for (let x = 0; x < coverArray[z].length; x++) {
+                // 列
+                for (let y = 0; y < coverArray[z][x].length; y++) {
+                  // 有效数据
+                  if (coverArray[z][x][y]) {
+                    // 与上层比较
+                    for (let arrZ = z - 1; arrZ >= 0; arrZ--) {
+                      if (coverArray[arrZ][x][y]) {
+                        coverArray[z][x][y].isCover = true;
+                      }
                     }
-                    return arr;
-                },
-                // 初始化数据
-                init(mode) {
-                    this.pieTotal = 0;
-                    this.curPieTotal = 0;
-                    this.pendingList = [];
-                    this.coverList = [];
-                    this.cardList = [];
-                    this.gameStatus = "";
-                    this.ing = false;
-                },
-                // 菜单选择
-                play(mode) {
-                    // console.log("play");
-                    this.menu.mode = mode;
-                    if (this.gameStatus == "next") {
-                        this.curLevel++;
-                    } else {
-                        this.curLevel = 1;
-                        this.tools = {
-                            remove: 1,
-                            revoke: 2,
-                            shuffle: 3,
-                        };
-                        this.revokeList = [];
-                    }
-                    // 生成方块
-                    this.createPie(mode);
-                    this.menu.showMenu = false;
-                },
-                // 随机生成方块 mode: 0 1 2 3
-                createPie(mode = 0) {
-                    // 初始化
-                    this.init(mode);
-                    // 块基本信息
-                    function Pie(x, y, offsetX, offsetY) {
-                        this.x = x;
-                        this.y = y;
-                        this.offsetX = offsetX;
-                        this.offsetY = offsetY;
-                        this.realOffsetX = offsetX;
-                        this.realOffsetY = offsetY;
-                        // 元素中心点
-                        this.cx = x * 24 + 24;
-                        this.cy = y * 24 + 24;
-                        // 元素样式
-                        this.isOut = false;
-                        this.isPending = false;
-                        this.isRemove = false;
-                        this.isCover = false;
-                        this.isHover = false;
-                        this.isOpacity = false;
-                        this.icon = "";
-                        this.cardId = Math.floor(Math.random() * 1000000);
-                        // 弧度
-                        this.angle = 0;
-                        this.moveing = false;
-                    }
-                    // 渲染数组
-                    const arr = [];
-                    // 层数
-                    let numZ = 2;
-                    // 图案数量
-                    let iconCount = 2;
-                    // 数据布局数组
-                    const tempArrX = 14;
-                    const tempArrY = 20;
-                    // 规则
-                    let rule = [
-                        {
-                            curZ: 14,
-                            range: {
-                                x: [0, 14],
-                                y: [0, 18],
-                            },
-                            density: 0.3,
-                        },
-                    ];
-                    // 判断创建模式
-                    switch (mode) {
-                        case 1:
-                            // 模拟模式
-                            numZ = 12;
-                            iconCount = 18;
-                            rule = [
-                                {
-                                    curZ: 1,
-                                    // range: [0, 14],
-                                    range: {
-                                        x: [1, 13],
-                                        y: [1, 13],
-                                    },
-                                    density: 0.25,
-                                    must: [
-                                        [1, 1],
-                                        [11, 1],
-                                        [11, 11],
-                                        [1, 11],
+                  }
+                }
+              }
+            }
+          }
+        },
+        // 检查消除或游戏胜利
+        check(e) {
+          // console.log("检查");
+          const tempList = this.pendingList;
+          let frist = -1;
+          let last = 0;
+          // 保存相同块，对cardlist的引用
+          const arr = [];
+          // 记录相同块位置
+          tempList.forEach((element, i) => {
+            if (e.icon == tempList[i].icon) {
+              if (frist == -1) {
+                frist = i;
+              }
+              last = i;
+              arr.push(tempList[i]);
+            }
+          });
+          // 满三个消除
+          if (last - frist == 2) {
+            // 禁止点击
+            this.ing = true;
+            // 撤销数组清空
+            this.revokeList = [];
+            // 等待动画
+            setTimeout(() => {
+              arr.forEach((item) => {
+                item.isOut = true;
+              });
+              // 重新排序
+              setTimeout(() => {
+                this.pendingAnimation();
+                this.ing = false;
+              }, 200);
+            }, 400);
 
-                                        [3, 3],
-                                        [9, 3],
-                                        [3, 9],
-                                        [9, 9],
-                                        [5, 7],
-                                        [7, 5],
-
-                                        [1, 16],
-                                        [5, 16],
-                                        [7, 16],
-                                        [11, 16],
-                                    ],
-                                },
-                                {
-                                    curZ: 2,
-                                    range: {
-                                        x: [2, 12],
-                                        y: [2, 12],
-                                    },
-                                    density: 1,
-                                    must: [
-                                        [0, 0],
-                                        [2, 0],
-                                        [2, 2],
-                                        [0, 2],
-                                        [12, 0],
-                                        [10, 0],
-                                        [10, 2],
-                                        [12, 2],
-                                        [12, 12],
-                                        [12, 10],
-                                        [10, 12],
-                                        [10, 10],
-                                        [0, 10],
-                                        [0, 12],
-                                        [2, 10],
-                                        [2, 12],
-
-                                        [0, 16],
-                                        [2, 16],
-                                        [4, 16],
-                                        [6, 16],
-                                        [8, 16],
-                                        [10, 16],
-                                        [12, 16],
-                                    ],
-                                },
-                                {
-                                    curZ: 3,
-                                    range: {
-                                        x: [5, 8],
-                                        y: [5, 8],
-                                    },
-                                    density: 0,
-                                    must: [
-                                        [1, 1],
-                                        [11, 1],
-                                        [11, 11],
-                                        [1, 11],
-
-                                        [3, 3],
-                                        [3, 6],
-                                        [3, 9],
-                                        [6, 3],
-                                        [9, 3],
-
-                                        [9, 6],
-                                        [9, 9],
-                                        [6, 9],
-
-                                        [6, 6],
-                                    ],
-                                },
-                                {
-                                    curZ: 5,
-                                    range: {
-                                        x: [2, 12],
-                                        y: [2, 12],
-                                    },
-                                    density: 0.4,
-                                    must: [
-                                        [5, 5],
-                                        [7, 5],
-                                        [5, 7],
-                                        [7, 7],
-
-                                        [2, 2],
-                                        [2, 10],
-                                        [10, 2],
-                                        [10, 10],
-                                    ],
-                                },
-                                {
-                                    curZ: 8,
-                                    range: {
-                                        x: [3, 11],
-                                        y: [3, 11],
-                                    },
-                                    density: 0.4,
-                                    must: [[6, 6]],
-                                },
-                                {
-                                    curZ: 12,
-                                    range: {
-                                        x: [4, 10],
-                                        y: [4, 10],
-                                    },
-                                    density: 0.55,
-                                    empty: [[6, 6]],
-                                },
-                            ];
-                            break;
-                        case 2:
-                            // 关卡模式
-                            numZ = Math.min(this.curLevel + 1, 12);
-                            iconCount = Math.min(this.curLevel + 1, 18);
-                            rule = [
-                                {
-                                    curZ: 12,
-                                    range: {
-                                        x: [0, 14],
-                                        y: [0, 18],
-                                    },
-                                    density: 0.25,
-                                },
-                            ];
-                            break;
-                        case 3:
-                            // 自定义模式
-                            numZ = this.menu.custom.numZ;
-                            iconCount = this.menu.custom.iconCount;
-                            rule = [
-                                {
-                                    curZ: 14,
-                                    range: {
-                                        // 转换为number类型
-                                        x: [
-                                            this.menu.custom.range.x[0] - 0,
-                                            this.menu.custom.range.x[1] - 0,
-                                        ],
-                                        y: [
-                                            this.menu.custom.range.y[0] - 0,
-                                            this.menu.custom.range.y[1] - 0,
-                                        ],
-                                    },
-                                    density: this.menu.custom.density,
-                                },
-                            ];
-                            break;
-                    }
-                    // icon渲染数量
-                    let tempRule;
-                    // 用于匹配rule
-                    let countZ = 0;
-                    // 填充数组 层数 Z
-                    for (let z = 0; z < numZ; z++) {
-                        // 各层规则
-                        tempRule = rule[countZ];
-                        if (z < rule[countZ].curZ) {
-                            tempRule = rule[countZ];
-                        } else {
-                            countZ++;
-                            if (z < rule[countZ].curZ) {
-                                tempRule = rule[countZ];
-                            }
-                        }
-                        // 卡片总数组
-                        arr.push([]);
-                        // 数值布局
-                        const tempCoverList = [];
-                        // 每层初始数值布局
-                        for (let i = 0; i < tempArrY; i++) {
-                            // 创建每行的空数组
-                            tempCoverList[i] = [];
-                            for (let j = 0; j < tempArrX; j++) {
-                                tempCoverList[i][j] = 0;
-                            }
-                        }
-                        // 必填区域
-                        if (tempRule.must) {
-                            tempRule.must.forEach((item) => {
-                                const x = item[1];
-                                const y = item[0];
-
-                                const offsetX = y * 24 + "px";
-                                const offsetY = x * 24 + "px";
-
-                                const pie = new Pie(y, x, offsetX, offsetY);
-                                arr[z].push(pie);
-                                // coverList
-                                tempCoverList[x][y] = pie;
-                                tempCoverList[x + 1][y] = pie;
-                                tempCoverList[x][y + 1] = pie;
-                                tempCoverList[x + 1][y + 1] = pie;
-
-                                this.pieTotal++;
-                            });
-                        }
-                        // 行
-                        for (
-                            let i = tempRule.range.y[0];
-                            i < tempRule.range.y[1] - 1;
-                            i++
-                        ) {
-                            // 列
-                            for (
-                                let j = tempRule.range.x[0];
-                                j < tempRule.range.x[1] - 1;
-                                j++
-                            ) {
-                                // 已存在跳过
-                                if (
-                                    tempCoverList[i][j] ||
-                                    tempCoverList[i][j + 1] ||
-                                    tempCoverList[i + 1][j + 1] ||
-                                    tempCoverList[i + 1][j]
-                                ) {
-                                    continue;
-                                }
-                                // 留空区域
-                                if (tempRule.empty) {
-                                    const bool = tempRule.empty.some((item) => {
-                                        return (
-                                            (i == item[1] ||
-                                                i == item[1] + 1 ||
-                                                i == item[1] - 1) &&
-                                            (j == item[0] || j == item[0] + 1 || j == item[0] - 1)
-                                        );
-                                    });
-                                    if (bool) {
-                                        continue;
-                                    }
-                                }
-                                // 填充信息
-                                if (Math.random() < tempRule.density) {
-                                    const x = j;
-                                    const y = i;
-                                    const offsetX = j * 24 + "px";
-                                    const offsetY = i * 24 + "px";
-                                    const pie = new Pie(x, y, offsetX, offsetY);
-
-                                    // 保存数组
-                                    arr[z].push(pie);
-                                    // 四个方块填充
-                                    tempCoverList[i][j] = pie;
-                                    tempCoverList[i + 1][j] = pie;
-                                    tempCoverList[i][j + 1] = pie;
-                                    tempCoverList[i + 1][j + 1] = pie;
-
-                                    this.pieTotal++;
-                                }
-                            }
-                        }
-                        this.coverList.push(tempCoverList);
-                    }
-                    // 针对特殊方块处理
-                    if (mode == 1) {
-                        for (let i = 0; i < 11; i++) {
-                            let x = 0;
-                            let y = 14;
-                            let offsetX;
-                            let offsetY = "336px";
-                            const tempCoverList = this.coverList[11 - i];
-
-                            offsetX = i * 6 + "px";
-                            let pie = new Pie(x, y, offsetX, offsetY);
-
-                            arr[arr.length - 1 - i].push(pie);
-
-                            tempCoverList[y][x] = pie;
-                            tempCoverList[y + 1][x] = pie;
-                            tempCoverList[y][x + 1] = pie;
-                            tempCoverList[y + 1][x + 1] = pie;
-                            // 右侧
-                            x = 12;
-                            offsetX = 288 - i * 6 + "px";
-
-                            pie = new Pie(x, y, offsetX, offsetY);
-                            arr[arr.length - 1 - i].push(pie);
-                            tempCoverList[y][x] = pie;
-                            tempCoverList[y + 1][x] = pie;
-                            tempCoverList[y][x + 1] = pie;
-                            tempCoverList[y + 1][x + 1] = pie;
-
-                            this.pieTotal += 2;
-                        }
-                    }
-                    // 数组倒序，符合渲染规则
-                    arr.reverse();
-                    // 数量不足
-                    if (this.pieTotal < 3) {
-                        this.createPie(mode);
-                        return;
-                    }
-                    // 取3的倍数，从底部弹出
-                    if (this.pieTotal % 3) {
-                        // if (false) {
-                        const r = this.pieTotal % 3;
-                        const cover = this.coverList;
-                        for (let i = 0; i < r; i++) {
-                            const a = arr[0].shift();
-                            this.pieTotal--;
-
-                            cover[cover.length - 1][a.y][a.x] = 0;
-                            cover[cover.length - 1][a.y + 1][a.x] = 0;
-                            cover[cover.length - 1][a.y][a.x + 1] = 0;
-                            cover[cover.length - 1][a.y + 1][a.x + 1] = 0;
-                        }
-                    }
-                    // 填充图案  元素在数组中的位置
-                    const iconArrIndex = [];
-                    arr.forEach((element, index) => {
-                        element.forEach((item, index_i) => {
-                            iconArrIndex.push([index, index_i]);
-                        });
-                    });
-                    // 打乱数组位置，随机位置添加icon
-                    this.shuffleArray(iconArrIndex);
-                    // icon 循环赋值
-                    let a = 0;
-                    one: while (true) {
-                        // icon 循环渲染
-                        for (let i = 1; i <= iconCount; i++) {
-                            // 连续赋值三个
-                            for (let j = 0; j < 3; j++) {
-                                const temp = iconArrIndex[a];
-                                arr[temp[0]][temp[1]].icon = contentType[i];
-                                // end
-                                if (a == iconArrIndex.length - 1) {
-                                    break one;
-                                }
-                                a++;
-                            }
-                        }
-                    }
-                    // 动画
-                    arr.forEach((element) => {
-                        element.forEach((item) => {
-                            item.offsetX = "144px";
-                            item.offsetY = "216px";
-                        });
-                    });
-                    this.ing = true;
-                    setTimeout(() => {
-                        arr.forEach((element) => {
-                            element.forEach((item) => {
-                                item.offsetX = item.realOffsetX;
-                                item.offsetY = item.realOffsetY;
-                            });
-                        });
-                        setTimeout(() => {
-                            this.ing = false;
-                        }, 400);
-                    }, 400);
-                    // 赋值
-                    this.curPieTotal = this.pieTotal;
-                    this.cardList = arr;
-                    this.checkCover();
-                },
-                // 点击交互
-                clickPie(e) {
-                    if (this.ing || e.target.nodeName !== "DIV") {
-                        return;
-                    }
-                    const x = e.target.getAttribute("x");
-                    const y = e.target.getAttribute("y");
-                    const z = e.target.getAttribute("z");
-                    const temp = this.coverList;
-                    const pie = temp[temp.length - 1 - z][y][x];
-
-                    this.addPending(pie);
-                    this.checkCover(pie);
-                },
-                // 添加至队列区
-                addPending(e) {
-                    // console.log("添加列队");
-                    // 检查条件
-                    e.offsetY = "510px";
-                    // 找到最后一个相同元素
-                    let index = -1;
-                    for (let i = 0; i < this.pendingList.length - 1; i++) {
-                        if (e.icon == this.pendingList[i].icon) {
-                            index = i;
-                        }
-                    }
-                    if (index !== -1) {
-                        // 改变pendingList元素位置
-                        const list1 = this.pendingList.slice(0, index + 1);
-                        const list2 = this.pendingList.slice(
-                            index + 1,
-                            this.pendingList.length
-                        );
-                        // 拼接新数组
-                        this.pendingList = [...list1, e, ...list2];
-                    } else {
-                        this.pendingList.push(e);
-                    }
-                    // 执行动画
-                    this.pendingAnimation();
-                    e.isPending = true;
-                    // 撤销数组添加
-                    this.revokeList.push(e);
-                    // 检查消除
-                    this.check(e);
-                },
-                // pendingList排序动画
-                pendingAnimation() {
-                    this.pendingList.forEach((item, index) => {
-                        item.offsetX = index * 48 + "px";
-                    });
-                },
-                // 检查遮罩
-                checkCover(pie) {
-                    // console.log("检查遮罩");
-                    // 点击
-                    if (pie) {
-                        const startX = pie.x <= 0 ? 0 : pie.x - 1;
-                        const endX = pie.x >= 14 ? 14 : pie.x + 1;
-                        const startY = pie.y <= 0 ? 0 : pie.y - 1;
-                        const endY = pie.y >= 18 ? 18 : pie.y + 1;
-
-                        const coverArray = this.coverList;
-                        // 循环点击方块周围九宫格
-                        for (let z = coverArray.length - 1; z >= 0; z--) {
-                            for (let y = startY; y <= endY; y++) {
-                                for (let x = startX; x <= endX; x++) {
-                                    // 确保有效数据
-                                    const item = coverArray[z][y][x];
-                                    if (item) {
-                                        if (item.isPending || item.isOut) {
-                                            continue;
-                                        } else {
-                                            // 先让所有元素显示再判断隐藏
-                                            item.isCover = false;
-                                            // console.log(item.icon, [item.x, item.y, z] + '-----------');
-                                            // 检查上层
-                                            for (let countZ = z - 1; countZ >= 0; countZ--) {
-                                                // 一个方块四个格子
-                                                let a, b, c, d;
-                                                a = coverArray[countZ][item.y][item.x];
-                                                b = coverArray[countZ][item.y + 1][item.x];
-                                                c = coverArray[countZ][item.y][item.x + 1];
-                                                d = coverArray[countZ][item.y + 1][item.x + 1];
-                                                // 以下情况都不算遮挡
-                                                if (!a || a.isPending || a.isOut || a.isRemove) a = 0;
-                                                if (!b || b.isPending || b.isOut || b.isRemove) b = 0;
-                                                if (!c || c.isPending || c.isOut || c.isRemove) c = 0;
-                                                if (!d || d.isPending || d.isOut || d.isRemove) d = 0;
-
-                                                if (a || b || c || d) {
-                                                    item.isCover = true;
-                                                    // console.log("有覆盖");
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    // 初始化
-                    else {
-                        const coverArray = this.coverList;
-                        // 层
-                        for (let z = coverArray.length - 1; z >= 0; z--) {
-                            // 行
-                            for (let x = 0; x < coverArray[z].length; x++) {
-                                // 列
-                                for (let y = 0; y < coverArray[z][x].length; y++) {
-                                    // 有效数据
-                                    if (coverArray[z][x][y]) {
-                                        // 与上层比较
-                                        for (let arrZ = z - 1; arrZ >= 0; arrZ--) {
-                                            if (coverArray[arrZ][x][y]) {
-                                                coverArray[z][x][y].isCover = true;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                // 检查消除或游戏胜利
-                check(e) {
-                    // console.log("检查");
-                    const tempList = this.pendingList;
-                    let frist = -1;
-                    let last = 0;
-                    // 保存相同块，对cardlist的引用
-                    const arr = [];
-                    // 记录相同块位置
-                    tempList.forEach((element, i) => {
-                        if (e.icon == tempList[i].icon) {
-                            if (frist == -1) {
-                                frist = i;
-                            }
-                            last = i;
-                            arr.push(tempList[i]);
-                        }
-                    });
-                    // 满三个消除
-                    if (last - frist == 2) {
-                        // 禁止点击
-                        this.ing = true;
-                        // 撤销数组清空
-                        this.revokeList = [];
-                        // 等待动画
-                        setTimeout(() => {
-                            arr.forEach((item) => {
-                                item.isOut = true;
-                            });
-                            // 重新排序
-                            setTimeout(() => {
-                                this.pendingAnimation();
-                                this.ing = false;
-                            }, 200);
-                        }, 400);
-
-                        tempList.splice(frist, 3);
-                        this.curPieTotal -= 3;
-                    }
-                    // 赢
-                    if (this.curPieTotal == 0) {
-                        // 判断是否位关卡模式
-                        // console.log("游戏胜利");
-                        setTimeout(() => {
-                            if (this.menu.mode == 2) {
-                                this.gameStatus = "next";
-                            } else {
-                                this.gameStatus = "success";
-                            }
-                            this.ing = true;
-                            // 清空列表避免渲染动画
-                            this.cardList = [];
-                        }, 500);
-                    }
-                    // 输
-                    if (this.pendingList.length === 7) {
-                        this.ing = true;
-                        setTimeout(() => {
-                            this.gameStatus = "fail";
-                        }, 500);
-                        // console.log("游戏失败");
-                    }
-                },
-                // remove 移出
-                remove() {
-                    // 从前面撤销
-                    // console.log("移出");
-                    if (!this.tools.remove) {
-                        // console.log("次数不足");
-                        return;
-                    }
-                    if (!this.pendingList.length) {
-                        // console.log("列队为空");
-                        return;
-                    }
-                    // 次数减一
-                    this.tools.remove--;
-                    // 撤销数组清空
-                    this.revokeList = [];
-                    // 固定y轴位置
-                    const offsetY = "456px";
-                    // 判定区数组
-                    const tempList = this.pendingList;
-                    // 要删除元素的个数
-                    let count = tempList.length > 3 ? 3 : tempList.length;
-                    for (let i = 0; i < count; i++) {
-                        tempList[i].isRemove = true;
-                        tempList[i].isPending = false;
-                        tempList[i].offsetY = offsetY;
-                        tempList[i].offsetX = 96 + i * 48 + "px";
-                        tempList[i].realOffsetX = tempList[i].offsetX;
-                        tempList[i].realOffsetY = tempList[i].offsetY;
-                    }
-                    this.pendingList.splice(0, count);
-                    this.pendingAnimation();
-                },
-                // Revoke 撤销
-                revoke() {
-                    /*
-                                移除后不能撤销，三消后不能撤销
-                             */
-                    // console.log("撤销");
-                    // 撤销数组为空
-                    if (!this.revokeList.length || !this.tools.revoke) {
-                        // console.log("列队为空");
-                        if (!this.showRevokeTips) {
-                            this.showRevokeTips = true;
-                            setTimeout(() => {
-                                this.showRevokeTips = false;
-                            }, 2000);
-                        }
-                        return;
-                    }
-                    // 次数减一
-                    this.tools.revoke--;
-                    const len = this.revokeList.length;
-                    const p = this.revokeList[len - 1];
-                    // 移回到布局区
-                    p.offsetX = p.realOffsetX;
-                    p.offsetY = p.realOffsetY;
-                    p.isPending = false;
-                    // 删除指定元素
-                    const index = this.pendingList.findIndex((item) => {
-                        return item.cardId == p.cardId;
-                    });
-                    // 队列区移除元素
-                    this.pendingList.splice(index, 1);
-                    //
-                    this.revokeList.pop();
-                    //
-                    this.pendingAnimation();
-                    this.checkCover(p);
-                },
-                // 洗牌
-                shuffle() {
-                    if (!this.tools.shuffle || this.ing) {
-                        return;
-                    }
-                    this.ing = true;
-                    const that = this;
-                    // 次数减一
-                    this.tools.shuffle--;
-                    // 0底层 1上层
-                    // 中心点
-                    let cx = 144;
-                    let cy = 216;
-                    // 半径
-                    let r = 44;
-                    // 临时保存可操作元素
-                    const pieList = [];
-                    that.cardList.forEach((element) => {
-                        element.forEach((item) => {
-                            // 移出区和判定区跳过
-                            if (
-                                item.isPending == false &&
-                                item.isRemove == false &&
-                                item.isOut == false
-                            ) {
-                                // 元素原位置相对于中心点弧度
-                                item.angle = Math.atan2(item.cy - cy, item.cx - cx);
-                                pieList.push(item);
-                            }
-                        });
-                    });
-                    //  动画事件
-                    let animationId = null;
-                    const totalDuration = 700; // 旋转一周的总时长（毫秒）
-                    const frameDuration = 16; // 假设每帧耗时16毫秒（约60FPS）
-                    // 每一帧的弧度
-                    const angleIncrement =
-                        (2 * Math.PI) / (totalDuration / frameDuration);
-                    // 当前弧度
-                    let angle = 0;
-                    // 围绕圆形轨迹运动
-                    function updatePiePosition() {
-                        // 遍历每个元素，更新其位置
-                        pieList.forEach((item, index) => {
-                            if (index >= pieList.length - 50) {
-                                // 计算每个正方形的x和y坐标（相对于围绕中心圆形轨迹）
-                                const mpx = cx + r * Math.cos(angle + item.angle);
-                                const mpy = cy + r * Math.sin(angle + item.angle);
-                                // 元素移动
-                                item.offsetX = mpx + "px";
-                                item.offsetY = mpy + "px";
-                                item.moving = true;
-                            }
-                        });
-                        // 半径增加圆圈变大
-                        r += 0.76;
-                        // 更新角度以便下一帧使用
-                        angle -= angleIncrement;
-                        // 如果角度超过一圈，则重置为0
-                        // if (angle >= 2 * Math.PI) {
-                        //     angle = 0;
-                        // }
-                        //  是否该结束旋转
-                        if (r < 108) {
-                            animationId = requestAnimationFrame(updatePiePosition);
-                        } else {
-                            // 结束旋转
-                            cancelAnimationFrame(animationId);
-                            pieList.forEach((item, index) => {
-                                if (index >= pieList.length - 50) {
-                                    item.offsetX = item.realOffsetX;
-                                    item.offsetY = item.realOffsetY;
-                                    item.moving = false;
-                                } else {
-                                    item.isOpacity = false;
-                                }
-                            });
-                            that.ing = false;
-                        }
-                    }
-                    // 动画开始前
-                    function initAnimation() {
-                        pieList.forEach((item, index) => {
-                            if (index >= pieList.length - 50) {
-                                // 计算每个正方形的x和y坐标（相对于容器中心）
-                                const mpx = cx + r * Math.cos(angle + item.angle);
-                                const mpy = cy + r * Math.sin(angle + item.angle);
-                                // 元素移动
-                                item.offsetX = mpx + "px";
-                                item.offsetY = mpy + "px";
-                            } else {
-                                item.isOpacity = true;
-                            }
-                        });
-                        setTimeout(() => {
-                            // 调用动画
-                            requestAnimationFrame(updatePiePosition);
-                            // 打乱数组
-                            const tempPieList = [...pieList];
-                            that.shuffleArray(tempPieList);
-                            // 更改原数组icon
-                            let a = 0;
-                            that.cardList.forEach((element) => {
-                                element.forEach((item) => {
-                                    if (
-                                        item.isPending == false &&
-                                        item.isRemove == false &&
-                                        item.isOut == false
-                                    ) {
-                                        item.icon = tempPieList[a].icon;
-                                        a++;
-                                    }
-                                });
-                            });
-                        }, 300);
-                    }
-                    initAnimation();
-                },
-                getRandom(n, m) {
-                    return Math.floor(Math.random() * (m - n + 1) + n);
-                },
-                shuffleArray(array) {
-                    for (let i = array.length - 1; i > 0; i--) {
-                        const j = Math.floor(Math.random() * (i + 1));
-                        [array[i], array[j]] = [array[j], array[i]];
-                    }
-                    return array;
-                },
-            },
-        });
-    </script>
+            tempList.splice(frist, 3);
+            this.curPieTotal -= 3;
+          }
+          // 赢
+          if (this.curPieTotal == 0) {
+            // 判断是否位关卡模式
+            // console.log("游戏胜利");
+            setTimeout(() => {
+              if (this.menu.mode == 2) {
+                this.gameStatus = "next";
+              } else {
+                this.gameStatus = "success";
+              }
+              this.ing = true;
+              // 清空列表避免渲染动画
+              this.cardList = [];
+            }, 500);
+          }
+          // 输
+          if (this.pendingList.length === 7) {
+            this.ing = true;
+            setTimeout(() => {
+              this.gameStatus = "fail";
+            }, 500);
+            // console.log("游戏失败");
+          }
+        },
+        // remove 移出
+        remove() {
+          // 从前面撤销
+          // console.log("移出");
+          if (!this.tools.remove) {
+            // console.log("次数不足");
+            return;
+          }
+          if (!this.pendingList.length) {
+            // console.log("列队为空");
+            return;
+          }
+          // 次数减一
+          this.tools.remove--;
+          // 撤销数组清空
+          this.revokeList = [];
+          // 固定y轴位置
+          const offsetY = "456px";
+          // 判定区数组
+          const tempList = this.pendingList;
+          // 要删除元素的个数
+          let count = tempList.length > 3 ? 3 : tempList.length;
+          for (let i = 0; i < count; i++) {
+            tempList[i].isRemove = true;
+            tempList[i].isPending = false;
+            tempList[i].offsetY = offsetY;
+            tempList[i].offsetX = 96 + i * 48 + "px";
+            tempList[i].realOffsetX = tempList[i].offsetX;
+            tempList[i].realOffsetY = tempList[i].offsetY;
+          }
+          this.pendingList.splice(0, count);
+          this.pendingAnimation();
+        },
+        // Revoke 撤销
+        revoke() {
+          // 移除后不能撤销，三消后不能撤销
+          // console.log("撤销");
+          // 撤销数组为空
+          if (!this.revokeList.length || !this.tools.revoke) {
+            // console.log("列队为空");
+            if (!this.showRevokeTips) {
+              this.showRevokeTips = true;
+              setTimeout(() => {
+                this.showRevokeTips = false;
+              }, 2000);
+            }
+            return;
+          }
+          // 次数减一
+          this.tools.revoke--;
+          const len = this.revokeList.length;
+          const p = this.revokeList[len - 1];
+          // 移回到布局区
+          p.offsetX = p.realOffsetX;
+          p.offsetY = p.realOffsetY;
+          p.isPending = false;
+          // 删除指定元素
+          const index = this.pendingList.findIndex((item) => {
+            return item.cardId == p.cardId;
+          });
+          // 队列区移除元素
+          this.pendingList.splice(index, 1);
+          //
+          this.revokeList.pop();
+          //
+          this.pendingAnimation();
+          this.checkCover(p);
+        },
+        // 洗牌
+        shuffle() {
+          if (!this.tools.shuffle || this.ing) {
+            return;
+          }
+          this.ing = true;
+          const that = this;
+          // 次数减一
+          this.tools.shuffle--;
+          // 0底层 1上层
+          // 中心点
+          let cx = 144;
+          let cy = 216;
+          // 半径
+          let r = 44;
+          // 临时保存可操作元素
+          const pieList = [];
+          that.cardList.forEach((element) => {
+            element.forEach((item) => {
+              // 移出区和判定区跳过
+              if (
+                item.isPending == false &&
+                item.isRemove == false &&
+                item.isOut == false
+              ) {
+                // 元素原位置相对于中心点弧度
+                item.angle = Math.atan2(item.cy - cy, item.cx - cx);
+                pieList.push(item);
+              }
+            });
+          });
+          //  动画事件
+          let animationId = null;
+          const totalDuration = 700; // 旋转一周的总时长（毫秒）
+          const frameDuration = 16; // 假设每帧耗时16毫秒（约60FPS）
+          // 每一帧的弧度
+          const angleIncrement =
+            (2 * Math.PI) / (totalDuration / frameDuration);
+          // 当前弧度
+          let angle = 0;
+          // 围绕圆形轨迹运动
+          function updatePiePosition() {
+            // 遍历每个元素，更新其位置
+            pieList.forEach((item, index) => {
+              if (index >= pieList.length - 50) {
+                // 计算每个正方形的x和y坐标（相对于围绕中心圆形轨迹）
+                const mpx = cx + r * Math.cos(angle + item.angle);
+                const mpy = cy + r * Math.sin(angle + item.angle);
+                // 元素移动
+                item.offsetX = mpx + "px";
+                item.offsetY = mpy + "px";
+                item.moving = true;
+              }
+            });
+            // 半径增加圆圈变大
+            r += 0.76;
+            // 更新角度以便下一帧使用
+            angle -= angleIncrement;
+            // 如果角度超过一圈，则重置为0
+            // if (angle >= 2 * Math.PI) {
+            //     angle = 0;
+            // }
+            //  是否该结束旋转
+            if (r < 108) {
+              animationId = requestAnimationFrame(updatePiePosition);
+            } else {
+              // 结束旋转
+              cancelAnimationFrame(animationId);
+              pieList.forEach((item, index) => {
+                if (index >= pieList.length - 50) {
+                  item.offsetX = item.realOffsetX;
+                  item.offsetY = item.realOffsetY;
+                  item.moving = false;
+                } else {
+                  item.isOpacity = false;
+                }
+              });
+              that.ing = false;
+            }
+          }
+          // 动画开始前
+          function initAnimation() {
+            pieList.forEach((item, index) => {
+              if (index >= pieList.length - 50) {
+                // 计算每个正方形的x和y坐标（相对于容器中心）
+                const mpx = cx + r * Math.cos(angle + item.angle);
+                const mpy = cy + r * Math.sin(angle + item.angle);
+                // 元素移动
+                item.offsetX = mpx + "px";
+                item.offsetY = mpy + "px";
+              } else {
+                item.isOpacity = true;
+              }
+            });
+            setTimeout(() => {
+              // 调用动画
+              requestAnimationFrame(updatePiePosition);
+              // 打乱数组
+              const tempPieList = [...pieList];
+              that.shuffleArray(tempPieList);
+              // 更改原数组icon
+              let a = 0;
+              that.cardList.forEach((element) => {
+                element.forEach((item) => {
+                  if (
+                    item.isPending == false &&
+                    item.isRemove == false &&
+                    item.isOut == false
+                  ) {
+                    item.icon = tempPieList[a].icon;
+                    a++;
+                  }
+                });
+              });
+            }, 300);
+          }
+          initAnimation();
+        },
+        getRandom(n, m) {
+          return Math.floor(Math.random() * (m - n + 1) + n);
+        },
+        shuffleArray(array) {
+          for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+          }
+          return array;
+        },
+      },
+    });
+  </script>
 </body>
 
 </html>
