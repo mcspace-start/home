@@ -1,499 +1,501 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="./css/reset.css" />
-    <style>
-      /* body 背景移动动画 */
-      @-webkit-keyframes gradientAnimation {
-        0% {
-          background-position: 0% 0%;
-        }
 
-        25% {
-          background-position: 100% 0%;
-        }
-
-        50% {
-          background-position: 100% 100%;
-        }
-
-        75% {
-          background-position: 0% 100%;
-        }
-
-        100% {
-          background-position: 0% 0%;
-        }
-      }
-      @keyframes gradientAnimation {
-        0% {
-          background-position: 0% 0%;
-        }
-
-        25% {
-          background-position: 100% 0%;
-        }
-
-        50% {
-          background-position: 100% 100%;
-        }
-
-        75% {
-          background-position: 0% 100%;
-        }
-
-        100% {
-          background-position: 0% 0%;
-        }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home</title>
+  <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="./css/reset.css" />
+  <style>
+    /* body 背景移动动画 */
+    @-webkit-keyframes gradientAnimation {
+      0% {
+        background-position: 0% 0%;
       }
 
-      body {
-        height: 100vh;
-        width: 100vw;
-        background: -o-radial-gradient(
-            20% 20%,
-            circle,
-            #3498db 0%,
-            transparent 50%
-          ),
-          -o-radial-gradient(20% 20%, circle, #e76a5c 0%, transparent 50%),
-          -o-radial-gradient(50% 50%, circle, #2ecc71 0%, transparent 50%),
-          -o-radial-gradient(80% 20%, circle, #fdcb6e 0%, transparent 50%),
-          -o-radial-gradient(80% 80%, circle, #fd79a8 0%, transparent 50%);
-        background: radial-gradient(
-            circle at 20% 20%,
-            #3498db 0%,
-            transparent 50%
-          ),
-          radial-gradient(circle at 20% 20%, #e76a5c 0%, transparent 50%),
-          radial-gradient(circle at 50% 50%, #2ecc71 0%, transparent 50%),
-          radial-gradient(circle at 80% 20%, #fdcb6e 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, #fd79a8 0%, transparent 50%);
-        background-color: #64c1ff;
-        -webkit-backdrop-filter: blur(10px);
-        backdrop-filter: blur(10px);
-        -webkit-animation: gradientAnimation 20s linear infinite;
-        animation: gradientAnimation 20s linear infinite;
-        background-size: 300% 300%;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        justify-content: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
+      25% {
+        background-position: 100% 0%;
       }
 
-      /* 容器 */
-      .container {
-        width: 400px;
-        height: 410px;
-        border-radius: 10px;
-        overflow: hidden;
-        -webkit-box-shadow: 1px 1px 2px #ccc;
-        box-shadow: 1px 1px 2px #ccc;
-        z-index: 1;
+      50% {
+        background-position: 100% 100%;
       }
 
-      @media screen and (max-width: 450px) {
-        .container {
-          width: 360px;
-        }
+      75% {
+        background-position: 0% 100%;
       }
 
-      /* 头部 */
-      .head {
-        height: 50px;
-        background: rgba(255, 255, 255, 0.65);
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
+      100% {
+        background-position: 0% 0%;
+      }
+    }
+
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 0%;
       }
 
-      .head div {
-        cursor: pointer;
-        -webkit-box-flex: 1;
-        -ms-flex: 1;
-        flex: 1;
-        text-align: center;
-        line-height: 48px;
-        font-size: 20px;
-        color: #666;
-        font-weight: bold;
-        border-bottom: 2px solid rgba(0, 0, 0, 0.05);
-        -webkit-transition: all 0.4s;
-        -o-transition: all 0.4s;
-        transition: all 0.4s;
+      25% {
+        background-position: 100% 0%;
       }
 
+      50% {
+        background-position: 100% 100%;
+      }
+
+      75% {
+        background-position: 0% 100%;
+      }
+
+      100% {
+        background-position: 0% 0%;
+      }
+    }
+
+    body {
+      height: 100vh;
+      width: 100vw;
+      background: -o-radial-gradient(20% 20%,
+          circle,
+          #3498db 0%,
+          transparent 50%),
+        -o-radial-gradient(20% 20%, circle, #e76a5c 0%, transparent 50%),
+        -o-radial-gradient(50% 50%, circle, #2ecc71 0%, transparent 50%),
+        -o-radial-gradient(80% 20%, circle, #fdcb6e 0%, transparent 50%),
+        -o-radial-gradient(80% 80%, circle, #fd79a8 0%, transparent 50%);
+      background: radial-gradient(circle at 20% 20%,
+          #3498db 0%,
+          transparent 50%),
+        radial-gradient(circle at 20% 20%, #e76a5c 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, #2ecc71 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, #fdcb6e 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, #fd79a8 0%, transparent 50%);
+      background-color: #64c1ff;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      -webkit-animation: gradientAnimation 20s linear infinite;
+      animation: gradientAnimation 20s linear infinite;
+      background-size: 300% 300%;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    /* 容器 */
+    .container {
+      width: 400px;
+      height: 410px;
+      border-radius: 10px;
+      overflow: hidden;
+      -webkit-box-shadow: 1px 1px 2px #ccc;
+      box-shadow: 1px 1px 2px #ccc;
+      z-index: 1;
+      margin: 50px;
+    }
+
+    /* 头部 */
+    .head {
+      height: 50px;
+      background: rgba(255, 255, 255, 0.65);
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+    }
+
+    .head div {
+      cursor: pointer;
+      -webkit-box-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      text-align: center;
+      line-height: 48px;
+      font-size: 20px;
+      color: #666;
+      font-weight: bold;
+      border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+      -webkit-transition: all 0.4s;
+      -o-transition: all 0.4s;
+      transition: all 0.4s;
+    }
+
+    .head div.active {
+      cursor: default;
+      background-color: rgba(255, 255, 255, 0.7);
+      color: #444;
+      -webkit-box-flex: 3;
+      -ms-flex: 3;
+      flex: 3;
+    }
+
+    @media screen and (max-width: 450px) {
       .head div.active {
-        cursor: default;
-        background-color: rgba(255, 255, 255, 0.7);
-        color: #444;
-        -webkit-box-flex: 3;
-        -ms-flex: 3;
-        flex: 3;
+        -webkit-box-flex: 2;
+        -ms-flex: 2;
+        flex: 2;
+      }
+    }
+
+    @media screen and (max-width: 400px) {
+      .head div.active {
+        -webkit-box-flex: 1.6;
+        -ms-flex: 1.6;
+        flex: 1.6;
+      }
+    }
+
+    .head div:not(.active):hover {
+      -webkit-box-flex: 1.8;
+      -ms-flex: 1.8;
+      flex: 1.8;
+    }
+
+    /* 内容区 */
+    .content {
+      height: 350px;
+      background: rgba(255, 255, 255, 0.5);
+      padding: 10px 0;
+    }
+
+    .item_wrap {
+      position: relative;
+      -webkit-transition: -webkit-transform 0.4s ease;
+      transition: -webkit-transform 0.4s ease;
+      -o-transition: transform 0.4s ease;
+      transition: transform 0.4s ease;
+      transition: transform 0.4s ease, -webkit-transform 0.4s ease;
+    }
+
+    .item_wrap>div {
+      position: absolute;
+      height: 340px;
+      width: 100%;
+      top: 0;
+      overflow-y: auto;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      scrollbar-width: none;
+    }
+
+    .content_demo {
+      left: 0;
+    }
+
+    .content_note {
+      left: 100%;
+    }
+
+    .item {
+      -webkit-box-flex: 0;
+      -ms-flex: 0 0 40px;
+      flex: 0 0 40px;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      height: 40px;
+      padding: 10px 10px 10px 20px;
+      margin: 0 10px 10px 10px;
+      background-color: rgba(255, 255, 255, 0.35);
+      cursor: pointer;
+      border-radius: 10px;
+      color: #333;
+      -webkit-transition: all 0.25s;
+      -o-transition: all 0.25s;
+      transition: all 0.25s;
+      overflow: hidden;
+      text-decoration: none;
+      outline: none;
+    }
+
+    .item:last-child {
+      margin-bottom: 0;
+    }
+
+    .item:visited {
+      color: #333;
+    }
+
+    .item:active {
+      color: #333;
+    }
+
+    .item:hover {
+      background-color: rgba(255, 255, 255, 0.7);
+    }
+
+    .item p {
+      -webkit-box-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      overflow: hidden;
+      -o-text-overflow: ellipsis;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 18px;
+    }
+
+    .item .btn {
+      margin-left: 10px;
+      -webkit-box-flex: 0;
+      -ms-flex: 0 0 56px;
+      flex: 0 0 56px;
+      height: 36px;
+      width: 60px;
+      -webkit-transition: all 0.5s;
+      -o-transition: all 0.5s;
+      transition: all 0.5s;
+      position: relative;
+      border-radius: 4px;
+      background-color: rgba(0, 0, 0, 0.1);
+      background-position: center center;
+      background-repeat: no-repeat;
+      /* background-image: url("./image/right.gif"); */
+      background-image: url(./image/right.svg);
+      background-size: 100%;
+    }
+
+    .item .btn::after {
+      content: "跳转";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      font-size: 15px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      background-color: #999;
+      color: #fff;
+
+      border-radius: 4px;
+      opacity: 0;
+      -webkit-transition: all 0.3s;
+      -o-transition: all 0.3s;
+      transition: all 0.3s;
+    }
+
+    .item:hover .btn::after {
+      opacity: 1;
+    }
+
+    /* 波浪 */
+    @-webkit-keyframes wave_x {
+      0% {
+        -webkit-transform: translateX(0px);
+        transform: translateX(0px);
       }
 
-      @media screen and (max-width: 450px) {
-        .head div.active {
-          cursor: default;
-          background-color: rgba(255, 255, 255, 0.7);
-          color: #444;
-          -webkit-box-flex: 2;
-          -ms-flex: 2;
-          flex: 2;
-        }
+      100% {
+        -webkit-transform: translateX(-1600px);
+        transform: translateX(-1600px);
+      }
+    }
+
+    @keyframes wave_x {
+      0% {
+        -webkit-transform: translateX(0px);
+        transform: translateX(0px);
       }
 
-      .head div:not(.active):hover {
-        -webkit-box-flex: 1.8;
-        -ms-flex: 1.8;
-        flex: 1.8;
+      100% {
+        -webkit-transform: translateX(-1600px);
+        transform: translateX(-1600px);
+      }
+    }
+
+    @-webkit-keyframes wave_y {
+
+      0%,
+      100% {
+        -webkit-transform: translate(0, -30px);
+        transform: translate(0, -30px);
       }
 
-      /* 内容区 */
-      .content {
-        height: 350px;
-        background: rgba(255, 255, 255, 0.5);
-        padding: 10px 0;
+      50% {
+        -webkit-transform: translate(0, 5px);
+        transform: translate(0, 5px);
+      }
+    }
+
+    @keyframes wave_y {
+
+      0%,
+      100% {
+        -webkit-transform: translate(0, -30px);
+        transform: translate(0, -30px);
       }
 
-      .item_wrap {
-        position: relative;
-        -webkit-transition: -webkit-transform 0.4s ease;
-        transition: -webkit-transform 0.4s ease;
-        -o-transition: transform 0.4s ease;
-        transition: transform 0.4s ease;
-        transition: transform 0.4s ease, -webkit-transform 0.4s ease;
+      50% {
+        -webkit-transform: translate(0, 5px);
+        transform: translate(0, 5px);
       }
+    }
 
-      .item_wrap > div {
-        position: absolute;
-        height: 340px;
-        width: 100%;
-        top: 0;
-        overflow-y: auto;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-        flex-direction: column;
-        scrollbar-width: none;
-      }
+    .wave_wrap {
+      height: 300px;
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      overflow: hidden;
+    }
 
-      .content_demo {
-        left: 0;
-      }
+    .wave {
+      bottom: 0;
+      position: absolute;
+      width: 100%;
+      height: 198px;
+    }
 
-      .content_note {
-        left: 100%;
-      }
+    .wave_x {
+      top: 0;
+      left: 0;
+      height: 198px;
+      width: 6400px;
+      background: url("./image/wave1.svg") repeat-x;
+      -webkit-animation: wave_x 7s ease infinite;
+      animation: wave_x 7s ease infinite;
+    }
 
-      .item {
-        -webkit-box-flex: 0;
-        -ms-flex: 0 0 40px;
-        flex: 0 0 40px;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
-        height: 40px;
-        padding: 10px 10px 10px 20px;
-        margin: 0 10px 10px 10px;
-        background-color: rgba(255, 255, 255, 0.35);
-        cursor: pointer;
-        border-radius: 10px;
-        color: #333;
-        -webkit-transition: all 0.25s;
-        -o-transition: all 0.25s;
-        transition: all 0.25s;
-        overflow: hidden;
-        text-decoration: none;
-        outline: none;
-      }
+    .wave_y {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 198px;
+      width: 1600px;
+      background-color: red;
+      background: url("./image/wave2.svg") repeat-x;
+      -webkit-animation: wave_y 4s ease infinite;
+      animation: wave_y 4s ease infinite;
+    }
+  </style>
+</head>
 
-      .item:last-child {
-        margin-bottom: 0;
-      }
-
-      .item:visited {
-        color: #333;
-      }
-
-      .item:active {
-        color: #333;
-      }
-
-      .item:hover {
-        background-color: rgba(255, 255, 255, 0.7);
-      }
-
-      .item p {
-        -webkit-box-flex: 1;
-        -ms-flex: 1;
-        flex: 1;
-        overflow: hidden;
-        -o-text-overflow: ellipsis;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        font-size: 18px;
-      }
-
-      .item .btn {
-        margin-left: 10px;
-        -webkit-box-flex: 0;
-        -ms-flex: 0 0 56px;
-        flex: 0 0 56px;
-        height: 36px;
-        width: 60px;
-        -webkit-transition: all 0.5s;
-        -o-transition: all 0.5s;
-        transition: all 0.5s;
-        position: relative;
-        border-radius: 4px;
-        background-color: rgba(0, 0, 0, 0.1);
-        background-position: center center;
-        background-repeat: no-repeat;
-        /* background-image: url("./image/right.gif"); */
-        background-image: url(./image/right.svg);
-        background-size: 100%;
-      }
-
-      .item .btn::after {
-        content: "跳转";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        justify-content: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
-        font-size: 15px;
-        font-weight: bold;
-        letter-spacing: 2px;
-        background-color: #999;
-        color: #fff;
-
-        border-radius: 4px;
-        opacity: 0;
-        -webkit-transition: all 0.3s;
-        -o-transition: all 0.3s;
-        transition: all 0.3s;
-      }
-
-      .item:hover .btn::after {
-        opacity: 1;
-      }
-
-      /* 波浪 */
-      @-webkit-keyframes wave_x {
-        0% {
-          -webkit-transform: translateX(0px);
-          transform: translateX(0px);
-        }
-
-        100% {
-          -webkit-transform: translateX(-1600px);
-          transform: translateX(-1600px);
-        }
-      }
-      @keyframes wave_x {
-        0% {
-          -webkit-transform: translateX(0px);
-          transform: translateX(0px);
-        }
-
-        100% {
-          -webkit-transform: translateX(-1600px);
-          transform: translateX(-1600px);
-        }
-      }
-
-      @-webkit-keyframes wave_y {
-        0%,
-        100% {
-          -webkit-transform: translate(0, -30px);
-          transform: translate(0, -30px);
-        }
-
-        50% {
-          -webkit-transform: translate(0, 5px);
-          transform: translate(0, 5px);
-        }
-      }
-
-      @keyframes wave_y {
-        0%,
-        100% {
-          -webkit-transform: translate(0, -30px);
-          transform: translate(0, -30px);
-        }
-
-        50% {
-          -webkit-transform: translate(0, 5px);
-          transform: translate(0, 5px);
-        }
-      }
-
-      .wave_wrap {
-        height: 300px;
-        width: 100%;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        overflow: hidden;
-      }
-
-      .wave {
-        bottom: 0;
-        position: absolute;
-        width: 100%;
-        height: 198px;
-      }
-
-      .wave_x {
-        top: 0;
-        left: 0;
-        height: 198px;
-        width: 6400px;
-        background: url("./image/wave1.svg") repeat-x;
-        -webkit-animation: wave_x 7s ease infinite;
-        animation: wave_x 7s ease infinite;
-      }
-
-      .wave_y {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 198px;
-        width: 1600px;
-        background-color: red;
-        background: url("./image/wave2.svg") repeat-x;
-        -webkit-animation: wave_y 4s ease infinite;
-        animation: wave_y 4s ease infinite;
-      }
-    </style>
-  </head>
-
-  <body>
-    <div class="container">
-      <!-- 头部 -->
-      <div class="head">
-        <div class="demo active">项目</div>
-        <div class="note">笔记</div>
-      </div>
-      <!-- 内容区 -->
-      <div class="content">
-        <div class="item_wrap">
-          <div class="content_demo">
-            <!-- <div class="item">
+<body>
+  <div class="container">
+    <!-- 头部 -->
+    <div class="head">
+      <div class="demo active">项目</div>
+      <div class="note">笔记</div>
+    </div>
+    <!-- 内容区 -->
+    <div class="content">
+      <div class="item_wrap">
+        <div class="content_demo">
+          <!-- <div class="item">
               <p class="tilte"></p>
               <span class="btn"></span>
             </div> -->
-          </div>
-          <div class="content_note">
-            <!-- <div class="item">
+        </div>
+        <div class="content_note">
+          <!-- <div class="item">
                 <p class="tilte"></p>
                 <span class="btn"></span>
             </div> -->
-          </div>
         </div>
       </div>
     </div>
-    <!-- 波浪 -->
-    <div class="wave_wrap">
-      <div class="wave">
-        <div class="wave_x"></div>
-        <div class="wave_y"></div>
-      </div>
+  </div>
+  <!-- 波浪 -->
+  <div class="wave_wrap">
+    <div class="wave">
+      <div class="wave_x"></div>
+      <div class="wave_y"></div>
     </div>
-    <script src="./data.js"></script>
-    <script>
-      "use strict";
-      // 获取数据
-      const { demo_data, note_data } = window.data;
-      // 获取 demo_box 和 note_box
-      const demo_box = document.querySelector(".content_demo");
-      const note_box = document.querySelector(".content_note");
-      // 根据 data 生成 item
-      function createItem(data) {
-        // 将数组转换为字符串插入
-        return data
-          .map((item, index) => {
-            return `
+  </div>
+  <script src="./data.js"></script>
+  <script>
+    "use strict";
+    // 获取数据
+    const { demo_data, note_data } = window.data;
+    // 获取 demo_box 和 note_box
+    const demo_box = document.querySelector(".content_demo");
+    const note_box = document.querySelector(".content_note");
+    // 根据 data 生成 item
+    function createItem(data) {
+      // 将数组转换为字符串插入
+      return data
+        .map((item, index) => {
+          return `
                 <a href="${item.url}" target="_blank" class="item" data-index="${index}">
                     <p class="tilte">${item.title}</p>
                     <span class="btn"></span>
                 </a>
                 `;
-          })
-          .join("");
-      }
-      // 生成 item
-      const demo_item = createItem(demo_data);
-      const note_item = createItem(note_data);
-      // 插入 item
-      demo_box.innerHTML = demo_item;
-      note_box.innerHTML = note_item;
-      // 修改标题统计
-      const head_demo = document.querySelector(".head .demo");
-      const head_note = document.querySelector(".head .note");
-      head_demo.innerText = `项目 ${demo_data.length}`;
-      head_note.innerText = `笔记 ${note_data.length}`;
-      // 定义事件
-      const head = document.querySelector(".head");
-      const item_wrap = document.querySelector(".item_wrap");
+        })
+        .join("");
+    }
+    // 生成 item
+    const demo_item = createItem(demo_data);
+    const note_item = createItem(note_data);
+    // 插入 item
+    demo_box.innerHTML = demo_item;
+    note_box.innerHTML = note_item;
+    // 修改标题统计
+    const head_demo = document.querySelector(".head .demo");
+    const head_note = document.querySelector(".head .note");
+    head_demo.innerText = `项目 ${demo_data.length}`;
+    head_note.innerText = `笔记 ${note_data.length}`;
+    // 定义事件
+    const head = document.querySelector(".head");
+    const item_wrap = document.querySelector(".item_wrap");
 
-      // 监听 head 点击事件
-      const handleClick = (e) => {
-        // 如果点击的是 active 则返回
-        if (e.target.classList.contains("active")) return;
-        // 先删除全部 active
-        head.querySelectorAll("div").forEach((item) => {
-          item.classList.remove("active");
-        });
-        // 再添加当前 active
-        e.target.classList.add("active");
-        // 获取当前 active 标签
-        const active = e.target.classList[0];
-        //  切换 item_wrap 的 transform 使用三目运算符
-        item_wrap.style.transform =
-          active == "demo" ? "translateX(0%)" : "translateX(-100%)";
-      };
-      // 移动端事件
-      const handleTouch = (e) => {
-        e.preventDefault();
-        // 避免click和touchstart事件冲突
-        head.addEventListener("click", handleClick);
-        handleClick(e);
-      };
+    // 监听 head 点击事件
+    const handleClick = (e) => {
+      // 如果点击的是 active 则返回
+      if (e.target.classList.contains("active")) return;
+      // 先删除全部 active
+      head.querySelectorAll("div").forEach((item) => {
+        item.classList.remove("active");
+      });
+      // 再添加当前 active
+      e.target.classList.add("active");
+      // 获取当前 active 标签
+      const active = e.target.classList[0];
+      //  切换 item_wrap 的 transform 使用三目运算符
+      item_wrap.style.transform =
+        active == "demo" ? "translateX(0%)" : "translateX(-100%)";
+    };
+    // 移动端事件
+    const handleTouch = (e) => {
+      e.preventDefault();
+      // 避免click和touchstart事件冲突
       head.addEventListener("click", handleClick);
-      // 兼容移动端
-      head.addEventListener("touchstart", handleTouch);
-    </script>
-    <!-- 导入github小猫 -->
-    <script src="./js/githubCat.js"></script>
-  </body>
+      handleClick(e);
+    };
+    head.addEventListener("click", handleClick);
+    // 兼容移动端
+    head.addEventListener("touchstart", handleTouch);
+  </script>
+  <!-- 导入github小猫 -->
+  <script src="./js/githubCat.js"></script>
+</body>
+
 </html>
