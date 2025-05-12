@@ -41,6 +41,10 @@ window.data = (function () {
         url: "demo/淘宝首页静态/index.html",
         title: "仿静态淘宝首页",
       },
+	  {
+        url: "demo/todo/index.html",
+        title: "vue3代办事项",
+      },
       {
         url: "demo/fastClick",
         title: "快速点击",
