@@ -10,7 +10,7 @@ window.data = (function () {
         title: "uni-app-电商系统",
       },
       {
-        url: "demo/vue-shop/dist",
+        url: "demo/vue-shop",
         title: "vue-电商后台管理系统",
       },
       {
