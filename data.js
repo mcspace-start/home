@@ -5,13 +5,13 @@ window.data = (function () {
         url: "demo/fgmusic",
         title: "vue-方格音乐",
       },
+	  {
+        url: "demo/vue-shop",
+        title: "vue-电商后台管理系统",
+      },
       {
         url: "demo/uniapp_shop",
         title: "uni-app-电商系统",
-      },
-      {
-        url: "demo/vue-shop",
-        title: "vue-电商后台管理系统",
       },
       {
         url: "demo/yang",
@@ -68,6 +68,10 @@ window.data = (function () {
         title: "笔记-md",
       },
       {
+        url: "note/ContextMenuComp",
+        title: "vue3右键菜单组件",
+      },
+      {
         url: "note/transformNote.html",
         title: "CSS-transform",
       },
@@ -82,6 +86,10 @@ window.data = (function () {
       {
         url: "note/抽卡.html",
         title: "CSS-抽卡效果",
+      },
+      {
+        url: "note/文字透明背景.html",
+        title: "CSS-文字透明背景",
       },
       {
         url: "note/拾色板.html",

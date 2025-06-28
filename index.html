@@ -7,6 +7,8 @@
   <title>Home</title>
   <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="./css/reset.css" />
+  <!-- 预加载SVG图标 -->
+  <link rel="preload" href="./image/right.svg" as="image" type="image/svg+xml" />
   <style>
     /* body 背景移动动画 */
     @-webkit-keyframes gradientAnimation {
@@ -267,7 +269,6 @@
       background-color: rgba(0, 0, 0, 0.1);
       background-position: center center;
       background-repeat: no-repeat;
-      /* background-image: url("./image/right.gif"); */
       background-image: url(./image/right.svg);
       background-size: 100%;
     }

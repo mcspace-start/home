@@ -4175,7 +4175,7 @@ new Vue({
   provide() { return {}; },/* 依赖注入 */
   filters: {},/* 过滤器（注意：Vue 3 中已移除） */
   mixins: [],/* 混入数组，您可以在这里添加混入的对象 */
-  irectives: { /* 自定义指令 */
+  directives: { /* 自定义指令 */
       focus: { // 指令名
           // 当绑定元素插入到 DOM 中时调用
           inserted: function (el) {
