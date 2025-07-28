@@ -2,10 +2,14 @@ window.data = (function () {
   return {
     demo_data: [
       {
+        url: "demo/iptvSystem",
+        title: "vue3-iptv管理系统",
+      },
+      {
         url: "demo/fgmusic",
         title: "vue-方格音乐",
       },
-	  {
+      {
         url: "demo/vue-shop",
         title: "vue-电商后台管理系统",
       },
@@ -41,7 +45,7 @@ window.data = (function () {
         url: "demo/淘宝首页静态/index.html",
         title: "仿静态淘宝首页",
       },
-	  {
+      {
         url: "demo/todo/index.html",
         title: "vue3代办事项",
       },
